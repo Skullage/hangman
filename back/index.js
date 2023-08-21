@@ -166,6 +166,7 @@ io.on('connection', (socket) => {
 				message: clients[uniqueId].name + " left",
 				color: "#CCC"
 			});
+			io.emit("UPDATE_ROOMS", rooms);
 			callback()
 		}
 	});

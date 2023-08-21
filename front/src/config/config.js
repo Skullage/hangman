@@ -1,1 +1,1 @@
-export const VUE_APP_SOCKET_ENDPOINT = 'http://localhost:3000'
+export const VUE_APP_SOCKET_ENDPOINT = 'https://hangman--skullage.repl.co'
