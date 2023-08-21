@@ -1,0 +1,1 @@
+export const VUE_APP_SOCKET_ENDPOINT = 'http://localhost:3000'
