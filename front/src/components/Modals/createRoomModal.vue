@@ -67,8 +67,7 @@
 </template>
 <script setup>
 import { Icon } from '@iconify/vue';
-import languages from '../../config/languages.json'
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import socketioService from "../../api/socketio.service.js";
 import { useRouter } from 'vue-router'
 import store from "../../store/index.js";
@@ -84,6 +83,7 @@ const roomTitle = ref('')
 const roomPassword = ref('')
 const roomLanguage = ref('Английский')
 const playerAmount = ref(1)
+const languages = reactive(['Английский', 'Русский'])
 
 const createRoom = async () => {
   const room = {title: roomTitle.value, password: roomPassword.value, maxPlayers: playerAmount.value, language: roomLanguage.value}
