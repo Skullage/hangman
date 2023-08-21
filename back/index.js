@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
 		room.leftLives = 5
 		room.openedChars = []
 		room.gameStatus = '';
-		socket.emit("UPDATE_ROOMS", rooms);
+		io.emit("UPDATE_ROOMS", rooms);
 	})
 
 	socket.on("checkChar", function (char) {
@@ -114,7 +114,7 @@ io.on('connection', (socket) => {
 		}
 		if(isFullString) {
 			room.gameStatus = 'Win'
-			socket.emit("UPDATE_ROOMS", rooms);
+			io.emit("UPDATE_ROOMS", rooms);
 		}
 		if(!charFound) {
 			if(room.leftLives > 0) {
@@ -125,7 +125,7 @@ io.on('connection', (socket) => {
 			}
 		}
 
-		socket.emit("UPDATE_ROOMS", rooms);
+		io.emit("UPDATE_ROOMS", rooms);
 
 	})
 

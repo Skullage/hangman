@@ -2,8 +2,6 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const words = require('../json/words.json')
 const alphabet = require('../json/alphabet.json')
-// import * as words from '../json/words.json'
-// import * as alphabet from '../json/alphabet.json'
 function Room(id, client, hostId, readableName, size, game) {
     this.id = id;
     this.title = readableName;
@@ -38,6 +36,7 @@ Room.prototype.generateWord = function (language) {
     } else {
         let index = Math.floor(Math.random() * words.ru.length);
         this.word = words.ru[index];
+        this.alphabet = alphabet.ru
     }
 };
 
