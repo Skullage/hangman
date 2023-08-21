@@ -1,5 +1,9 @@
-import words from '../json/words.json' assert { type: "json" }
-import alphabet from '../json/alphabet.json' assert { type: "json" }
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const words = require('../json/words.json')
+const alphabet = require('../json/alphabet.json')
+// import * as words from '../json/words.json'
+// import * as alphabet from '../json/alphabet.json'
 function Room(id, client, hostId, readableName, size, game) {
     this.id = id;
     this.title = readableName;
