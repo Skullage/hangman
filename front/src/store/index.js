@@ -4,10 +4,7 @@ import SocketioService from "../api/socketio.service.js";
 const store = createStore({
     state () {
         return {
-            user: JSON.parse(localStorage.getItem('user')) || undefined,
-            token: localStorage.getItem('jwt') || undefined,
             roomId: '',
-            users: [],
             rooms: [],
             username: localStorage.getItem('username') || null,
         }

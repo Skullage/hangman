@@ -33,46 +33,45 @@ export let clients = {};
 io.on('connection', (socket) => {
 	console.log("New connection: " + socket.id);
 
-	socket.on("RECONNECT_USER", function (id) {
-		console.log("Getting reconnection: " + id);
-		console.log(socket.id);
-
-		// If the client is still saved on the server, reconnect, else if the server crashed for example, the client will not be there anymore. We could import all of the localstorage in that case, but that's unsafe
-		if (clients[id]) {
-			console.log("reconnect accepted");
-			clients[id].isConnected = true;
-			clients[id].id = socket.id;
-			console.log(clients[id]);
-			io.emit("RECONNECT_USER", clients[id]);
-			// socket.emit("RECONNECT", clients[id]);
-
-			//adding the unique id for convenience as its not on the client class, maybe it should be?
-			let data = clients[id];
-			data.uniqueId = id;
-
-			socket.emit("JOINED_SERVER", clients[id]);
-			socket.emit("UPDATE_ROOMS", rooms);
-		} else {
-			console.log("reconnect declined, user unknown");
-			console.log(clients[id]);
-			console.log(socket.id);
-			// Client not known on the Server
-			socket.emit("RECONNECT_DECLINED");
-		}
-
-	});
+	// socket.on("RECONNECT_USER", function (id) {
+	// 	console.log("Getting reconnection: " + id);
+	// 	console.log(socket.id);
+	//
+	// 	// If the client is still saved on the server, reconnect, else if the server crashed for example, the client will not be there anymore. We could import all of the localstorage in that case, but that's unsafe
+	// 	if (clients[id]) {
+	// 		console.log("reconnect accepted");
+	// 		clients[id].isConnected = true;
+	// 		clients[id].id = socket.id;
+	// 		console.log(clients[id]);
+	// 		io.emit("RECONNECT_USER", clients[id]);
+	// 		// socket.emit("RECONNECT", clients[id]);
+	//
+	// 		//adding the unique id for convenience as its not on the client class, maybe it should be?
+	// 		let data = clients[id];
+	// 		data.uniqueId = id;
+	//
+	// 		socket.emit("JOINED_SERVER", clients[id]);
+	// 		socket.emit("UPDATE_ROOMS", rooms);
+	// 	} else {
+	// 		console.log("reconnect declined, user unknown");
+	// 		console.log(clients[id]);
+	// 		console.log(socket.id);
+	// 		// Client not known on the Server
+	// 		socket.emit("RECONNECT_DECLINED");
+	// 	}
+	//
+	// });
 
 	socket.on("NEW_USER", function (data) {
 		let uniqueId = uuidv4();
 		data.uniqueId = uniqueId;
 		data.id = socket.id;
 		console.log(
-			socket.id + " is now known as: " + data.username + " (" + data.color + ")"
+			socket.id + " is now known as: " + data.username
 		);
 		clients[uniqueId] = new Client(
 			socket.id,
 			data.username,
-			data.color,
 			null,
 			null
 		);
@@ -179,10 +178,12 @@ io.on('connection', (socket) => {
 		}
 		clients[uniqueId].isConnected = false;
 
+
 		let roomID = clients[uniqueId].room;
 
-		io.sockets.in(roomID).emit("USER_DISCONNECTING", clients[uniqueId]);
+		console.log(rooms);
 
+		io.sockets.in(roomID).emit("USER_DISCONNECTING", clients[uniqueId]);
 		if (!clients[uniqueId].isConnected) {
 			console.log("Disconnected from room");
 			if (isInRoom(clients, socket.id)) {
@@ -200,8 +201,6 @@ io.on('connection', (socket) => {
 			console.log("Didn't disconnect from Room, reconnected first");
 			console.log(clients[uniqueId]);
 		}
-
-
 	});
 });
 

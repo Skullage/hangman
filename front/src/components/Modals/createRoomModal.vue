@@ -32,7 +32,7 @@
               <label for="language">
                 Выберите язык комнаты
                 <select id="language" class="w-full px-2 py-1 mb-4 text-gray-400" required v-model="roomLanguage">
-                  <option v-for="(language, index) in languages" :key="index" :value="language.title">{{ language.title }}</option>
+                  <option v-for="(language, index) in languages" :key="index" :value="language">{{ language }}</option>
                 </select>
               </label>
               <div class="mb-4">

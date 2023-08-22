@@ -10,7 +10,7 @@ onBeforeUnmount(() => {
   SocketioService.disconnect();
 })
 if(store.getters.isLogined) {
-  SocketioService.newUser({name: store.state.username, color: 'black'})
+  SocketioService.newUser({name: store.state.username})
   useRouter().push({ path: `/`, replace: true })
 }
 

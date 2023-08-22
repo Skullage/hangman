@@ -31,7 +31,7 @@ const leave = () => {
     <h1 class="mb-12">{{ store.getters.getRoomTitle }}</h1>
     <div class="flex justify-between">
       <div class="players grid grid-rows-4 gap-2 mb-20">
-        <player-slot v-for="(client, index) in store.getters.getUsers" :key="index" :player-name="client.name" />
+        <player-slot v-for="(client, index) in store.getters.getUsers" :key="index" :player-name="client.name" :isHost="client.isHost" />
       </div>
       <div :class="getLivesClass" class="human">
       </div>
@@ -43,7 +43,7 @@ const leave = () => {
 
     </div>
     <div class="word flex justify-center flex-wrap gap-3">
-      <button class="p-0" :class="{'bg-gray-200': store.getters.isGamePaused}" v-for="(slot, index) in store.getters.getCharSlots" :key="index"><char-slot :char="slot" :show-char="true" @click="checkChar(slot)" class="cursor-pointer border-0" /></button>
+      <button class="p-0 focus:outline-none hover:outline-none" :class="{'bg-gray-200': store.getters.isGamePaused}" v-for="(slot, index) in store.getters.getCharSlots" :key="index"><char-slot :char="slot" :show-char="true" @click="checkChar(slot)" class="cursor-pointer border-0" /></button>
     </div>
   </div>
   <overlay-modal :show="store.getters.isGamePaused" :title="store.getters.getGameStatus" />

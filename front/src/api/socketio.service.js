@@ -20,8 +20,7 @@ class SocketioService {
 
     newUser(data) {
         this.socket.emit('NEW_USER', {
-            username: data.name,
-            color: data.color
+            username: data.name
         })
     }
     showRooms(callback) {

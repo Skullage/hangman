@@ -17,9 +17,6 @@ const createRoom = () => {
 const showRooms = () => {
   showRoomsModal.value = true
 }
-const showAuth = () => {
-  showAuthModal.value = true
-}
 const joinRoom = () => {
   showJoinModal.value = true
 }

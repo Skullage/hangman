@@ -79,45 +79,32 @@ export function connectClientToRoom(socket, roomID, clientID) {
     let room = rooms[roomID]
     // deletes client from room.clients[Client{},Client{},Client{}] array
     let roomClients = room.clients;
-    let index = roomClients.findIndex(function (o) {
-      return o.id === client.id;
+    let index = roomClients.findIndex(el => {
+      return el.id === client.id;
     })
+    let isHost = roomClients[index].isHost
     if (index !== -1) roomClients.splice(index, 1);
-
-    //if the host leaves, all others are kicked and the room is deleted
-    if (client.isHost) {
+    if (room.clients.length <= 0) {
+      deleteRoom(roomID);
+    } else if (isHost) {
+      roomClients[0].isHost = true
       io.sockets.in(roomID).emit("HOST_LEFT");
       io.sockets.emit("UPDATE_ROOMS", rooms);
     }
-
-
-    // check if room now empty => delete
-    if (room.clients.length <= 0) {
-      deleteRoom(roomID);
+    if (client.connected) {
+      try {
+        client.leave(roomID)
+        let uniqueId = findClientBySocketId(client.id, clients);
+        clients[uniqueId].isHost = null;
+        clients[uniqueId].room = null;
+      } catch (error) {
+        sendError(client, error);
+        return false;
+      }
     }
-
     // Emit changes
     io.sockets.emit("UPDATE_ROOMS", rooms);
     io.sockets.in(roomID).emit("GET_ROOM_INFO", room);
-
-    if (client.connected) {
-
-      client.leave(roomID, function (err) {
-        if (!err) {
-
-          // if the Client is still online, update Client object
-          if (client) {
-            client.isHost = null;
-            client.ready = false;
-            client.room = null;
-          }
-
-        } else {
-          sendError(client, err);
-          return false;
-        }
-      });
-    }
     return true;
   }
 
@@ -140,7 +127,6 @@ export function isClient(socket) {
 
 export function isInRoom(clients, clientID) {
     let uniqueId = findClientBySocketId(clientID, clients);
-    // if the client is already a host, or already connected to a room
     if (clients[uniqueId] !== undefined) {
       if ("room" in clients[uniqueId]) {
         if (clients[uniqueId].room !== null) {
@@ -155,7 +141,6 @@ export function isInRoom(clients, clientID) {
 export function getPeopleInRoom(clientID, roomID) {
     // var room = findRoomByID(clientID, rooms);
     if (rooms[roomID] != null || rooms[roomID] !== undefined) {
-      console.log("~getpeopleinroom ", roomID);
       io.sockets.in(roomID).emit("GET_ROOM_INFO", rooms[roomID]);
     }
   }
@@ -182,7 +167,7 @@ export function getPeopleInRoom(clientID, roomID) {
   }
 
 export function sendError(socket, err) {
-    console.log(err)
+    console.error(err)
     socket.emit("ERROR", {
       message: err,
       type: "error"
