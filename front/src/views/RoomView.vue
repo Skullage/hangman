@@ -1,5 +1,4 @@
 <script setup>
-import {computed} from "vue";
 import PlayerSlot from "../components/PlayerSlot.vue";
 import CharSlot from "../components/CharSlot.vue";
 import OverlayModal from "../components/Modals/OverlayModal.vue";
@@ -9,10 +8,6 @@ import store from "../store/index.js"
 import socketioService from "../api/socketio.service.js";
 
 const router = useRouter()
-
-const getLivesClass = computed(() => {
-  return `step-${store.getters.getLivesLast}`
-})
 
 const checkChar = (char) => {
   socketioService.checkChar(char)
