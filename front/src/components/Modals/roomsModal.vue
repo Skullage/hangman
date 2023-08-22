@@ -26,12 +26,12 @@ socketioService.showRooms(function(rooms) {
 <template>
   <teleport to="body">
     <div
-        class="fixed top-0 left-0 z-40 flex h-full w-full items-end justify-center backdrop-blur-lg duration-500 lg:items-center"
+        class="fixed top-0 left-0 z-40 flex h-full w-full justify-center backdrop-blur-lg duration-500 items-center"
         role="dialog"
         :class="[{ '-translate-y-full opacity-0': !props.show }]"
     >
       <div
-          class="flex h-auto max-h-full w-full flex-col rounded border bg-white text-black dark:bg-dark dark:text-white lg:max-h-[80%] lg:min-h-[50%] lg:w-1/2 relative"
+          class="flex h-auto max-h-full w-full flex-col rounded border bg-white text-black dark:bg-dark dark:text-white lg:max-h-[80%] min-h-[50%] lg:w-1/2 relative"
       >
         <h3
             class="border-b py-8 text-center text-2xl"
@@ -39,7 +39,7 @@ socketioService.showRooms(function(rooms) {
           <slot name="title">Комнаты</slot>
         </h3>
         <button
-            class="absolute right-0 top-0 mr-3 mt-3"
+            class="absolute right-3 top-3"
             @click="closeModalWindow"
         >
           <Icon
@@ -49,30 +49,24 @@ socketioService.showRooms(function(rooms) {
               class="text-black dark:text-white"
           />
         </button>
-        <table class="modal-content flex-1 overflow-y-auto text-center">
-          <slot name="body">
-            <thead class="border-b py-2 px-4">
-              <tr>
-                <td>Название</td>
-                <td>Пароль?</td>
-                <td>Количество людей</td>
-                <td>Язык игры</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in store.state.rooms" :key="index" class="border-b last:border-none py-2 px-4 max-h-60">
-                <td>{{ item.title }}</td>
-                <td><icon icon="material-symbols:lock-outline" class="m-auto"></icon></td>
-                <td>{{item.clients.length}}/{{ item.maxPlayers}}</td>
-                <td>{{ item.language }}</td>
-                <td>
-                  <button class="bg-white text-black" @click="connect(item.id)">Войти</button>
-                </td>
-              </tr>
-            </tbody>
-
-          </slot>
-        </table>
+        <div class="modal-content flex-0 overflow-y-auto text-center">
+            <div class="border-b py-2 flex justify-between items-center">
+                <div class="basis-1/5">Название</div>
+                <div class="basis-1/5">Пароль?</div>
+                <div class="basis-1/5">Количество людей</div>
+                <div class="basis-1/5">Язык игры</div>
+                <div class="basis-1/5"></div>
+            </div>
+            <div v-for="(item, index) in store.state.rooms" :key="index" class="border-b last:border-none flex justify-between py-2 items-center">
+              <div class="basis-1/5">{{ item.title }}</div>
+              <div class="basis-1/5"><icon icon="material-symbols:lock-outline" class="m-auto"></icon></div>
+              <div class="basis-1/5">{{item.clients.length}}/{{ item.maxPlayers}}</div>
+              <div class="basis-1/5">{{ item.language }}</div>
+              <div class="basis-1/5">
+                <button class="bg-white text-black" @click="connect(item.id)">Войти</button>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
   </teleport>

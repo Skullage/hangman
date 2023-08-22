@@ -14,33 +14,42 @@ const store = createStore({
             return state.username !== null
         },
         getUsers(state) {
-            return state.rooms[state.roomId].clients
+            return state.rooms[state.roomId] !== undefined ? state.rooms[state.roomId].clients : null
         },
         getWord(state) {
-            let buffer = ''
-            state.rooms[state.roomId].word.split('').forEach(el => {
-                if(!state.rooms[state.roomId].openedChars.includes(el)) {
-                    buffer += " "
-                } else {
-                    buffer += el
-                }
-            })
-            return buffer
+            if(state.rooms[state.roomId] !== undefined) {
+                let buffer = ''
+                state.rooms[state.roomId].word.split('').forEach(el => {
+                    if(!state.rooms[state.roomId].openedChars.includes(el)) {
+                        buffer += " "
+                    } else {
+                        buffer += el
+                    }
+                })
+                return buffer
+            } else {
+                return null
+            }
+
         },
         getRoomTitle(state) {
-            return state.rooms[state.roomId].title
+            return state.rooms[state.roomId] !== undefined ? state.rooms[state.roomId].title : null
         },
         getCharSlots(state) {
-            return state.rooms[state.roomId].alphabet.filter(el => !state.rooms[state.roomId].openedChars.includes(el))
+            return state.rooms[state.roomId] !== undefined ? state.rooms[state.roomId].alphabet.filter(el => !state.rooms[state.roomId].openedChars.includes(el)) : null
         },
         getLivesLast(state) {
-            return state.rooms[state.roomId].leftLives
+            return state.rooms[state.roomId] !== undefined ? state.rooms[state.roomId].leftLives : null
+        },
+        getLivesClass(state) {
+            let lives = state.rooms[state.roomId] !== undefined ? state.rooms[state.roomId].leftLives : null
+            return `step-${lives}`
         },
         isGamePaused(state) {
-            return state.rooms[state.roomId].gameStatus !== ''
+            return state.rooms[state.roomId] !== undefined ? state.rooms[state.roomId].gameStatus !== '' : null
         },
         getGameStatus(state) {
-            return state.rooms[state.roomId].gameStatus
+            return state.rooms[state.roomId] !== undefined ? state.rooms[state.roomId].gameStatus : null
         }
     },
     mutations: {

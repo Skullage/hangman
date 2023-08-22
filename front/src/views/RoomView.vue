@@ -26,21 +26,23 @@ const leave = () => {
 </script>
 
 <template>
-  <div class="bg-gray-500 p-20 rounded relative">
-    <button class="absolute left-5 top-5" @click="leave"><icon icon="system-uicons:exit-left" width="32" /></button>
-    <h1 class="mb-12">{{ store.getters.getRoomTitle }}</h1>
-    <div class="flex justify-between">
-      <div class="players grid grid-rows-4 gap-2 mb-20">
+  <div class="bg-gray-500 p-4 lg:p-20 rounded relative">
+    <div class="flex justify-between items-start mb-12 flex-wrap gap-4">
+      <button class="basis-8 flex-0" @click="leave"><icon icon="system-uicons:exit-left" width="32" /></button>
+      <h1 class="flex-1">{{ store.getters.getRoomTitle }}</h1>
+    </div>
+
+
+    <div class="flex md:justify-between flex-wrap justify-center mb-10 md:mb-20 items-start">
+      <div class="players grid grid-rows-auto gap-2 mb-10 md:mb-0">
         <player-slot v-for="(client, index) in store.getters.getUsers" :key="index" :player-name="client.name" :isHost="client.isHost" />
       </div>
-      <div :class="getLivesClass" class="human">
+      <div :class="store.getters.getLivesClass" class="human">
       </div>
     </div>
     
-    <div class="word flex justify-center mb-40 gap-1">
-
+    <div class="word flex flex-wrap justify-center mb-10 md:mb-40 gap-2">
       <char-slot v-for="(slot, index) in store.getters.getWord" :key="index" :char="slot" :show-char="true" />
-
     </div>
     <div class="word flex justify-center flex-wrap gap-3">
       <button class="p-0 focus:outline-none hover:outline-none" :class="{'bg-gray-200': store.getters.isGamePaused}" v-for="(slot, index) in store.getters.getCharSlots" :key="index"><char-slot :char="slot" :show-char="true" @click="checkChar(slot)" class="cursor-pointer border-0" /></button>

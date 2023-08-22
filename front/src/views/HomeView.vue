@@ -24,7 +24,7 @@ const joinRoom = () => {
 
 <template>
   <div>
-    <div class="bg-gray-500 px-20 py-10 rounded">
+    <div class="bg-gray-500 px-2 md:px-20 py-10 rounded">
       <h1 class="mb-12">Hangman</h1>
       <div class="flex flex-col gap-2 mb-20">
         <button type="button" class="bg-[#242424]" @click="createRoom">Создать комнату</button>

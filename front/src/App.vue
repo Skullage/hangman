@@ -17,8 +17,8 @@ if(store.getters.isLogined) {
 </script>
 
 <template>
-  <router-view></router-view>
-  <nickname-modal :show="!store.getters.isLogined" />
+    <router-view></router-view>
+    <nickname-modal :show="!store.getters.isLogined" />
 </template>
 
 <style scoped>

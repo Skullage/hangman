@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <div
-        class="fixed top-0 left-0 z-40 flex h-full w-full items-end justify-center backdrop-blur-lg duration-500 lg:items-center"
+        class="fixed top-0 left-0 z-40 flex h-full w-full justify-center backdrop-blur-lg duration-500 items-center"
         role="dialog"
         :class="[{ '-translate-y-full opacity-0': !props.show }]"
     >
