@@ -9,7 +9,11 @@ export default {
       colors: {
         dark: '#171717',
         lightdark: '#06090E',
-        primary: '#fff'
+        primaryDark: '#26292B',
+        secondaryDark: '#2E3239',
+        thirdDark: '#5F7ADB',
+        fourthDark: '#A2B2EE',
+        fifthDark: '#1a1a1a'
       }
     }
   },
