@@ -1,8 +1,6 @@
 <template>
   <base-modal :show="props.show">
-    <h3 class="mb-4 py-8 text-center text-2xl">
-      {{ props.title }}
-    </h3>
+    <h3 class="mb-4 py-8 text-center text-2xl" v-html="props.title"></h3>
     <p class="text-center">Новый раунд начнется через {{ timesLeft }} сек.</p>
   </base-modal>
 </template>

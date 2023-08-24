@@ -36,7 +36,7 @@ const props = defineProps({
       </option>
     </select>
     <label
-      class="pointer-events-none absolute top-0 left-4 dark:bg-fifthDark -translate-y-1/2 px-4 border"
+      class="pointer-events-none absolute top-0 left-4 dark:bg-fifthDark bg-thirdLight -translate-y-1/2 px-4 border"
     >
       {{ props.label }}
     </label>

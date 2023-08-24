@@ -7,6 +7,8 @@ const store = createStore({
       roomId: "",
       rooms: undefined,
       username: localStorage.getItem("username") || null,
+      themeMode: "light",
+      messages: [],
     };
   },
   getters: {
@@ -94,6 +96,22 @@ const store = createStore({
     },
     updateRoom(state, data) {
       state.rooms[state.roomId] = data;
+    },
+    toggleTheme(state, mode) {
+      state.themeMode = mode;
+      localStorage.setItem("theme", mode);
+      if (mode === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    },
+    getMessage(state, data) {
+      state.messages.push({
+        name: data.name,
+        msg: data.message,
+        color: data.color,
+      });
     },
   },
 });

@@ -14,7 +14,9 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="border px-2 py-1 bg-thirdDark rounded-xl flex gap-4 items-center">
+  <div
+    class="border px-2 py-1 bg-fourthLight border-none text-thirdLight dark:text-white dark:bg-thirdDark rounded-xl flex gap-4 items-center"
+  >
     <h2 class="flex-1">{{ playerName }}</h2>
     <icon icon="mdi:crown" v-if="isHost" />
   </div>

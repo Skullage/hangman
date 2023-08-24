@@ -1,49 +1,58 @@
-import { io } from 'socket.io-client';
-import {VUE_APP_SOCKET_ENDPOINT} from '../config/config.js'
-import store from '../store/index.js'
+import { io } from "socket.io-client";
+import { VUE_APP_SOCKET_ENDPOINT } from "../config/config.js";
+import store from "../store/index.js";
 
 class SocketioService {
-    socket;
-    constructor() {}
+  socket;
+  constructor() {}
 
-    setupSocketConnection() {
-        // @ts-ignore
-        this.socket = io(VUE_APP_SOCKET_ENDPOINT);
-        this.socket.on('UPDATE_ROOMS', data => {
-            store.state.rooms = data
-        })
-    }
+  setupSocketConnection() {
+    // @ts-ignore
+    this.socket = io(VUE_APP_SOCKET_ENDPOINT);
+    this.socket.on("UPDATE_ROOMS", (data) => {
+      store.state.rooms = data;
+    });
+    this.socket.on("CHAT_MESSAGE", (data) => {
+      store.commit("getMessage", data);
+    });
+  }
 
-    restartGame() {
-        this.socket.emit('restartGame')
-    }
+  restartGame() {
+    this.socket.emit("restartGame");
+  }
 
-    newUser(data) {
-        this.socket.emit('NEW_USER', {
-            username: data.name
-        })
+  newUser(data) {
+    this.socket.emit("NEW_USER", {
+      username: data.name,
+    });
+  }
+  showRooms(callback) {
+    this.socket.emit("showRooms", callback);
+  }
+  leaveRoom(callback) {
+    this.socket.emit("LEAVE_ROOM", callback);
+    store.state.messages = [];
+  }
+  joinRoom(roomId, callback) {
+    this.socket.emit("JOIN", roomId, callback);
+    store.commit("setRoomId", roomId);
+  }
+  checkChar(char, callback) {
+    this.socket.emit("checkChar", char, callback);
+  }
+  hostRoom(data, callback) {
+    this.socket.emit("HOST", data, callback);
+  }
+
+  sendMessage(data) {
+    this.socket.emit("sendMessage", data);
+  }
+
+  disconnect() {
+    if (this.socket) {
+      this.socket.disconnect();
     }
-    showRooms(callback) {
-        this.socket.emit('showRooms', callback)
-    }
-    leaveRoom(callback) {
-        this.socket.emit('LEAVE_ROOM', callback)
-    }
-    joinRoom(roomId, callback) {
-        this.socket.emit('JOIN', roomId, callback)
-        store.commit('setRoomId', roomId)
-    }
-    checkChar(char, callback) {
-        this.socket.emit('checkChar', char, callback)
-    }
-    hostRoom(data, callback) {
-        this.socket.emit('HOST', data, callback)
-    }
-    disconnect() {
-        if (this.socket) {
-            this.socket.disconnect();
-        }
-    }
+  }
 }
 
 export default new SocketioService();

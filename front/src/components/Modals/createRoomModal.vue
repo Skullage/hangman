@@ -2,12 +2,7 @@
   <base-modal>
     <h3 class="mb-4 border-b py-8 text-center text-2xl">Создание комнаты</h3>
     <button class="absolute right-3 top-3" @click="closeModalWindow">
-      <Icon
-        icon="material-symbols:close"
-        width="24"
-        height="24"
-        class="text-black dark:text-white"
-      />
+      <Icon icon="material-symbols:close" width="24" height="24" />
     </button>
     <div class="modal-content flex-1 overflow-y-auto px-4">
       <form class="p-4">
@@ -42,7 +37,7 @@
               :key="item"
               class="grid grid-cols-2 text-center first:grid-cols-1 dark:hover:border-fourthDark"
               :class="{
-                'dark:border-thirdDark dark:focus:border-thirdDark dark:hover:border-thirdDark':
+                'dark:border-thirdDark dark:focus:border-thirdDark dark:hover:border-thirdDark border-fifthLight focus:border-fifthLight hover:border-fifthLight':
                   playerAmount === item,
               }"
               @click.prevent="changePlayerAmount(item)"

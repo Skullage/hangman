@@ -42,7 +42,7 @@ const props = defineProps({
     <div>
       <input
         :type="props.type"
-        class="w-full rounded border px-3 pb-1 pt-4 outline-none bg-transparent text-xl"
+        class="w-full rounded border px-3 outline-none bg-transparent text-xl"
         @input="updateValue"
         :required="props.required"
         :max="props.max"
@@ -52,9 +52,14 @@ const props = defineProps({
         :pattern="props.pattern"
         :value="props.modelValue"
         :autocomplete="props.autocomplete ? 'on' : 'off'"
+        :class="{
+          'pt-4 pb-1': props.label !== undefined,
+          'p-2': props.label === undefined,
+        }"
       />
       <label
-        class="pointer-events-none absolute top-0 left-4 dark:bg-fifthDark -translate-y-1/2 px-4 border"
+        class="pointer-events-none absolute top-0 left-4 bg-thirdLight dark:bg-fifthDark -translate-y-1/2 px-4 border"
+        v-if="props.label"
       >
         {{ props.label }}
       </label>

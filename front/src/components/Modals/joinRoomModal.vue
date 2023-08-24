@@ -29,6 +29,7 @@ import { useRouter } from "vue-router";
 import BaseModal from "./BaseModal.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
 import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
+import socketioService from "../../api/socketio.service.js";
 
 const router = useRouter();
 
@@ -41,6 +42,8 @@ const closeModalWindow = () => {
 };
 
 const connect = () => {
-  router.push({ path: `/room/${roomId.value}`, replace: true });
+  socketioService.joinRoom(roomId.value, function (roomId) {
+    router.push({ path: `/room/${roomId}`, replace: true });
+  });
 };
 </script>
