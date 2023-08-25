@@ -9,7 +9,7 @@ function Room(id, client, hostId, readableName, password, size, game) {
   this.hostID = hostId;
   this.clients = [];
   this.openedChars = [];
-  this.leftLives = 5;
+  this.leftLives = 7;
   this.maxPlayers = size;
   this.word = "";
   this.alphabet = [];

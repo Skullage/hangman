@@ -57,10 +57,22 @@ io.on("connection", (socket) => {
   socket.on("restartGame", function () {
     let room = findRoomByID(socket.id, rooms);
     room.generateWord(room.language);
-    room.leftLives = 5;
+    room.leftLives = 7;
     room.openedChars = [];
     room.gameStatus = "";
     io.emit("UPDATE_ROOMS", rooms);
+  });
+
+  socket.on("checkUserInRoom", function (roomId, callback) {
+    let uniqueId = findClientBySocketId(socket.id, clients);
+    if (
+      rooms[roomId] === undefined ||
+      rooms[roomId].clients.filter((el) => el.id === uniqueId).length === 0
+    ) {
+      callback(false);
+    } else {
+      callback(true);
+    }
   });
 
   socket.on("checkChar", function (char) {
@@ -93,7 +105,7 @@ io.on("connection", (socket) => {
       }
     }
     if (isFullString) {
-      room.gameStatus = "Вы отгадали слово! Молодцы! :)";
+      room.gameStatus = `<p>${room.word}</p><p>Вы отгадали слово! Молодцы! :)</p>`;
       io.emit("UPDATE_ROOMS", rooms);
     }
     if (!charFound) {

@@ -47,6 +47,10 @@ class SocketioService {
     this.socket.emit("HOST", data, callback);
   }
 
+  checkUserInRoom(roomId, callback) {
+    this.socket.emit("checkUser", roomId, callback);
+  }
+
   sendMessage(data) {
     this.socket.emit("sendMessage", data);
   }

@@ -3,13 +3,14 @@ import PlayerSlot from "../components/PlayerSlot.vue";
 import CharSlot from "../components/CharSlot.vue";
 import OverlayModal from "../components/Modals/OverlayModal.vue";
 import { Icon } from "@iconify/vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
 import BaseButton from "../components/UI/Buttons/BaseButton.vue";
 import ChatWindow from "../components/ChatWindow.vue";
 
 const router = useRouter();
+const route = useRoute();
 
 const checkChar = (char) => {
   socketioService.checkChar(char);
@@ -29,6 +30,16 @@ const leave = () => {
     router.push({ path: `/`, replace: true });
   });
 };
+
+const checkUserInRoom = () => {
+  socketioService.checkUserInRoom(route.params.id, function (status) {
+    if (!status) {
+      router.push({ path: `/`, replace: true });
+    }
+  });
+};
+
+checkUserInRoom();
 </script>
 
 <template>

@@ -49,22 +49,30 @@ h1 {
   background-size: cover;
 }
 
-.step-4 {
+.step-6 {
   background-position: -200px 0;
 }
 
-.step-3 {
+.step-5 {
   background-position: -400px 0;
 }
 
-.step-2{
+.step-4 {
   background-position: -600px 0;
 }
 
-.step-1 {
+.step-3 {
   background-position: -800px 0;
 }
 
-.step-0 {
+.step-2{
   background-position: -1000px 0;
+}
+
+.step-1 {
+  background-position: -1200px 0;
+}
+
+.step-0 {
+  background-position: -1400px 0;
 }
