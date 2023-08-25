@@ -68,19 +68,23 @@ io.on("connection", (socket) => {
     let charFound = false;
     let isFullString = true;
     let uniqueId = findClientBySocketId(socket.id, clients);
+    if (room.openedChars.includes(char)) {
+      return;
+    }
     room.openedChars.push(char);
 
     for (let i = 0; i < room.word.length; i++) {
       if (room.word[i] === char) {
         charFound = true;
-        io.sockets.in(room.id).emit("CHAT_MESSAGE", {
-          name: "SERVER",
-          message:
-            clients[uniqueId].name + " угадал букву " + char.toUpperCase(),
-          type: "server",
-          color: "green-500",
-        });
       }
+    }
+    if (charFound) {
+      io.sockets.in(room.id).emit("CHAT_MESSAGE", {
+        name: "SERVER",
+        message: clients[uniqueId].name + " угадал букву " + char.toUpperCase(),
+        type: "server",
+        color: "green-500",
+      });
     }
     for (let i = 0; i < room.word.length; i++) {
       if (!room.openedChars.includes(room.word[i])) {

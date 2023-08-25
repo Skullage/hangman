@@ -32,9 +32,9 @@ const leave = () => {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex flex-wrap">
     <div
-      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-l-2xl relative flex-1"
+      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-l-2xl relative flex-1"
     >
       <div class="flex justify-between items-start mb-12 flex-wrap gap-4">
         <button
@@ -86,9 +86,10 @@ const leave = () => {
           v-for="(slot, index) in store.getters.getCharSlots"
           :key="index"
           class="text-xl dark:bg-fourthDark dark:text-fifthDark basis-14 flex-initial dark:hover:border-thirdDark hover:border-4 !border-4 border-transparent"
-          @click="checkChar(slot)"
+          :disabled="slot.disabled"
+          @click="checkChar(slot.char)"
         >
-          {{ slot.toUpperCase() }}
+          {{ slot.char.toUpperCase() }}
         </base-button>
         <button
           class="p-0 focus:outline-none hover:outline-none"
@@ -96,7 +97,7 @@ const leave = () => {
         ></button>
       </div>
     </div>
-    <div class="basis-1/4">
+    <div class="basis-full lg:basis-1/4">
       <chat-window />
     </div>
   </div>

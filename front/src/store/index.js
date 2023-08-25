@@ -48,11 +48,18 @@ const store = createStore({
         : null;
     },
     getCharSlots(state) {
-      return state.rooms[state.roomId] !== undefined
-        ? state.rooms[state.roomId].alphabet.filter(
-            (el) => !state.rooms[state.roomId].openedChars.includes(el),
-          )
-        : null;
+      let buffer = [];
+      if (state.rooms[state.roomId] !== undefined) {
+        state.rooms[state.roomId].alphabet.forEach((el) => {
+          buffer.push({
+            char: el,
+            disabled: state.rooms[state.roomId].openedChars.includes(el),
+          });
+        });
+        return buffer;
+      } else {
+        return null;
+      }
     },
     getLivesLast(state) {
       return state.rooms[state.roomId] !== undefined

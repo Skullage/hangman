@@ -18,7 +18,9 @@ const sendMessage = () => {
 </script>
 
 <template>
-  <div class="border h-full text-left p-2 flex flex-col rounded-r-2xl">
+  <div
+    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl"
+  >
     <div class="flex-1 pb-4">
       <p
         v-for="(item, index) in store.state.messages"

@@ -161,7 +161,6 @@ export function findRoomByID(clientID, rooms) {
 }
 
 export function sendError(socket, err) {
-  console.error(err);
   socket.emit("ERROR", {
     message: err,
     type: "error",
