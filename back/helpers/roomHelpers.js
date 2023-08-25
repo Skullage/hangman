@@ -3,7 +3,14 @@ import Room from "../classes/room.js";
 import findClientBySocketId from "./helpers.js";
 import { clients, rooms, io } from "../index.js";
 
-export function hostARoom(socket, clientID, title, maxPlayers, language) {
+export function hostARoom(
+  socket,
+  clientID,
+  title,
+  password,
+  maxPlayers,
+  language,
+) {
   if (isInRoom(clients, clientID)) {
     sendError(socket, "You are already in a room");
     return false;
@@ -18,6 +25,7 @@ export function hostARoom(socket, clientID, title, maxPlayers, language) {
     clients[clientID],
     clientID,
     title,
+    password,
     maxPlayers,
     language,
   );
