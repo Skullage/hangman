@@ -24,7 +24,6 @@ const props = defineProps({
   placeholder: String,
   modelValue: {
     type: [Number, String],
-    required: true,
   },
   autocomplete: Boolean,
 });

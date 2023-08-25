@@ -15,6 +15,9 @@ class SocketioService {
     this.socket.on("CHAT_MESSAGE", (data) => {
       store.commit("getMessage", data);
     });
+    this.socket.on("ERROR", (data) => {
+      store.commit("addError", { type: data.type, msg: data.message });
+    });
   }
 
   restartGame() {
@@ -33,8 +36,8 @@ class SocketioService {
     this.socket.emit("LEAVE_ROOM", callback);
     store.state.messages = [];
   }
-  joinRoom(roomId, callback) {
-    this.socket.emit("JOIN", roomId, callback);
+  joinRoom(roomId, password = "", callback) {
+    this.socket.emit("JOIN", roomId, password, callback);
     store.commit("setRoomId", roomId);
   }
   checkChar(char, callback) {

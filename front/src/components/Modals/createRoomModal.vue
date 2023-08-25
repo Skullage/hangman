@@ -87,6 +87,10 @@ const languages = reactive(["Английский", "Русский"]);
 
 const createRoom = async () => {
   if (roomTitle.value.length === 0) {
+    store.commit("addError", {
+      type: "error",
+      msg: "Введите название комнаты",
+    });
     return;
   }
   const room = {

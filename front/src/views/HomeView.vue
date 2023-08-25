@@ -8,6 +8,7 @@ import BaseButton from "../components/UI/Buttons/BaseButton.vue";
 import BlueButton from "../components/UI/Buttons/BlueButton.vue";
 import OutlinedBlueButton from "../components/UI/Buttons/OutlinedBlueButton.vue";
 import { Icon } from "@iconify/vue";
+import PasswordModal from "../components/Modals/PasswordModal.vue";
 
 const showCreateModal = ref(false);
 const showJoinModal = ref(false);
@@ -77,5 +78,9 @@ const joinRoom = () => {
     <suspense>
       <rooms-modal :show="showRoomsModal" @close="showRoomsModal = false" />
     </suspense>
+    <password-modal
+      :show="store.state.passwordModal.isShow"
+      @close="store.state.passwordModal.isShow = false"
+    />
   </div>
 </template>

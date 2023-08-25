@@ -9,6 +9,13 @@ const store = createStore({
       username: localStorage.getItem("username") || null,
       themeMode: "light",
       messages: [],
+      errors: [],
+      passwordModal: {
+        isShow: false,
+        password: "",
+        resolvePromise: undefined,
+        rejectPromise: undefined,
+      },
     };
   },
   getters: {
@@ -111,6 +118,21 @@ const store = createStore({
         name: data.name,
         msg: data.message,
         color: data.color,
+      });
+    },
+    addError(state, data) {
+      state.errors.push(data);
+    },
+    closeError(state, index) {
+      state.errors.splice(index, 1);
+    },
+  },
+  actions: {
+    async showModal({ state }) {
+      state.passwordModal.isShow = true;
+      return new Promise((resolve, reject) => {
+        state.passwordModal.resolvePromise = resolve;
+        state.passwordModal.rejectPromise = reject;
       });
     },
   },

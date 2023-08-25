@@ -38,35 +38,6 @@ export let clients = {};
 io.on("connection", (socket) => {
   console.log("New connection: " + socket.id);
 
-  // socket.on("RECONNECT_USER", function (id) {
-  // 	console.log("Getting reconnection: " + id);
-  // 	console.log(socket.id);
-  //
-  // 	// If the client is still saved on the server, reconnect, else if the server crashed for example, the client will not be there anymore. We could import all of the localstorage in that case, but that's unsafe
-  // 	if (clients[id]) {
-  // 		console.log("reconnect accepted");
-  // 		clients[id].isConnected = true;
-  // 		clients[id].id = socket.id;
-  // 		console.log(clients[id]);
-  // 		io.emit("RECONNECT_USER", clients[id]);
-  // 		// socket.emit("RECONNECT", clients[id]);
-  //
-  // 		//adding the unique id for convenience as its not on the client class, maybe it should be?
-  // 		let data = clients[id];
-  // 		data.uniqueId = id;
-  //
-  // 		socket.emit("JOINED_SERVER", clients[id]);
-  // 		socket.emit("UPDATE_ROOMS", rooms);
-  // 	} else {
-  // 		console.log("reconnect declined, user unknown");
-  // 		console.log(clients[id]);
-  // 		console.log(socket.id);
-  // 		// Client not known on the Server
-  // 		socket.emit("RECONNECT_DECLINED");
-  // 	}
-  //
-  // });
-
   socket.on("NEW_USER", function (data) {
     let uniqueId = uuidv4();
     data.uniqueId = uniqueId;
@@ -96,11 +67,19 @@ io.on("connection", (socket) => {
     let room = findRoomByID(socket.id, rooms);
     let charFound = false;
     let isFullString = true;
+    let uniqueId = findClientBySocketId(socket.id, clients);
     room.openedChars.push(char);
 
     for (let i = 0; i < room.word.length; i++) {
       if (room.word[i] === char) {
         charFound = true;
+        io.sockets.in(room.id).emit("CHAT_MESSAGE", {
+          name: "SERVER",
+          message:
+            clients[uniqueId].name + " угадал букву " + char.toUpperCase(),
+          type: "server",
+          color: "green-500",
+        });
       }
     }
     for (let i = 0; i < room.word.length; i++) {
@@ -116,6 +95,13 @@ io.on("connection", (socket) => {
     if (!charFound) {
       if (room.leftLives > 0) {
         room.leftLives--;
+        io.sockets.in(room.id).emit("CHAT_MESSAGE", {
+          name: "SERVER",
+          message:
+            clients[uniqueId].name + " назвал букву " + char.toUpperCase(),
+          type: "server",
+          color: "red-500",
+        });
       } else {
         room.gameStatus = `<p>Вы проиграли :(</p> <p>Загаданное слово: ${room.word}</p>`;
         io.emit("UPDATE_ROOMS", rooms);
@@ -130,6 +116,7 @@ io.on("connection", (socket) => {
       socket,
       uniqueId,
       data.title,
+      data.password,
       data.maxPlayers,
       data.language,
     );
@@ -140,12 +127,10 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("JOIN", function (roomId, callback) {
+  socket.on("JOIN", function (roomId, password = "", callback) {
     if (!isClient(socket)) return false;
-    // join existing room
-    console.log(roomId);
     let uniqueId = findClientBySocketId(socket.id, clients);
-    if (connectClientToRoom(socket, roomId, uniqueId)) {
+    if (connectClientToRoom(socket, roomId, password, uniqueId)) {
       io.sockets.in(roomId).emit("CHAT_MESSAGE", {
         name: "SERVER",
         message: clients[uniqueId].name + " joined",
@@ -192,11 +177,8 @@ io.on("connection", (socket) => {
 
     let roomID = clients[uniqueId].room;
 
-    console.log(rooms);
-
     io.sockets.in(roomID).emit("USER_DISCONNECTING", clients[uniqueId]);
     if (!clients[uniqueId].isConnected) {
-      console.log("Disconnected from room");
       if (isInRoom(clients, socket.id)) {
         io.sockets.in(roomID).emit("CHAT_MESSAGE", {
           name: "SERVER",

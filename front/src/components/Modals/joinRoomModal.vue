@@ -12,6 +12,7 @@
     <div class="overflow-y-auto px-4">
       <form class="py-4">
         <base-input v-model="roomId" required label="Id комнаты"></base-input>
+        <base-input v-model="password" label="Пароль"></base-input>
       </form>
     </div>
 
@@ -36,13 +37,14 @@ const router = useRouter();
 const emits = defineEmits(["close"]);
 
 const roomId = ref("");
+const password = ref("");
 
 const closeModalWindow = () => {
   emits("close");
 };
 
 const connect = () => {
-  socketioService.joinRoom(roomId.value, function (roomId) {
+  socketioService.joinRoom(roomId.value, password.value, function (roomId) {
     router.push({ path: `/room/${roomId}`, replace: true });
   });
 };

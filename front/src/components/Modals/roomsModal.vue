@@ -13,8 +13,15 @@ const closeModalWindow = () => {
   emits("close");
 };
 
-const connect = (roomId) => {
-  socketioService.joinRoom(roomId, function (roomId) {
+const setPassword = async (roomId) => {
+  const ok = await store.dispatch("showModal");
+  if (ok) {
+    connect(roomId, store.state.passwordModal.password);
+  }
+};
+
+const connect = (roomId, password = "") => {
+  socketioService.joinRoom(roomId, password, function (roomId) {
     router.push({ path: `/room/${roomId}`, replace: true });
   });
 };
@@ -62,7 +69,12 @@ socketioService.showRooms(function (rooms) {
         </div>
         <div class="basis-1/5">{{ item.language }}</div>
         <div class="basis-1/5">
-          <blue-button @click="connect(item.id)">Войти</blue-button>
+          <blue-button
+            @click="
+              item.password === '' ? connect(item.id) : setPassword(item.id)
+            "
+            >Войти</blue-button
+          >
         </div>
       </div>
     </div>

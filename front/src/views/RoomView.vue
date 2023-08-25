@@ -17,6 +17,11 @@ const checkChar = (char) => {
 
 const copyId = (event) => {
   navigator.clipboard.writeText(event.target.innerText);
+  store.commit("addError", {
+    type: "success",
+    msg: "Id комнаты скопирован",
+    disappearTime: 3000,
+  });
 };
 
 const leave = () => {

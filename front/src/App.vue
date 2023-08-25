@@ -4,6 +4,7 @@ import { onBeforeUnmount } from "vue";
 import NicknameModal from "./components/Modals/nicknameModal.vue";
 import store from "./store/index.js";
 import { useRouter } from "vue-router";
+import ErrorPopup from "./components/errorPopup.vue";
 
 SocketioService.setupSocketConnection();
 onBeforeUnmount(() => {
@@ -26,6 +27,14 @@ if (
 <template>
   <router-view></router-view>
   <nickname-modal :show="!store.getters.isLogined" />
+  <error-popup
+    v-for="(item, index) in store.state.errors"
+    :key="index"
+    :index="index"
+    :type="item.type"
+    :msg="item.msg"
+    :disappear-time="item.disappearTime"
+  />
 </template>
 
 <style scoped></style>
