@@ -63,18 +63,6 @@ io.on("connection", (socket) => {
     io.emit("UPDATE_ROOMS", rooms);
   });
 
-  socket.on("checkUserInRoom", function (roomId, callback) {
-    let uniqueId = findClientBySocketId(socket.id, clients);
-    if (
-      rooms[roomId] === undefined ||
-      rooms[roomId].clients.filter((el) => el.id === uniqueId).length === 0
-    ) {
-      callback(false);
-    } else {
-      callback(true);
-    }
-  });
-
   socket.on("checkChar", function (char) {
     let room = findRoomByID(socket.id, rooms);
     let charFound = false;

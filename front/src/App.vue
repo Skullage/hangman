@@ -6,6 +6,8 @@ import store from "./store/index.js";
 import { useRouter } from "vue-router";
 import ErrorPopup from "./components/errorPopup.vue";
 
+useRouter().push({ path: `/`, replace: true });
+
 SocketioService.setupSocketConnection();
 onBeforeUnmount(() => {
   SocketioService.disconnect();

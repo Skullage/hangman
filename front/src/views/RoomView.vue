@@ -30,16 +30,6 @@ const leave = () => {
     router.push({ path: `/`, replace: true });
   });
 };
-
-const checkUserInRoom = () => {
-  socketioService.checkUserInRoom(route.params.id, function (status) {
-    if (!status) {
-      router.push({ path: `/`, replace: true });
-    }
-  });
-};
-
-checkUserInRoom();
 </script>
 
 <template>
