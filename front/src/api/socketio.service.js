@@ -1,13 +1,16 @@
 import { io } from "socket.io-client";
 import { VUE_APP_SOCKET_ENDPOINT } from "../config/config.js";
 import store from "../store/index.js";
+import { useRouter } from "vue-router";
 
 class SocketioService {
   socket;
+  router;
   constructor() {}
 
   setupSocketConnection() {
     // @ts-ignore
+    this.router = useRouter();
     this.socket = io(VUE_APP_SOCKET_ENDPOINT);
     this.socket.on("UPDATE_ROOMS", (data) => {
       store.state.rooms = data;
@@ -17,6 +20,13 @@ class SocketioService {
     });
     this.socket.on("ERROR", (data) => {
       store.commit("addError", { type: data.type, msg: data.message });
+    });
+    this.socket.on("NEW_USER", (userId) => {
+      store.state.userId = userId;
+    });
+    this.socket.on("KICKED", async () => {
+      this.router.push("/");
+      store.commit("addError", { type: "info", msg: "Вас выгнали из комнаты" });
     });
   }
 
@@ -53,6 +63,10 @@ class SocketioService {
 
   sendMessage(data) {
     this.socket.emit("sendMessage", data);
+  }
+
+  kickUser(userId) {
+    this.socket.emit("kickUser", userId);
   }
 
   disconnect() {

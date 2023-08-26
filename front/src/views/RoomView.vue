@@ -43,9 +43,9 @@ checkUserInRoom();
 </script>
 
 <template>
-  <div class="flex flex-wrap">
+  <div class="flex">
     <div
-      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-l-2xl relative flex-1"
+      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-tr-none lg:rounded-l-2xl relative flex-1"
     >
       <div class="flex justify-between items-start mb-12 flex-wrap gap-4">
         <button
@@ -78,6 +78,7 @@ checkUserInRoom();
             :key="index"
             :player-name="client.name"
             :isHost="client.isHost"
+            :user-id="client.id"
             class="text-left"
           />
         </div>

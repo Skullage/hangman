@@ -1,13 +1,16 @@
 <script setup>
-import BaseInput from "./UI/Inputs/BaseInput.vue";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
+import BaseTextarea from "./UI/Inputs/BaseTextarea.vue";
 
 const message = ref("");
 
 const sendMessage = () => {
+  if (message.value.length === 0) {
+    return;
+  }
   socketioService.sendMessage({
     name: store.state.username,
     message: message.value,
@@ -19,7 +22,7 @@ const sendMessage = () => {
 
 <template>
   <div
-    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl"
+    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none"
   >
     <div class="flex-1 pb-4">
       <p
@@ -30,10 +33,10 @@ const sendMessage = () => {
         {{ item.name + ": " + item.msg }}
       </p>
     </div>
-    <form class="relative" @submit.prevent="sendMessage">
-      <base-input v-model="message" class="p-2"></base-input>
-      <button class="absolute right-5 top-1/2 -translate-y-1/2">
-        <icon icon="fe:paper-plane" width="24"></icon>
+    <form class="flex gap-2 items-center" @submit.prevent="sendMessage">
+      <base-textarea v-model="message"></base-textarea>
+      <button>
+        <icon icon="fe:paper-plane" width="32"></icon>
       </button>
     </form>
   </div>

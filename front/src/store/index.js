@@ -16,6 +16,7 @@ const store = createStore({
         resolvePromise: undefined,
         rejectPromise: undefined,
       },
+      userId: "",
     };
   },
   getters: {
@@ -90,6 +91,9 @@ const store = createStore({
         }
       }
       return true;
+    },
+    isUserHost(state) {
+      return state.rooms[state.roomId].hostID === state.userId;
     },
   },
   mutations: {

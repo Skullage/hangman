@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
     data.id = socket.id;
     console.log(socket.id + " is now known as: " + data.username);
     clients[uniqueId] = new Client(socket.id, data.username, null, null);
-    io.emit("NEW_USER", clients[uniqueId]);
+    socket.emit("NEW_USER", uniqueId);
     data.name = data.username;
     socket.emit("JOINED_SERVER", data);
     socket.emit("UPDATE_ROOMS", rooms);
@@ -140,6 +140,35 @@ io.on("connection", (socket) => {
       socket.emit("HOST");
       io.emit("UPDATE_ROOMS", rooms);
       callback(newRoomID);
+    }
+  });
+
+  socket.on("kickUser", async function (clientID) {
+    let toBeKicked = await (
+      await io.fetchSockets()
+    ).find((el) => el.id === clientID);
+
+    if (toBeKicked === undefined) return false;
+    if (!isClient(toBeKicked)) return false;
+    if (!isInRoom(clients, toBeKicked.id)) return false;
+
+    let uniqueId = findClientBySocketId(socket.id, clients);
+
+    let uniqueIdKickedUser = findClientBySocketId(toBeKicked.id, clients);
+
+    if (clients[uniqueId].isHost) {
+      let room = findRoomByID(toBeKicked.id, rooms);
+
+      if (leaveRoom(toBeKicked, room.id)) {
+        io.to(toBeKicked.id).emit("KICKED");
+        console.log(clientID);
+        io.sockets.in(room.id).emit("CHAT_MESSAGE", {
+          name: "SERVER",
+          message: clients[uniqueIdKickedUser].name + " was kicked",
+          type: "server",
+          color: "#CCC",
+        });
+      }
     }
   });
 
