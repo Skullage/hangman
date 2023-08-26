@@ -41,7 +41,7 @@ const leave = async () => {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex flex-wrap">
     <div
       class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-tr-none lg:rounded-l-2xl relative flex-1"
     >
@@ -107,8 +107,8 @@ const leave = async () => {
         ></button>
       </div>
     </div>
-    <div class="basis-full lg:basis-1/4">
-      <chat-window />
+    <div class="basis-full lg:basis-1/4 max-w-full min-h-[500px]">
+      <chat-window class="chat" />
     </div>
   </div>
   <overlay-modal
@@ -117,4 +117,8 @@ const leave = async () => {
   />
 </template>
 
-<style scoped></style>
+<style scoped>
+.chat {
+  word-wrap: break-word;
+}
+</style>

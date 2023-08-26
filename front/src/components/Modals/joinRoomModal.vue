@@ -11,7 +11,12 @@
     </button>
     <div class="overflow-y-auto px-4">
       <form class="py-4">
-        <base-input v-model="roomId" required label="Id комнаты"></base-input>
+        <base-input
+          v-model="roomId"
+          required
+          label="Id комнаты"
+          class="mb-6"
+        ></base-input>
         <base-input v-model="password" label="Пароль"></base-input>
       </form>
     </div>
