@@ -3,14 +3,13 @@ import PlayerSlot from "../components/PlayerSlot.vue";
 import CharSlot from "../components/CharSlot.vue";
 import OverlayModal from "../components/Modals/OverlayModal.vue";
 import { Icon } from "@iconify/vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
 import BaseButton from "../components/UI/Buttons/BaseButton.vue";
 import ChatWindow from "../components/ChatWindow.vue";
 
 const router = useRouter();
-const route = useRoute();
 
 const checkChar = (char) => {
   socketioService.checkChar(char);
@@ -25,7 +24,16 @@ const copyId = (event) => {
   });
 };
 
-const leave = () => {
+const leave = async () => {
+  if (store.state.rooms[store.state.roomId].clients.length === 1) {
+    const ok = await store.dispatch("showConfirm", {
+      title: "Вы действительно хотите выйти?",
+      msg: "Кроме вас в комнате никого нет, в случае вашего выхода комната будет удалена.",
+    });
+    if (!ok) {
+      return;
+    }
+  }
   socketioService.leaveRoom(function () {
     router.push({ path: `/`, replace: true });
   });

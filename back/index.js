@@ -6,14 +6,10 @@ import Router from "./routes/routes.js";
 import { v4 as uuidv4 } from "uuid";
 import Client from "./classes/client.js";
 import findClientBySocketId from "./helpers/helpers.js";
-import {
-  hostARoom,
-  isClient,
-  connectClientToRoom,
-  leaveRoom,
-  isInRoom,
-  findRoomByID,
-} from "./helpers/roomHelpers.js";
+import { leaveRoom, isInRoom } from "./helpers/roomHelpers.js";
+import { roomSocket } from "./socketHandlers/roomSockets.js";
+import { hangmanSocket } from "./socketHandlers/hangmanSockets.js";
+import { chatSocket } from "./socketHandlers/chatSockets.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -50,156 +46,6 @@ io.on("connection", (socket) => {
     socket.emit("UPDATE_ROOMS", rooms);
   });
 
-  socket.on("showRooms", function (callback) {
-    callback(rooms);
-  });
-
-  socket.on("restartGame", function () {
-    let room = findRoomByID(socket.id, rooms);
-    room.generateWord(room.language);
-    room.leftLives = 7;
-    room.openedChars = [];
-    room.gameStatus = "";
-    io.emit("UPDATE_ROOMS", rooms);
-  });
-
-  socket.on("checkChar", function (char) {
-    let room = findRoomByID(socket.id, rooms);
-    let charFound = false;
-    let isFullString = true;
-    let uniqueId = findClientBySocketId(socket.id, clients);
-    if (room.openedChars.includes(char)) {
-      return;
-    }
-    room.openedChars.push(char);
-
-    for (let i = 0; i < room.word.length; i++) {
-      if (room.word[i] === char) {
-        charFound = true;
-      }
-    }
-    if (charFound) {
-      io.sockets.in(room.id).emit("CHAT_MESSAGE", {
-        name: "SERVER",
-        message: clients[uniqueId].name + " угадал букву " + char.toUpperCase(),
-        type: "server",
-        color: "green-500",
-      });
-    }
-    for (let i = 0; i < room.word.length; i++) {
-      if (!room.openedChars.includes(room.word[i])) {
-        isFullString = false;
-        break;
-      }
-    }
-    if (isFullString) {
-      room.gameStatus = `<p>${room.word}</p><p>Вы отгадали слово! Молодцы! :)</p>`;
-      io.emit("UPDATE_ROOMS", rooms);
-    }
-    if (!charFound) {
-      if (room.leftLives > 0) {
-        room.leftLives--;
-        io.sockets.in(room.id).emit("CHAT_MESSAGE", {
-          name: "SERVER",
-          message:
-            clients[uniqueId].name + " назвал букву " + char.toUpperCase(),
-          type: "server",
-          color: "red-500",
-        });
-      } else {
-        room.gameStatus = `<p>Вы проиграли :(</p> <p>Загаданное слово: ${room.word}</p>`;
-        io.emit("UPDATE_ROOMS", rooms);
-      }
-    }
-    io.emit("UPDATE_ROOMS", rooms);
-  });
-
-  socket.on("HOST", function (data, callback) {
-    let uniqueId = findClientBySocketId(socket.id, clients);
-    let newRoomID = hostARoom(
-      socket,
-      uniqueId,
-      data.title,
-      data.password,
-      data.maxPlayers,
-      data.language,
-    );
-    if (newRoomID !== false) {
-      socket.emit("HOST");
-      io.emit("UPDATE_ROOMS", rooms);
-      callback(newRoomID);
-    }
-  });
-
-  socket.on("kickUser", async function (clientID) {
-    let toBeKicked = await (
-      await io.fetchSockets()
-    ).find((el) => el.id === clientID);
-
-    if (toBeKicked === undefined) return false;
-    if (!isClient(toBeKicked)) return false;
-    if (!isInRoom(clients, toBeKicked.id)) return false;
-
-    let uniqueId = findClientBySocketId(socket.id, clients);
-
-    let uniqueIdKickedUser = findClientBySocketId(toBeKicked.id, clients);
-
-    if (clients[uniqueId].isHost) {
-      let room = findRoomByID(toBeKicked.id, rooms);
-
-      if (leaveRoom(toBeKicked, room.id)) {
-        io.to(toBeKicked.id).emit("KICKED");
-        console.log(clientID);
-        io.sockets.in(room.id).emit("CHAT_MESSAGE", {
-          name: "SERVER",
-          message: clients[uniqueIdKickedUser].name + " was kicked",
-          type: "server",
-          color: "#CCC",
-        });
-      }
-    }
-  });
-
-  socket.on("JOIN", function (roomId, password = "", callback) {
-    if (!isClient(socket)) return false;
-    let uniqueId = findClientBySocketId(socket.id, clients);
-    if (connectClientToRoom(socket, roomId, password, uniqueId)) {
-      io.sockets.in(roomId).emit("CHAT_MESSAGE", {
-        name: "SERVER",
-        message: clients[uniqueId].name + " joined",
-        type: "server",
-        color: "#CCC",
-      });
-      callback(roomId);
-    }
-  });
-
-  socket.on("LEAVE_ROOM", function (callback) {
-    let uniqueId = findClientBySocketId(socket.id, clients);
-    if (!isClient(socket)) return false;
-    let roomID = clients[uniqueId].room;
-    if (leaveRoom(socket, roomID)) {
-      io.sockets.in(roomID).emit("CHAT_MESSAGE", {
-        name: "SERVER",
-        type: "server",
-        message: clients[uniqueId].name + " left",
-        color: "#CCC",
-      });
-      io.emit("UPDATE_ROOMS", rooms);
-      callback();
-    }
-  });
-
-  socket.on("sendMessage", function (data) {
-    let uniqueId = findClientBySocketId(socket.id, clients);
-    let roomID = clients[uniqueId].room;
-    io.sockets.in(roomID).emit("CHAT_MESSAGE", {
-      name: data.name,
-      message: data.message,
-      color: data.color,
-    });
-  });
-
   socket.on("disconnect", function () {
     let uniqueId = findClientBySocketId(socket.id, clients);
     if (!clients[uniqueId]) {
@@ -229,6 +75,10 @@ io.on("connection", (socket) => {
     }
   });
 });
+
+roomSocket(io, clients, rooms);
+hangmanSocket(io, clients, rooms);
+chatSocket(io, clients);
 
 httpServer.listen(3000, () => {
   console.log("listening on *:3000");

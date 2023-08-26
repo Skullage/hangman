@@ -18,8 +18,18 @@ const props = defineProps({
   },
 });
 
-const kickUser = () => {
-  socketioService.kickUser(props.userId);
+const kickUser = async () => {
+  const ok = await store.dispatch("showConfirm", {
+    title: "Подтвердите действие",
+    msg: `Вы действительно хотите кикнуть пользователя  ${
+      store.state.rooms[store.state.roomId].clients.find(
+        (el) => el.id === props.userId,
+      ).name
+    }`,
+  });
+  if (!ok) {
+    socketioService.kickUser(props.userId);
+  }
 };
 </script>
 
