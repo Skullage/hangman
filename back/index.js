@@ -30,6 +30,7 @@ app.use(Router);
 
 export let rooms = {};
 export let clients = {};
+export const turnTimeout = 5000;
 
 io.on("connection", (socket) => {
   console.log("New connection: " + socket.id);
@@ -39,10 +40,15 @@ io.on("connection", (socket) => {
     data.uniqueId = uniqueId;
     data.id = socket.id;
     console.log(socket.id + " is now known as: " + data.username);
-    clients[uniqueId] = new Client(socket.id, data.username, null, null);
+    clients[uniqueId] = new Client(
+      socket.id,
+      uniqueId,
+      data.username,
+      null,
+      null,
+    );
     socket.emit("NEW_USER", uniqueId);
     data.name = data.username;
-    socket.emit("JOINED_SERVER", data);
     socket.emit("UPDATE_ROOMS", rooms);
   });
 

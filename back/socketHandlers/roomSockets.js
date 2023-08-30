@@ -1,11 +1,13 @@
 import findClientBySocketId from "../helpers/helpers.js";
 import {
+  clearTurnTimer,
   connectClientToRoom,
   findRoomByID,
   hostARoom,
   isClient,
   isInRoom,
   leaveRoom,
+  startTurnTimer,
 } from "../helpers/roomHelpers.js";
 
 export function roomSocket(io, clients, rooms) {
@@ -24,7 +26,6 @@ export function roomSocket(io, clients, rooms) {
         data.language,
       );
       if (newRoomID !== false) {
-        socket.emit("HOST");
         io.emit("UPDATE_ROOMS", rooms);
         callback(newRoomID);
       }
@@ -50,7 +51,7 @@ export function roomSocket(io, clients, rooms) {
           console.log(clientID);
           io.sockets.in(room.id).emit("CHAT_MESSAGE", {
             name: "SERVER",
-            message: clients[uniqueIdKickedUser].name + " was kicked",
+            message: clients[uniqueIdKickedUser].name + " был выгнан с комнаты",
             type: "server",
             color: "#CCC",
           });
@@ -63,10 +64,12 @@ export function roomSocket(io, clients, rooms) {
       if (connectClientToRoom(socket, roomId, password, uniqueId)) {
         io.sockets.in(roomId).emit("CHAT_MESSAGE", {
           name: "SERVER",
-          message: clients[uniqueId].name + " joined",
+          message: clients[uniqueId].name + " зашел в комнату",
           type: "server",
           color: "#CCC",
         });
+        startTurnTimer(roomId);
+        io.emit("UPDATE_ROOMS", rooms);
         callback(roomId);
       }
     });
@@ -78,9 +81,12 @@ export function roomSocket(io, clients, rooms) {
         io.sockets.in(roomID).emit("CHAT_MESSAGE", {
           name: "SERVER",
           type: "server",
-          message: clients[uniqueId].name + " left",
+          message: clients[uniqueId].name + " покинул комнату",
           color: "#CCC",
         });
+        if (rooms[roomID].clients.length < 2) {
+          clearTurnTimer();
+        }
         io.emit("UPDATE_ROOMS", rooms);
         callback();
       }

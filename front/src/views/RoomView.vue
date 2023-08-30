@@ -12,7 +12,9 @@ import ChatWindow from "../components/ChatWindow.vue";
 const router = useRouter();
 
 const checkChar = (char) => {
-  socketioService.checkChar(char);
+  if (store.state.userId === store.getters.getRoom.turnUserID) {
+    socketioService.checkChar(char);
+  }
 };
 
 const copyId = (event) => {
@@ -25,7 +27,7 @@ const copyId = (event) => {
 };
 
 const leave = async () => {
-  if (store.state.rooms[store.state.roomId].clients.length === 1) {
+  if (store.getters.getRoom.clients.length === 1) {
     const ok = await store.dispatch("showConfirm", {
       title: "Вы действительно хотите выйти?",
       msg: "Кроме вас в комнате никого нет, в случае вашего выхода комната будет удалена.",
@@ -61,6 +63,10 @@ const leave = async () => {
             {{ store.state.roomId }}
           </p>
         </div>
+        <div v-if="store.state.turnTimer > 0">
+          <p>Ход</p>
+          <p>{{ store.getters.getTurnUser.name }}</p>
+        </div>
         <div>
           <p>Осталось жизней</p>
           <p>{{ store.getters.getLivesLast + 1 }}</p>
@@ -76,7 +82,7 @@ const leave = async () => {
             :key="index"
             :player-name="client.name"
             :isHost="client.isHost"
-            :user-id="client.id"
+            :user-id="client.uniqueId"
             class="text-left"
           />
         </div>

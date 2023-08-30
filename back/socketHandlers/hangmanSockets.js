@@ -1,15 +1,15 @@
 import findClientBySocketId from "../helpers/helpers.js";
-import { findRoomByID } from "../helpers/roomHelpers.js";
+import { findRoomByID, nextTurn } from "../helpers/roomHelpers.js";
 
 export function hangmanSocket(io, clients, rooms) {
   io.on("connection", (socket) => {
     socket.on("restartGame", function () {
       let room = findRoomByID(socket.id, rooms);
-      room.generateWord(room.language);
+      room.generateWord();
       room.leftLives = 7;
       room.openedChars = [];
       room.gameStatus = "";
-      io.emit("UPDATE_ROOMS", rooms);
+      io.sockets.in(room.id).emit("UPDATE_ROOMS", rooms);
     });
 
     socket.on("checkChar", function (char) {
@@ -17,6 +17,9 @@ export function hangmanSocket(io, clients, rooms) {
       let charFound = false;
       let isFullString = true;
       let uniqueId = findClientBySocketId(socket.id, clients);
+      if (room.turnUserID !== uniqueId) {
+        return;
+      }
       if (room.openedChars.includes(char)) {
         return;
       }
@@ -44,7 +47,6 @@ export function hangmanSocket(io, clients, rooms) {
       }
       if (isFullString) {
         room.gameStatus = `<p>${room.word}</p><p>Вы отгадали слово! Молодцы! :)</p>`;
-        io.emit("UPDATE_ROOMS", rooms);
       }
       if (!charFound) {
         if (room.leftLives > 0) {
@@ -58,10 +60,13 @@ export function hangmanSocket(io, clients, rooms) {
           });
         } else {
           room.gameStatus = `<p>Вы проиграли :(</p> <p>Загаданное слово: ${room.word}</p>`;
-          io.emit("UPDATE_ROOMS", rooms);
         }
       }
-      io.emit("UPDATE_ROOMS", rooms);
+      if (room.clients.length > 1) {
+        nextTurn(room.id);
+      }
+
+      io.sockets.in(room.id).emit("UPDATE_ROOMS", rooms);
     });
   });
 }

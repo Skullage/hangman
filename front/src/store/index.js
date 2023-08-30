@@ -24,22 +24,25 @@ const store = createStore({
         rejectPromise: undefined,
       },
       userId: "",
+      turnTimer: 0,
+      timer: undefined,
     };
   },
   getters: {
     isLogined(state) {
       return state.username !== null;
     },
-    getUsers(state) {
-      return state.rooms[state.roomId] !== undefined
-        ? state.rooms[state.roomId].clients
-        : null;
+    getUsers(state, getters) {
+      return getters.getRoom ? getters.getRoom.clients : null;
     },
-    getWord(state) {
-      if (state.rooms[state.roomId] !== undefined) {
+    getRoom(state) {
+      return state.rooms[state.roomId];
+    },
+    getWord(state, getters) {
+      if (getters.getRoom) {
         let buffer = "";
-        state.rooms[state.roomId].word.split("").forEach((el) => {
-          if (!state.rooms[state.roomId].openedChars.includes(el)) {
+        getters.getRoom.word.split("").forEach((el) => {
+          if (!getters.getRoom.openedChars.includes(el)) {
             buffer += " ";
           } else {
             buffer += el;
@@ -50,18 +53,16 @@ const store = createStore({
         return null;
       }
     },
-    getRoomTitle(state) {
-      return state.rooms[state.roomId] !== undefined
-        ? state.rooms[state.roomId].title
-        : null;
+    getRoomTitle(state, getters) {
+      return getters.getRoom ? getters.getRoom.title : null;
     },
-    getCharSlots(state) {
+    getCharSlots(state, getters) {
       let buffer = [];
-      if (state.rooms[state.roomId] !== undefined) {
-        state.rooms[state.roomId].alphabet.forEach((el) => {
+      if (getters.getRoom) {
+        getters.getRoom.alphabet.forEach((el) => {
           buffer.push({
             char: el,
-            disabled: state.rooms[state.roomId].openedChars.includes(el),
+            disabled: getters.getRoom.openedChars.includes(el),
           });
         });
         return buffer;
@@ -69,27 +70,18 @@ const store = createStore({
         return null;
       }
     },
-    getLivesLast(state) {
-      return state.rooms[state.roomId] !== undefined
-        ? state.rooms[state.roomId].leftLives
-        : null;
+    getLivesLast(state, getters) {
+      return getters.getRoom ? getters.getRoom.leftLives : null;
     },
-    getLivesClass(state) {
-      let lives =
-        state.rooms[state.roomId] !== undefined
-          ? state.rooms[state.roomId].leftLives
-          : null;
+    getLivesClass(state, getters) {
+      let lives = getters.getRoom ? getters.getRoom.leftLives : null;
       return `step-${lives}`;
     },
-    isGamePaused(state) {
-      return state.rooms[state.roomId] !== undefined
-        ? state.rooms[state.roomId].gameStatus !== ""
-        : null;
+    isGamePaused(state, getters) {
+      return getters.getRoom ? getters.getRoom.gameStatus !== "" : null;
     },
-    getGameStatus(state) {
-      return state.rooms[state.roomId] !== undefined
-        ? state.rooms[state.roomId].gameStatus
-        : null;
+    getGameStatus(state, getters) {
+      return getters.getRoom ? getters.getRoom.gameStatus : null;
     },
     isRoomsEmpty(state) {
       for (const prop in state.rooms) {
@@ -99,8 +91,13 @@ const store = createStore({
       }
       return true;
     },
-    isUserHost(state) {
-      return state.rooms[state.roomId].hostID === state.userId;
+    isUserHost(state, getters) {
+      return getters.getRoom === state.userId;
+    },
+    getTurnUser(state, getters) {
+      return getters.getRoom.clients.find(
+        (el) => el.uniqueId === getters.getRoom.turnUserID,
+      );
     },
   },
   mutations: {
@@ -138,11 +135,24 @@ const store = createStore({
         color: data.color,
       });
     },
-    addError(state, data) {
-      state.errors.push(data);
+    addError(state, { type, msg }) {
+      state.errors.push({ type, msg });
     },
     closeError(state, index) {
       state.errors.splice(index, 1);
+    },
+    startTimer(state, timeout) {
+      state.turnTimer = timeout / 1000;
+      if (state.timer !== undefined) {
+        clearInterval(state.timer);
+      }
+
+      state.timer = setInterval(() => {
+        state.turnTimer--;
+        if (state.turnTimer === 0) {
+          state.turnTimer = timeout / 1000;
+        }
+      }, 1000);
     },
   },
   actions: {

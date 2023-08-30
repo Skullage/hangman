@@ -28,6 +28,9 @@ class SocketioService {
       this.router.push("/");
       store.commit("addError", { type: "info", msg: "Вас выгнали из комнаты" });
     });
+    this.socket.on("startTurnTimer", (timeout) => {
+      store.commit("startTimer", timeout);
+    });
   }
 
   restartGame() {

@@ -7,6 +7,7 @@ function Room(id, client, hostId, readableName, password, size, game) {
   this.title = readableName;
   this.password = password;
   this.hostID = hostId;
+  this.turnUserID = hostId;
   this.clients = [];
   this.openedChars = [];
   this.leftLives = 7;
@@ -16,7 +17,7 @@ function Room(id, client, hostId, readableName, password, size, game) {
   this.language = game;
   this.gameStatus = "";
   this.addClient(client);
-  this.generateWord(game);
+  this.generateWord();
 }
 
 Room.prototype.addClient = function (client) {
@@ -29,8 +30,8 @@ Room.prototype.addClient = function (client) {
   );
 };
 
-Room.prototype.generateWord = function (language) {
-  if (language === "Английский") {
+Room.prototype.generateWord = function () {
+  if (this.language === "Английский") {
     let index = Math.floor(Math.random() * words.en.length);
     this.word = words.en[index];
     this.alphabet = alphabet.en;

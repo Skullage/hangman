@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import Room from "../classes/room.js";
 import findClientBySocketId from "./helpers.js";
-import { clients, rooms, io } from "../index.js";
+import { clients, io, rooms, turnTimeout } from "../index.js";
+
+export let timer = undefined;
 
 export function hostARoom(
   socket,
@@ -12,10 +14,10 @@ export function hostARoom(
   language,
 ) {
   if (isInRoom(clients, clientID)) {
-    sendError(socket, "You are already in a room");
+    sendError(socket, "Вы уже в комнате");
     return false;
   } else if (clients[clientID] === undefined) {
-    sendError(socket, "You are not known on the server");
+    sendError(socket, "Вы не авторизованы, обновите страницу");
     return false;
   }
 
@@ -45,7 +47,6 @@ export function hostARoom(
     getPeopleInRoom(clientID, roomID);
     return roomID;
   } catch (error) {
-    console.log(socket.id + " FAILED to join room: " + roomID);
     sendError(socket, error);
     return roomID;
   }
@@ -53,16 +54,16 @@ export function hostARoom(
 
 export function connectClientToRoom(socket, roomID, password, clientID) {
   if (isInRoom(clients, clientID)) {
-    sendError(socket, "You are already in a room");
+    sendError(socket, "Вы уже в комнате");
     return false;
   } else if (clients[clientID] === undefined) {
-    sendError(socket, "You are not known on the server");
+    sendError(socket, "Вы не авторизованы, обновите страницу");
     return false;
   } else if (!rooms[roomID]) {
-    sendError(socket, "This room does not exist anymore");
+    sendError(socket, "Эта комната больше не существует");
     return false;
   } else if (rooms[roomID].maxPlayers <= rooms[roomID].clients.length) {
-    sendError(socket, "This room is full");
+    sendError(socket, "Комната заполнена");
     return false;
   } else if (rooms[roomID].password !== password) {
     sendError(socket, "Неверный пароль");
@@ -98,7 +99,6 @@ export function leaveRoom(client, roomID) {
     deleteRoom(roomID);
   } else if (isHost) {
     roomClients[0].isHost = true;
-    io.sockets.emit("UPDATE_ROOMS", rooms);
   }
   if (client.connected) {
     try {
@@ -124,7 +124,8 @@ export function isClient(socket) {
   let uniqueId = findClientBySocketId(socket.id, clients);
   if (clients[uniqueId] === undefined) {
     socket.emit("ERROR", {
-      message: "User unknown. Maybe you lost connection. Please join again.",
+      message:
+        "Пользователь не авторизован. Возможно соединение было разорвано. Пожалуйста, обновите страницу.",
       type: "error",
     });
     return false;
@@ -166,6 +167,39 @@ export function findRoomByID(clientID, rooms) {
     }
   }
   return null;
+}
+
+export function startTurnTimer(roomId) {
+  if (timer === undefined && rooms[roomId].clients.length > 1) {
+    timer = setInterval(nextTurn, turnTimeout, roomId);
+    io.sockets.in(roomId).emit("startTurnTimer", turnTimeout);
+  }
+}
+
+export function clearTurnTimer() {
+  clearInterval(timer);
+  timer = undefined;
+}
+
+export function nextTurn(roomId) {
+  if (!rooms[roomId]) {
+    return clearTurnTimer();
+  }
+  if (timer) {
+    clearTurnTimer();
+    startTurnTimer(roomId);
+  }
+  const currentUserIndex = rooms[roomId].clients.findIndex(
+    (el) => el.uniqueId === rooms[roomId].turnUserID,
+  );
+  let client;
+  if (currentUserIndex === rooms[roomId].clients.length - 1) {
+    client = rooms[roomId].clients[0].id;
+  } else {
+    client = rooms[roomId].clients[currentUserIndex + 1].id;
+  }
+  rooms[roomId].turnUserID = findClientBySocketId(client, clients);
+  io.sockets.in(roomId).emit("UPDATE_ROOMS", rooms);
 }
 
 export function sendError(socket, err) {

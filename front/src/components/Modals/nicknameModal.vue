@@ -29,8 +29,15 @@ import BaseInput from "../UI/Inputs/BaseInput.vue";
 const nickname = ref("");
 
 const setNick = async () => {
-  if (nickname.value.length > 0) {
-    store.commit("setUsername", nickname.value);
+  if (nickname.value.length < 1) {
+    return store.commit("addError", { type: "error", msg: "Введите ник" });
   }
+  if (nickname.value.length > 16) {
+    return store.commit("addError", {
+      type: "error",
+      msg: "Длина ника не должна превышать 16 символов",
+    });
+  }
+  store.commit("setUsername", nickname.value);
 };
 </script>
