@@ -16,6 +16,7 @@ function Room(id, client, hostId, readableName, password, size, game) {
   this.alphabet = [];
   this.language = game;
   this.gameStatus = "";
+  this.blacklist = [];
   this.addClient(client);
   this.generateWord();
 }

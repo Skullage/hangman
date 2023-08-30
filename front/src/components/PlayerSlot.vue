@@ -20,14 +20,15 @@ const props = defineProps({
 });
 
 const kickUser = async () => {
+  let client = store.getters.getRoom.clients.find(
+    (el) => el.uniqueId === props.userId,
+  );
   const ok = await store.dispatch("showConfirm", {
     title: "Подтвердите действие",
-    msg: `Вы действительно хотите кикнуть пользователя  ${
-      store.getters.getRoom.clients.find((el) => el.id === props.userId).name
-    }`,
+    msg: `Вы действительно хотите выгнать пользователя  ${client.name}?`,
   });
-  if (!ok) {
-    socketioService.kickUser(props.userId);
+  if (ok) {
+    socketioService.kickUser(client.id);
   }
 };
 

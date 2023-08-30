@@ -92,7 +92,7 @@ const store = createStore({
       return true;
     },
     isUserHost(state, getters) {
-      return getters.getRoom === state.userId;
+      return getters.getRoom.hostID === state.userId;
     },
     getTurnUser(state, getters) {
       return getters.getRoom.clients.find(
