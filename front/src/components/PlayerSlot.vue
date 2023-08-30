@@ -40,10 +40,10 @@ const isPlayerTurn = computed(() => {
 </script>
 
 <template>
-  <div class="flex items-center">
+  <div class="grid grid-cols-[1fr_40px] items-center">
     <div
-      class="border px-2 py-1 bg-fourthLight border-none text-thirdLight dark:text-white dark:bg-thirdDark rounded-l-xl flex gap-4 items-center flex-1"
-      :class="{ 'rounded-xl': !isPlayerTurn }"
+      class="border px-2 py-1 bg-fourthLight border-none text-thirdLight dark:text-white dark:bg-thirdDark rounded-l flex gap-4 items-center flex-1"
+      :class="{ rounded: !isPlayerTurn }"
     >
       <h2 class="flex-1">{{ playerName }}</h2>
       <icon
@@ -54,7 +54,10 @@ const isPlayerTurn = computed(() => {
       />
       <icon icon="mdi:crown" v-if="isHost" />
     </div>
-    <div v-show="isPlayerTurn" class="bg-fourthDark py-1 px-3 rounded-r">
+    <div
+      v-show="isPlayerTurn"
+      class="bg-fourthDark py-1 px-3 rounded-r flex-shrink-0 flex-grow-0 basis-10 text-center"
+    >
       {{ store.state.turnTimer }}
     </div>
   </div>

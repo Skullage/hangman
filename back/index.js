@@ -30,7 +30,7 @@ app.use(Router);
 
 export let rooms = {};
 export let clients = {};
-export const turnTimeout = 5000;
+export const turnTimeout = 10000;
 
 io.on("connection", (socket) => {
   console.log("New connection: " + socket.id);

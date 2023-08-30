@@ -53,7 +53,7 @@ socketioService.showRooms(function (rooms) {
       </div>
       <div v-if="store.getters.isRoomsEmpty">
         <p>К сожалению, в данный момент комнат нет :(</p>
-        <p>Но, Вы можете создать свою :)</p>
+        <p>Но Вы можете создать свою :)</p>
       </div>
       <div
         v-for="(item, index) in store.state.rooms"

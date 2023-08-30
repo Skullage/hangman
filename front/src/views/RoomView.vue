@@ -76,7 +76,7 @@ const leave = async () => {
       <div
         class="flex md:justify-between flex-wrap justify-center mb-10 items-start"
       >
-        <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0">
+        <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0 w-60">
           <player-slot
             v-for="(client, index) in store.getters.getUsers"
             :key="index"
