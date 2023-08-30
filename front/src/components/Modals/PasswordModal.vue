@@ -40,6 +40,7 @@ const closeModalWindow = () => {
         <base-input
           placeholder="Пароль"
           label="Пароль"
+          type="password"
           v-model="password"
           required
         ></base-input>
