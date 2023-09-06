@@ -43,7 +43,7 @@ const isPlayerTurn = computed(() => {
 <template>
   <div class="grid grid-cols-[1fr_40px] items-center">
     <div
-      class="border px-2 py-1 bg-fourthLight border-none text-thirdLight dark:text-white dark:bg-thirdDark rounded-l flex gap-4 items-center flex-1"
+      class="border px-2 py-1 border-none dark:text-white dark:bg-thirdDark rounded-l flex gap-4 items-center flex-1 bg-secondaryLight text-black"
       :class="{ rounded: !isPlayerTurn }"
     >
       <h2 class="flex-1">{{ playerName }}</h2>

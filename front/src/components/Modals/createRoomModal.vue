@@ -11,7 +11,6 @@
           placeholder="Название комнаты"
           label="Название комнаты"
           class="mb-6"
-          :autocomplete="false"
           required
         ></base-input>
         <base-input
@@ -20,7 +19,6 @@
           label="Пароль"
           type="password"
           class="mb-6"
-          :autocomplete="false"
         ></base-input>
         <base-select
           v-model="roomLanguage"
@@ -35,11 +33,11 @@
             <base-button
               v-for="item in 4"
               :key="item"
-              class="grid grid-cols-2 text-center first:grid-cols-1 dark:hover:border-fourthDark"
               :class="{
-                'dark:border-thirdDark dark:focus:border-thirdDark dark:hover:border-thirdDark border-fifthLight focus:border-fifthLight hover:border-fifthLight':
+                'dark:border-fourthDark dark:focus:border-fourthDark dark:hover:!border-fourthDark border-fifthLight focus:border-fifthLight hover:border-fifthLight':
                   playerAmount === item,
               }"
+              class="grid grid-cols-2 text-center first:grid-cols-1 dark:hover:border-thirdDark"
               @click.prevent="changePlayerAmount(item)"
             >
               <Icon

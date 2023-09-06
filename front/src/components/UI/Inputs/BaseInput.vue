@@ -25,7 +25,6 @@ const props = defineProps({
   modelValue: {
     type: [Number, String],
   },
-  autocomplete: Boolean,
 });
 </script>
 
@@ -41,7 +40,7 @@ const props = defineProps({
     <div>
       <input
         :type="props.type"
-        class="w-full rounded border px-3 outline-none bg-transparent text-xl"
+        class="w-full rounded border px-3 outline-none bg-white text-xl dark:text-black"
         @input="updateValue"
         :required="props.required"
         :max="props.max"

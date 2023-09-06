@@ -95,6 +95,9 @@ export function leaveRoom(client, roomID) {
   });
   let isHost = roomClients[index].isHost;
   if (index !== -1) roomClients.splice(index, 1);
+  if (room.clients.length < 2) {
+    clearTurnTimer();
+  }
   if (room.clients.length <= 0) {
     deleteRoom(roomID);
   } else if (isHost) {

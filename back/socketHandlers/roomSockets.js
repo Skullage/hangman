@@ -1,6 +1,5 @@
 import findClientBySocketId from "../helpers/helpers.js";
 import {
-  clearTurnTimer,
   connectClientToRoom,
   findRoomByID,
   hostARoom,
@@ -89,9 +88,6 @@ export function roomSocket(io, clients, rooms) {
           message: clients[uniqueId].name + " покинул комнату",
           color: "#CCC",
         });
-        if (rooms[roomID].clients.length < 2) {
-          clearTurnTimer();
-        }
         io.emit("UPDATE_ROOMS", rooms);
         callback();
       }

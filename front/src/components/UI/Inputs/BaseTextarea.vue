@@ -7,8 +7,6 @@ const updateValue = (event) => {
   if (el.scrollHeight < 150) {
     el.style.height = "auto";
     el.style.height = el.scrollHeight + "px";
-  } else {
-    el.style.height = 150 + "px";
   }
 };
 
@@ -29,7 +27,7 @@ const props = defineProps({
 <template>
   <div class="relative h-full">
     <textarea
-      class="w-full rounded border outline-none bg-transparent text-xl h-auto resize-none"
+      class="w-full rounded border outline-none bg-transparent text-xl resize-none bg-white dark:bg-inherit min-h-full max-h-[150px]"
       @input="updateValue"
       :required="props.required"
       :value="props.modelValue"
@@ -40,7 +38,7 @@ const props = defineProps({
       }"
     />
     <label
-      class="pointer-events-none absolute top-0 left-4 bg-thirdLight dark:bg-fifthDark -translate-y-1/2 px-4 border"
+      class="pointer-events-none absolute top-1/2 left-4 bg-thirdLight dark:bg-fifthDark -translate-y-1/2 px-4 border"
       v-if="props.label"
     >
       {{ props.label }}

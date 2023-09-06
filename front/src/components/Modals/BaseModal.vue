@@ -6,7 +6,7 @@
       :class="[{ '-translate-y-full opacity-0': !props.show }]"
     >
       <div
-        class="flex h-auto max-h-full w-full flex-col rounded-lg bg-thirdLight text-primaryLight dark:bg-fifthDark lg:max-h-[80%] lg:w-1/2 relative p-4 border-black"
+        class="flex h-auto max-h-full w-full flex-col rounded-lg bg-thirdLight dark:bg-fifthDark lg:max-h-[80%] lg:w-1/2 relative p-4 border-black"
       >
         <slot> </slot>
       </div>

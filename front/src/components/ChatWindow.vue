@@ -22,7 +22,7 @@ const sendMessage = () => {
 
 <template>
   <div
-    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none"
+    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit"
   >
     <div class="flex-1 pb-4">
       <p
@@ -34,7 +34,7 @@ const sendMessage = () => {
       </p>
     </div>
     <form class="flex gap-2 items-center" @submit.prevent="sendMessage">
-      <base-textarea v-model="message"></base-textarea>
+      <base-textarea v-model="message" class="flex-1"></base-textarea>
       <button>
         <icon icon="fe:paper-plane" width="32"></icon>
       </button>
