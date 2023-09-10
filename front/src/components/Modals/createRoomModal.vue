@@ -34,10 +34,10 @@
               v-for="item in 4"
               :key="item"
               :class="{
-                'dark:border-fourthDark dark:focus:border-fourthDark dark:hover:!border-fourthDark border-fifthLight focus:border-fifthLight hover:border-fifthLight':
+                'dark:!border-fourthDark dark:focus:border-fourthDark dark:hover:!border-fourthDark !border-fifthLight focus:border-fifthLight hover:border-fifthLight':
                   playerAmount === item,
               }"
-              class="grid grid-cols-2 text-center first:grid-cols-1 dark:hover:border-thirdDark"
+              class="grid grid-cols-2 text-center first:grid-cols-1 hover:border-secondaryLight dark:hover:border-thirdDark bg-white"
               @click.prevent="changePlayerAmount(item)"
             >
               <Icon
