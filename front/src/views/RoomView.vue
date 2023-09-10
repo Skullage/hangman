@@ -45,7 +45,7 @@ const leave = async () => {
 <template>
   <div class="flex flex-wrap">
     <div
-      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-tr-none lg:rounded-l-2xl relative flex-1"
+      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-tr-none lg:rounded-l-2xl relative lg:flex-1"
     >
       <div class="flex justify-between items-start mb-12 flex-wrap gap-4">
         <button
@@ -56,16 +56,14 @@ const leave = async () => {
         </button>
         <h1 class="flex-1">{{ store.getters.getRoomTitle }}</h1>
       </div>
-      <div class="flex justify-between items-center mb-10">
+      <div
+        class="flex lg:justify-between items-center mb-10 flex-wrap justify-center gap-4"
+      >
         <div>
           <p>ID комнаты</p>
           <p class="cursor-pointer" @click="copyId">
             {{ store.state.roomId }}
           </p>
-        </div>
-        <div v-if="store.state.turnTimer > 0">
-          <p>Ход</p>
-          <p>{{ store.getters.getTurnUser.name }}</p>
         </div>
         <div>
           <p>Осталось жизней</p>
@@ -76,7 +74,7 @@ const leave = async () => {
       <div
         class="flex md:justify-between flex-wrap justify-center mb-10 items-start"
       >
-        <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0 w-60">
+        <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0 w-56">
           <player-slot
             v-for="(client, index) in store.getters.getUsers"
             :key="index"
