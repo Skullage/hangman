@@ -111,7 +111,7 @@ const store = createStore({
     setUsername(state, name) {
       state.username = name;
       localStorage.setItem("username", state.username);
-      SocketioService.newUser({ name: store.state.username, color: "black" });
+      SocketioService.newUser({ name: store.state.username });
     },
     setRoomId(state, id) {
       state.roomId = id;
