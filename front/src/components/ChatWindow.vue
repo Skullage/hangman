@@ -41,7 +41,6 @@ const clearInput = () => {
       <p
         v-for="(item, index) in store.state.messages"
         :key="index"
-        :class="item.color"
         :style="`color: ${item.color}`"
       >
         {{ item.name + ": " + item.msg }}
