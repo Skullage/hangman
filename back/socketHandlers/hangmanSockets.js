@@ -36,7 +36,7 @@ export function hangmanSocket(io, clients, rooms) {
           message:
             clients[uniqueId].name + " угадал букву " + char.toUpperCase(),
           type: "server",
-          color: "text-red-500",
+          color: "rgb(239 68 68)",
         });
       }
       for (let i = 0; i < room.word.length; i++) {
@@ -56,7 +56,7 @@ export function hangmanSocket(io, clients, rooms) {
             message:
               clients[uniqueId].name + " назвал букву " + char.toUpperCase(),
             type: "server",
-            color: "text-inherit",
+            color: "inherit",
           });
         } else {
           room.gameStatus = `<p>Вы проиграли :(</p> <p>Загаданное слово: ${room.word}</p>`;

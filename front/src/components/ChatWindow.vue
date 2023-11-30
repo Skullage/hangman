@@ -15,7 +15,7 @@ const sendMessage = () => {
   socketioService.sendMessage({
     name: store.state.username,
     message: message.value,
-    color: "text-emerald-500",
+    color: "rgb(16 185 129)",
   });
   clearInput();
   chatLog.value.scrollTo({
@@ -42,6 +42,7 @@ const clearInput = () => {
         v-for="(item, index) in store.state.messages"
         :key="index"
         :class="item.color"
+        :style="`color: ${item.color}`"
       >
         {{ item.name + ": " + item.msg }}
       </p>
