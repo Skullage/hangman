@@ -30,7 +30,7 @@ app.use(Router);
 
 export let rooms = {};
 export let clients = {};
-export const turnTimeout = 10000;
+export const turnTimeout = 5000;
 
 io.on("connection", (socket) => {
   console.log("New connection: " + socket.id);
@@ -68,8 +68,8 @@ io.on("connection", (socket) => {
         io.sockets.in(roomID).emit("CHAT_MESSAGE", {
           name: "SERVER",
           type: "server",
-          message: clients[uniqueId].name + " left",
-          color: "#CCC",
+          message: clients[uniqueId].name + " вышел",
+          color: "text-inherit",
         });
         leaveRoom(socket, roomID);
       }
