@@ -1,8 +1,12 @@
 <script setup>
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "enter"]);
 
 const updateValue = (event) => {
   emits("update:modelValue", event.target.value);
+  setHeight(event);
+};
+
+const setHeight = (event) => {
   let el = event.target;
   if (el.scrollHeight < 150) {
     el.style.height = "auto";
@@ -34,7 +38,7 @@ const props = defineProps({
       :rows="props.rows"
       :class="{
         'pt-4 pb-1': props.label !== undefined,
-        'p-2': props.label === undefined,
+        'p-1 pt-4 px-2': props.label === undefined,
       }"
     />
     <label

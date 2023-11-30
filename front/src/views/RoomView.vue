@@ -12,7 +12,7 @@ import ChatWindow from "../components/ChatWindow.vue";
 const router = useRouter();
 
 const checkChar = (char) => {
-  if (store.state.userId === store.getters.getRoom.turnUserID) {
+  if (store.getters.isUserTurn) {
     socketioService.checkChar(char);
   }
 };

@@ -19,9 +19,11 @@ const store = useStore();
 const createRoom = () => {
   showCreateModal.value = true;
 };
+
 const showRooms = () => {
   showRoomsModal.value = true;
 };
+
 const joinRoom = () => {
   showJoinModal.value = true;
 };

@@ -10,19 +10,25 @@ import ConfirmModal from "./components/Modals/confirmModal.vue";
 useRouter().push({ path: `/`, replace: true });
 
 SocketioService.setupSocketConnection();
+
 onBeforeUnmount(() => {
   SocketioService.disconnect();
 });
+
 if (store.getters.isLogined) {
   SocketioService.newUser({ name: store.state.username });
   useRouter().push({ path: `/`, replace: true });
 }
 
-if (
-  localStorage.theme === "dark" ||
-  (!("theme" in localStorage) &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches)
-) {
+const checkTheme = () => {
+  return (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  );
+};
+
+if (checkTheme) {
   store.commit("toggleTheme", "dark");
 }
 </script>
@@ -43,5 +49,3 @@ if (
     @close="store.state.confirmModal.isShow = false"
   />
 </template>
-
-<style scoped></style>

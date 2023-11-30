@@ -94,6 +94,9 @@ const store = createStore({
     isUserHost(state, getters) {
       return getters.getRoom.hostID === state.userId;
     },
+    isUserTurn(state, getters) {
+      return state.userId === getters.getRoom.turnUserID;
+    },
     getTurnUser(state, getters) {
       return getters.getRoom.clients.find(
         (el) => el.uniqueId === getters.getRoom.turnUserID,
