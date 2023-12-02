@@ -15,7 +15,7 @@ const sendMessage = () => {
   socketioService.sendMessage({
     name: store.state.username,
     message: message.value,
-    color: store.getters.getUserColor,
+    color: store.getters.getUserColor(store.getters.getUserSlot),
   });
   clearInput();
 };
@@ -57,10 +57,3 @@ const clearInput = () => {
     </form>
   </div>
 </template>
-<style lang="scss">
-.chat:hover {
-  .chatLog::-webkit-scrollbar {
-    width: 6px;
-  }
-}
-</style>
