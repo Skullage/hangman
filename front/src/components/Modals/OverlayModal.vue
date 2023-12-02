@@ -9,7 +9,7 @@ import { ref, watch } from "vue";
 import socketioService from "../../api/socketio.service.js";
 import BaseModal from "./BaseModal.vue";
 
-const timesLeft = ref(10);
+const timesLeft = ref(5);
 
 const props = defineProps({
   show: Boolean,
@@ -20,7 +20,7 @@ watch(
   () => props.show,
   (newValue) => {
     if (newValue) {
-      timesLeft.value = 10;
+      timesLeft.value = 5;
       let timer = setInterval(function () {
         if (timesLeft.value > 1) {
           timesLeft.value--;

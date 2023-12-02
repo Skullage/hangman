@@ -36,7 +36,7 @@ export function hangmanSocket(io, clients, rooms) {
           message:
             clients[uniqueId].name + " угадал букву " + char.toUpperCase(),
           type: "server",
-          color: "rgb(239 68 68)",
+          color: "inherit",
         });
       }
       for (let i = 0; i < room.word.length; i++) {

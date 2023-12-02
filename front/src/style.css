@@ -25,7 +25,22 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow: hidden;
   background-color: inherit;
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+}
+*::-webkit-scrollbar:hover {
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  @apply bg-fourthLight dark:bg-secondaryDark;
+}
+*::-webkit-scrollbar-thumb {
+  @apply bg-secondaryLight dark:bg-thirdDark;
+  border-radius: 20px;
 }
 
 h1 {

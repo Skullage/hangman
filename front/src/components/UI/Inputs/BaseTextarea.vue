@@ -1,8 +1,18 @@
 <script setup>
+import { ref } from "vue";
+
 const emits = defineEmits(["update:modelValue", "enter"]);
+
+const textarea = ref("");
 
 const updateValue = (event) => {
   emits("update:modelValue", event.target.value);
+  setHeight(event);
+};
+
+const onEnter = (event) => {
+  emits("enter");
+  event.target.value = "";
   setHeight(event);
 };
 
@@ -36,6 +46,8 @@ const props = defineProps({
       :required="props.required"
       :value="props.modelValue"
       :rows="props.rows"
+      ref="textarea"
+      @keydown.enter.prevent.exact="onEnter"
       :class="{
         'pt-4 pb-1': props.label !== undefined,
         'p-1 pt-4 px-2': props.label === undefined,

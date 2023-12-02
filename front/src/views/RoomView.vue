@@ -81,6 +81,7 @@ const leave = async () => {
             :player-name="client.name"
             :isHost="client.isHost"
             :user-id="client.uniqueId"
+            :index="index"
             class="text-left"
           />
         </div>

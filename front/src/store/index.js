@@ -102,6 +102,25 @@ const store = createStore({
         (el) => el.uniqueId === getters.getRoom.turnUserID,
       );
     },
+    getUserSlot(state, getters) {
+      return getters.getRoom.clients.findIndex(
+        (el) => el.uniqueId === state.userId,
+      );
+    },
+    getUserColor: () => (index) => {
+      switch (index) {
+        case 0:
+          return "red";
+        case 1:
+          return "green";
+        case 2:
+          return "blue";
+        case 3:
+          return "yellow";
+        default:
+          return "inherit";
+      }
+    },
   },
   mutations: {
     logout(state) {

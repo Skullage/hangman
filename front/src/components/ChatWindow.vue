@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
@@ -15,15 +15,17 @@ const sendMessage = () => {
   socketioService.sendMessage({
     name: store.state.username,
     message: message.value,
-    color: "rgb(16 185 129)",
+    color: store.getters.getUserColor,
   });
   clearInput();
-  chatLog.value.scrollTo({
-    top: chatLog.value.scrollHeight,
-  });
 };
 
 const isMessageEmpty = computed(() => message.value.length === 0);
+
+watch(store.state.messages, async () => {
+  await nextTick();
+  chatLog.value.scrollTop = chatLog.value.scrollHeight + 120;
+});
 
 const clearInput = () => {
   message.value = "";
@@ -32,29 +34,22 @@ const clearInput = () => {
 
 <template>
   <div
-    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit"
+    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat"
   >
     <div
-      class="flex-1 pb-6 overflow-y-auto max-h-[800px] scroll-smooth"
+      class="flex-1 pb-0 overflow-y-auto max-h-[750px] chatLog"
       ref="chatLog"
     >
-      <p
-        v-for="(item, index) in store.state.messages"
-        :key="index"
-        :style="`color: ${item.color}`"
-      >
-        {{ item.name + ": " + item.msg }}
+      <p v-for="(item, index) in store.state.messages" :key="index">
+        <span :style="`color: ${item.color}`">{{ item.name + ": " }}</span
+        >{{ item.msg }}
       </p>
     </div>
-    <form
-      class="flex gap-2 items-center"
-      ref="chatInput"
-      @submit.prevent="sendMessage"
-    >
+    <form class="flex gap-2 items-center" @submit.prevent="sendMessage">
       <base-textarea
         v-model="message"
         class="flex-1"
-        @keydown.enter.prevent.exact="sendMessage"
+        @enter="sendMessage"
       ></base-textarea>
       <button type="submit">
         <icon icon="fe:paper-plane" width="32"></icon>
@@ -62,3 +57,10 @@ const clearInput = () => {
     </form>
   </div>
 </template>
+<style lang="scss">
+.chat:hover {
+  .chatLog::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+</style>

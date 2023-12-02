@@ -17,6 +17,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  index: {
+    type: Number,
+    required: true,
+  },
 });
 
 const kickUser = async () => {
@@ -46,7 +50,12 @@ const isPlayerTurn = computed(() => {
       class="border px-2 py-1 border-none dark:text-white dark:bg-thirdDark rounded-l flex gap-4 items-center flex-1 bg-secondaryLight text-black"
       :class="{ rounded: !isPlayerTurn }"
     >
-      <h2 class="flex-1">{{ playerName }}</h2>
+      <h2
+        class="flex-1"
+        :style="`color: ${store.getters.getUserColor(props.index)}`"
+      >
+        {{ playerName }}
+      </h2>
       <icon
         icon="iconamoon:exit"
         v-if="!isHost && store.getters.isUserHost"
