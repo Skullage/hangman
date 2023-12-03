@@ -9,16 +9,13 @@ import ConfirmModal from "./components/Modals/confirmModal.vue";
 
 useRouter().push({ path: `/`, replace: true });
 
-SocketioService.setupSocketConnection();
+if (store.getters.isLogined) {
+  SocketioService.setupSocketConnection();
+}
 
 onBeforeUnmount(() => {
   SocketioService.disconnect();
 });
-
-if (store.getters.isLogined) {
-  SocketioService.newUser({ name: store.state.username });
-  useRouter().push({ path: `/`, replace: true });
-}
 
 const checkTheme = () => {
   return (

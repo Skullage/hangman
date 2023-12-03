@@ -6,6 +6,10 @@ const emits = defineEmits(["update:modelValue", "enter"]);
 const textarea = ref("");
 
 const updateValue = (event) => {
+  if (event.target.value.length > props.maxLength) {
+    event.target.value = event.target.value.substring(0, props.maxLength);
+    return;
+  }
   emits("update:modelValue", event.target.value);
   setHeight(event);
 };
@@ -35,29 +39,22 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  maxLength: Number,
 });
 </script>
 
 <template>
-  <div class="relative h-full">
-    <textarea
-      class="w-full rounded border outline-none bg-transparent text-xl resize-none bg-white dark:bg-inherit min-h-full max-h-[150px]"
-      @input="updateValue"
-      :required="props.required"
-      :value="props.modelValue"
-      :rows="props.rows"
-      ref="textarea"
-      @keydown.enter.prevent.exact="onEnter"
-      :class="{
-        'pt-4 pb-1': props.label !== undefined,
-        'p-1 pt-4 px-2': props.label === undefined,
-      }"
-    />
-    <label
-      class="pointer-events-none absolute top-1/2 left-4 bg-thirdLight dark:bg-fifthDark -translate-y-1/2 px-4 border"
-      v-if="props.label"
-    >
-      {{ props.label }}
-    </label>
-  </div>
+  <textarea
+    class="w-full rounded-2xl border outline-none bg-transparent resize-none bg-white dark:bg-inherit min-h-[50px] overflow-hidden h-full max-h-[150px]"
+    @input="updateValue"
+    :required="props.required"
+    :value="props.modelValue"
+    :rows="props.rows"
+    ref="textarea"
+    @keydown.enter.prevent.exact="onEnter"
+    :class="{
+      'pt-4 pb-1': props.label !== undefined,
+      'p-2 pt-3': props.label === undefined,
+    }"
+  />
 </template>

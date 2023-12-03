@@ -4,9 +4,12 @@ import { Icon } from "@iconify/vue";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
 import BaseTextarea from "./UI/Inputs/BaseTextarea.vue";
+import EmojiList from "./EmojiList.vue";
 
 const message = ref("");
 const chatLog = ref("chatLog");
+
+const showSmiles = ref(false);
 
 const sendMessage = () => {
   if (isMessageEmpty.value) {
@@ -16,6 +19,7 @@ const sendMessage = () => {
     name: store.state.username,
     message: message.value,
     color: store.getters.getUserColor(store.getters.getUserSlot),
+    type: "msg",
   });
   clearInput();
 };
@@ -40,18 +44,50 @@ const clearInput = () => {
       class="flex-1 pb-0 overflow-y-auto max-h-[750px] chatLog"
       ref="chatLog"
     >
-      <p v-for="(item, index) in store.state.messages" :key="index">
-        <span :style="`color: ${item.color}`">{{ item.name + ": " }}</span
-        >{{ item.msg }}
+      <p
+        v-for="(item, index) in store.state.messages"
+        :key="index"
+        class="mb-2"
+      >
+        <span v-if="item.type !== 'smile'">
+          <span :style="`color: ${item.color}`">{{ item.name + ": " }}</span
+          >{{ item.msg }}
+        </span>
+        <span v-else>
+          <span :style="`color: ${item.color}`" class="mr-1">{{
+            item.name + ": "
+          }}</span
+          ><img :src="`/smiles/${item.msg}.gif`" alt="Смайл" class="inline" />
+        </span>
       </p>
     </div>
-    <form class="flex gap-2 items-center" @submit.prevent="sendMessage">
+    <form
+      class="flex gap-2 items-center relative"
+      @submit.prevent="sendMessage"
+    >
+      <div class="tooltip absolute w-6 h-6 ml-2 top-1/2 -translate-y-1/2">
+        <button
+          type="button"
+          title="Открыть смайлы"
+          @click="showSmiles = !showSmiles"
+        >
+          <icon icon="bi:emoji-smile" width="24" height="24"></icon>
+        </button>
+        <suspense>
+          <emoji-list
+            class="w-[230px] absolute bottom-full mb-6 left-0"
+            :class="{ hidden: !showSmiles }"
+            @close="showSmiles = false"
+          />
+        </suspense>
+      </div>
       <base-textarea
         v-model="message"
-        class="flex-1"
+        class="flex-1 pl-10"
+        :max-length="100"
         @enter="sendMessage"
       ></base-textarea>
-      <button type="submit">
+      <button type="submit" title="Отправить">
         <icon icon="fe:paper-plane" width="32"></icon>
       </button>
     </form>

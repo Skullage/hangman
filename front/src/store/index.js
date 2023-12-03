@@ -133,7 +133,7 @@ const store = createStore({
     setUsername(state, name) {
       state.username = name;
       localStorage.setItem("username", state.username);
-      SocketioService.newUser({ name: store.state.username });
+      SocketioService.setupSocketConnection();
     },
     setRoomId(state, id) {
       state.roomId = id;
@@ -155,6 +155,7 @@ const store = createStore({
         name: data.name,
         msg: data.message,
         color: data.color,
+        type: data.type,
       });
     },
     addError(state, { type, msg }) {

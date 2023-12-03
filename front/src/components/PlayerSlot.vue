@@ -56,13 +56,17 @@ const isPlayerTurn = computed(() => {
       >
         {{ playerName }}
       </h2>
-      <icon
-        icon="iconamoon:exit"
-        v-if="!isHost && store.getters.isUserHost"
-        class="cursor-pointer"
-        @click="kickUser"
-      />
-      <icon icon="mdi:crown" v-if="isHost" />
+      <div title="Выгнать игрока">
+        <icon
+          icon="iconamoon:exit"
+          v-if="!isHost && store.getters.isUserHost"
+          class="cursor-pointer"
+          @click="kickUser"
+        />
+      </div>
+      <div title="Хост">
+        <icon icon="mdi:crown" v-if="isHost" title="Host" />
+      </div>
     </div>
     <div
       v-show="isPlayerTurn"

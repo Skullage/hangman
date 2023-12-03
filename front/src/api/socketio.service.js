@@ -12,6 +12,7 @@ class SocketioService {
     // @ts-ignore
     this.router = useRouter();
     this.socket = io(VUE_APP_SOCKET_ENDPOINT);
+
     this.socket.on("UPDATE_ROOMS", (data) => {
       store.state.rooms = data;
     });
@@ -26,10 +27,25 @@ class SocketioService {
     });
     this.socket.on("KICKED", async () => {
       this.router.push("/");
+      store.state.messages.length = 0;
       store.commit("addError", { type: "info", msg: "Вас выгнали из комнаты" });
     });
     this.socket.on("startTurnTimer", (timeout) => {
       store.commit("startTimer", timeout);
+    });
+    this.socket.on("connect", () => {
+      if (store.getters.isLogined) {
+        this.newUser({ name: store.state.username });
+      }
+    });
+    this.socket.on("connect_error", () => {
+      store.commit("addError", { type: "error", msg: "Сервер не доступен" });
+    });
+    this.socket.on("disconnect", () => {
+      store.commit("addError", {
+        type: "error",
+        msg: "Соединение было разорвано. Попробуйте  обновить страницу",
+      });
     });
   }
 
@@ -47,7 +63,7 @@ class SocketioService {
   }
   leaveRoom(callback) {
     this.socket.emit("LEAVE_ROOM", callback);
-    store.state.messages = [];
+    store.state.messages.length = 0;
   }
   joinRoom(roomId, password = "", callback) {
     this.socket.emit("JOIN", roomId, password, callback);
@@ -71,6 +87,10 @@ class SocketioService {
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();
+      store.commit("addError", {
+        type: "error",
+        msg: "Соединение было разорвано. Попробуйте  обновить страницу",
+      });
     }
   }
 }

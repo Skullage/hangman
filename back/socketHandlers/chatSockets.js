@@ -9,6 +9,7 @@ export function chatSocket(io, clients) {
         name: data.name,
         message: data.message,
         color: data.color,
+        type: data.type,
       });
     });
   });
