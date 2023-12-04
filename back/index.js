@@ -1,5 +1,6 @@
 import express from "express";
 import { createServer } from "http";
+import https from "https";
 import { Server } from "socket.io";
 import cors from "cors";
 import Router from "./routes/routes.js";
@@ -10,10 +11,20 @@ import { leaveRoom, isInRoom } from "./helpers/roomHelpers.js";
 import { roomSocket } from "./socketHandlers/roomSockets.js";
 import { hangmanSocket } from "./socketHandlers/hangmanSockets.js";
 import { chatSocket } from "./socketHandlers/chatSockets.js";
+import fs from "fs";
 
 const app = express();
+
+const options = {
+  key: fs.readFileSync("/etc/ssl/play-together.ru/private.key"),
+  cert: fs.readFileSync("/etc/ssl/play-together.ru/cert.crt"),
+  ca: fs.readFileSync("/etc/ssl/play-together.ru/chain.crt"),
+};
+
 const httpServer = createServer(app);
-export const io = new Server(httpServer, {
+const httpsServer = https.createServer(options, app);
+
+export const io = new Server(httpsServer, {
   cors: {
     origins: ["http://localhost:8080"],
   },
@@ -86,6 +97,6 @@ roomSocket(io, clients, rooms);
 hangmanSocket(io, clients, rooms);
 chatSocket(io, clients);
 
-httpServer.listen(3000, () => {
+httpsServer.listen(3000, () => {
   console.log("listening on *:3000");
 });
