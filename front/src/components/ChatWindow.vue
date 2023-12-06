@@ -16,9 +16,11 @@ const sendMessage = () => {
     return;
   }
   socketioService.sendMessage({
-    name: store.state.username,
+    name: store.state.user.username,
     message: message.value,
-    color: store.getters.getUserColor(store.getters.getUserSlot),
+    color: store.getters["room/getUserColor"](
+      store.getters["room/getUserSlot"],
+    ),
     type: "msg",
   });
   clearInput();
@@ -26,7 +28,7 @@ const sendMessage = () => {
 
 const isMessageEmpty = computed(() => message.value.length === 0);
 
-watch(store.state.messages, async () => {
+watch(store.state.room.messages, async () => {
   await nextTick();
   chatLog.value.scrollTop = chatLog.value.scrollHeight + 120;
 });
@@ -45,7 +47,7 @@ const clearInput = () => {
       ref="chatLog"
     >
       <p
-        v-for="(item, index) in store.state.messages"
+        v-for="(item, index) in store.state.room.messages"
         :key="index"
         class="mb-2"
       >

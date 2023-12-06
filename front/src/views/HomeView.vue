@@ -43,9 +43,9 @@ const joinRoom = () => {
       <div class="mb-4">
         <p class="mb-1">Ваш ник</p>
         <p class="text-xl dark:text-thirdDark text-fifthLight mb-2">
-          {{ store.state.username }}
+          {{ store.state.user.username }}
         </p>
-        <outlined-blue-button @click="store.commit('logout')"
+        <outlined-blue-button @click="store.commit('user/logout')"
           >Сменить ник</outlined-blue-button
         >
       </div>
@@ -55,12 +55,12 @@ const joinRoom = () => {
     >
       <div class="flex justify-end px-4">
         <Icon
-          v-if="store.state.themeMode !== 'dark'"
+          v-if="store.state.theme.themeMode !== 'dark'"
           icon="fluent:dark-theme-24-regular"
           width="30"
           height="30"
           class="cursor-pointer"
-          @click="store.commit('toggleTheme', 'dark')"
+          @click="store.commit('theme/toggleTheme', 'dark')"
         />
         <Icon
           v-else
@@ -68,7 +68,7 @@ const joinRoom = () => {
           width="30"
           height="30"
           class="cursor-pointer"
-          @click="store.commit('toggleTheme', 'light')"
+          @click="store.commit('theme/toggleTheme', 'light')"
         />
       </div>
     </div>
@@ -81,8 +81,8 @@ const joinRoom = () => {
       <rooms-modal :show="showRoomsModal" @close="showRoomsModal = false" />
     </suspense>
     <password-modal
-      :show="store.state.passwordModal.isShow"
-      @close="store.state.passwordModal.isShow = false"
+      :show="store.state.modals.passwordModal.isShow"
+      @close="store.state.modals.passwordModal.isShow = false"
     />
   </div>
 </template>

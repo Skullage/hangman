@@ -85,7 +85,7 @@ const languages = reactive(["Английский", "Русский"]);
 
 const createRoom = async () => {
   if (roomTitle.value.length === 0) {
-    store.commit("addError", {
+    store.commit("notification/addNotification", {
       type: "error",
       msg: "Введите название комнаты",
     });
@@ -98,7 +98,7 @@ const createRoom = async () => {
     language: roomLanguage.value,
   };
   socketioService.hostRoom(room, function (roomId) {
-    store.commit("setRoomId", roomId);
+    store.commit("room/setRoomId", roomId);
     router.push({ path: `/room/${roomId}`, replace: true });
   });
 };

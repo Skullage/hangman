@@ -5,9 +5,11 @@ const emits = defineEmits(["close"]);
 
 const sendEmoji = (smile) => {
   socketioService.sendMessage({
-    name: store.state.username,
+    name: store.state.user.username,
     message: smile,
-    color: store.getters.getUserColor(store.getters.getUserSlot),
+    color: store.getters["room/getUserColor"](
+      store.getters["room/getUserSlot"],
+    ),
     type: "smile",
   });
   emits("close");

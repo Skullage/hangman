@@ -14,9 +14,9 @@ const closeModalWindow = () => {
 };
 
 const setPassword = async (roomId) => {
-  const ok = await store.dispatch("showModal");
+  const ok = await store.dispatch("modals/showModal");
   if (ok) {
-    connect(roomId, store.state.passwordModal.password);
+    connect(roomId, store.state.modals.passwordModal.password);
   }
 };
 
@@ -27,7 +27,7 @@ const connect = (roomId, password = "") => {
 };
 
 socketioService.showRooms(function (rooms) {
-  store.commit("getRooms", rooms);
+  store.commit("room/setRooms", rooms);
 });
 </script>
 <template>
@@ -51,12 +51,12 @@ socketioService.showRooms(function (rooms) {
         <div class="basis-1/5">Язык игры</div>
         <div class="basis-1/5"></div>
       </div>
-      <div v-if="store.getters.isRoomsEmpty">
+      <div v-if="store.getters['room/isRoomsEmpty']">
         <p>К сожалению, в данный момент комнат нет :(</p>
         <p>Но Вы можете создать свою :)</p>
       </div>
       <div
-        v-for="(item, index) in store.state.rooms"
+        v-for="(item, index) in store.state.room.rooms"
         :key="index"
         class="border-b last:border-none flex justify-between py-2 items-center"
       >

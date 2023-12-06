@@ -1,10 +1,10 @@
 <template>
   <base-modal>
     <h3 class="mb-4 border-b py-8 text-center text-2xl">
-      {{ store.state.confirmModal.title }}
+      {{ store.state.modals.confirmModal.title }}
     </h3>
     <div class="overflow-y-auto px-4 mb-4">
-      {{ store.state.confirmModal.msg }}
+      {{ store.state.modals.confirmModal.msg }}
     </div>
 
     <div class="flex justify-center gap-4">
@@ -26,11 +26,11 @@ const closeModalWindow = () => {
 };
 
 const confirm = () => {
-  store.state.confirmModal.resolvePromise(true);
+  store.state.modals.confirmModal.resolvePromise(true);
   closeModalWindow();
 };
 const cancel = () => {
-  store.state.confirmModal.resolvePromise(false);
+  store.state.modals.confirmModal.resolvePromise(false);
   closeModalWindow();
 };
 </script>

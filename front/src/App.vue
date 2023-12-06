@@ -4,12 +4,12 @@ import { onBeforeUnmount } from "vue";
 import NicknameModal from "./components/Modals/nicknameModal.vue";
 import store from "./store/index.js";
 import { useRouter } from "vue-router";
-import ErrorPopup from "./components/errorPopup.vue";
+import NotificationPopup from "./components/NotificationPopup.vue";
 import ConfirmModal from "./components/Modals/confirmModal.vue";
 
 useRouter().push({ path: `/`, replace: true });
 
-if (store.getters.isLogined) {
+if (store.getters["user/isLogined"]) {
   SocketioService.setupSocketConnection();
 }
 
@@ -17,32 +17,17 @@ onBeforeUnmount(() => {
   SocketioService.disconnect();
 });
 
-const checkTheme = () => {
-  return (
-    localStorage.theme === "dark" ||
-    (!("theme" in localStorage) &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
-  );
-};
-
-if (checkTheme) {
-  store.commit("toggleTheme", "dark");
+if (store.getters["theme/isDarkTheme"]) {
+  store.commit("theme/toggleTheme", "dark");
 }
 </script>
 
 <template>
   <router-view></router-view>
-  <nickname-modal :show="!store.getters.isLogined" />
-  <error-popup
-    v-for="(item, index) in store.state.errors"
-    :key="index"
-    :index="index"
-    :type="item.type"
-    :msg="item.msg"
-    :disappear-time="item.disappearTime"
-  />
+  <nickname-modal :show="!store.getters['user/isLogined']" />
+  <notification-popup />
   <confirm-modal
-    :show="store.state.confirmModal.isShow"
-    @close="store.state.confirmModal.isShow = false"
+    :show="store.state.modals.confirmModal.isShow"
+    @close="store.state.modals.confirmModal.isShow = false"
   />
 </template>

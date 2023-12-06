@@ -24,10 +24,10 @@ const props = defineProps({
 });
 
 const kickUser = async () => {
-  let client = store.getters.getRoom.clients.find(
+  let client = store.getters["room/getRoom"].clients.find(
     (el) => el.uniqueId === props.userId,
   );
-  const ok = await store.dispatch("showConfirm", {
+  const ok = await store.dispatch("modals/showConfirm", {
     title: "Подтвердите действие",
     msg: `Вы действительно хотите выгнать пользователя  ${client.name}?`,
   });
@@ -38,8 +38,8 @@ const kickUser = async () => {
 
 const isPlayerTurn = computed(() => {
   return (
-    props.userId === store.getters.getRoom.turnUserID &&
-    store.state.turnTimer > 0
+    props.userId === store.getters["room/getRoom"].turnUserID &&
+    store.state.room.turnTimer > 0
   );
 });
 </script>
@@ -52,14 +52,14 @@ const isPlayerTurn = computed(() => {
     >
       <h2
         class="flex-1"
-        :style="`color: ${store.getters.getUserColor(props.index)}`"
+        :style="`color: ${store.getters['room/getUserColor'](props.index)}`"
       >
         {{ playerName }}
       </h2>
       <div title="Выгнать игрока">
         <icon
           icon="iconamoon:exit"
-          v-if="!isHost && store.getters.isUserHost"
+          v-if="!isHost && store.getters['room/isUserHost']"
           class="cursor-pointer"
           @click="kickUser"
         />
@@ -72,7 +72,7 @@ const isPlayerTurn = computed(() => {
       v-show="isPlayerTurn"
       class="bg-fourthDark py-1 px-3 rounded-r flex-shrink-0 flex-grow-0 basis-10 text-center"
     >
-      {{ store.state.turnTimer }}
+      {{ store.state.room.turnTimer }}
     </div>
   </div>
 </template>

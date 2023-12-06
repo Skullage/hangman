@@ -1,25 +1,18 @@
 <script setup>
 import PlayerSlot from "../components/PlayerSlot.vue";
-import CharSlot from "../components/CharSlot.vue";
 import OverlayModal from "../components/Modals/OverlayModal.vue";
 import { Icon } from "@iconify/vue";
 import { useRouter } from "vue-router";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
-import BaseButton from "../components/UI/Buttons/BaseButton.vue";
 import ChatWindow from "../components/ChatWindow.vue";
+import Hangman from "../components/Games/Hangman.vue";
 
 const router = useRouter();
 
-const checkChar = (char) => {
-  if (store.getters.isUserTurn) {
-    socketioService.checkChar(char);
-  }
-};
-
 const copyId = (event) => {
   navigator.clipboard.writeText(event.target.innerText);
-  store.commit("addError", {
+  store.commit("notification/addNotification", {
     type: "success",
     msg: "Id комнаты скопирован",
     disappearTime: 3000,
@@ -27,8 +20,8 @@ const copyId = (event) => {
 };
 
 const leave = async () => {
-  if (store.getters.getRoom.clients.length === 1) {
-    const ok = await store.dispatch("showConfirm", {
+  if (store.getters["room/getRoom"].clients.length === 1) {
+    const ok = await store.dispatch("modals/showConfirm", {
       title: "Вы действительно хотите выйти?",
       msg: "Кроме вас в комнате никого нет, в случае вашего выхода комната будет удалена.",
     });
@@ -51,32 +44,16 @@ const leave = async () => {
         <button
           class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300"
           @click="leave"
+          title="Выйти"
         >
           <icon icon="system-uicons:exit-left" width="32" />
         </button>
-        <h1 class="flex-1">{{ store.getters.getRoomTitle }}</h1>
+        <h1 class="flex-1">{{ store.getters["room/getRoomTitle"] }}</h1>
       </div>
-      <div
-        class="flex lg:justify-between items-center mb-10 flex-wrap justify-center gap-4"
-      >
-        <div>
-          <p>ID комнаты</p>
-          <p class="cursor-pointer" @click="copyId">
-            {{ store.state.roomId }}
-          </p>
-        </div>
-        <div>
-          <p>Осталось жизней</p>
-          <p>{{ store.getters.getLivesLast + 1 }}</p>
-        </div>
-      </div>
-
-      <div
-        class="flex md:justify-between flex-wrap justify-center mb-10 items-start"
-      >
+      <div class="flex lg:justify-between mb-10 flex-wrap justify-center gap-4">
         <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0 w-56">
           <player-slot
-            v-for="(client, index) in store.getters.getUsers"
+            v-for="(client, index) in store.getters['room/getUsers']"
             :key="index"
             :player-name="client.name"
             :isHost="client.isHost"
@@ -85,45 +62,27 @@ const leave = async () => {
             class="text-left"
           />
         </div>
-        <div :class="store.getters.getLivesClass" class="human"></div>
+        <div>
+          <p>ID комнаты</p>
+          <p class="cursor-pointer" @click="copyId" title="Скопировать ID">
+            {{ store.state.room.roomId }}
+            <icon
+              icon="tabler:clipboard-copy"
+              class="cursor-pointer inline-block align-top"
+              width="20"
+              height="20"
+            ></icon>
+          </p>
+        </div>
       </div>
-
-      <div class="word flex flex-wrap justify-center mb-10 gap-2">
-        <char-slot
-          v-for="(slot, index) in store.getters.getWord"
-          :key="index"
-          :char="slot"
-          :show-char="true"
-        />
-      </div>
-      <div class="word flex justify-center flex-wrap gap-3">
-        <base-button
-          v-for="(slot, index) in store.getters.getCharSlots"
-          :key="index"
-          class="text-xl dark:bg-fourthDark dark:text-fifthDark basis-14 flex-initial dark:hover:border-thirdDark hover:border-4 !border-4 border-transparent"
-          :disabled="slot.disabled"
-          @click="checkChar(slot.char)"
-        >
-          {{ slot.char.toUpperCase() }}
-        </base-button>
-        <button
-          class="p-0 focus:outline-none hover:outline-none"
-          :class="{ 'bg-gray-200': store.getters.isGamePaused }"
-        ></button>
-      </div>
+      <component :is="Hangman"></component>
     </div>
-    <div class="basis-full lg:basis-1/4 max-w-full min-h-[500px]">
-      <chat-window class="chat" />
+    <div class="basis-full lg:basis-1/4 min-h-[500px]">
+      <chat-window class="break-all" />
     </div>
   </div>
   <overlay-modal
-    :show="store.getters.isGamePaused"
-    :title="store.getters.getGameStatus"
+    :show="store.getters['room/isGamePaused']"
+    :title="store.getters['room/getGameStatus']"
   />
 </template>
-
-<style scoped>
-.chat {
-  word-wrap: break-word;
-}
-</style>

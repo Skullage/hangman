@@ -12,14 +12,14 @@ const password = ref("");
 
 const sendPassword = async () => {
   if (password.value.length > 0) {
-    store.state.passwordModal.password = password.value;
-    store.state.passwordModal.resolvePromise(true);
+    store.state.modals.passwordModal.password = password.value;
+    store.state.modals.passwordModal.resolvePromise(true);
     emits("close");
   }
 };
 
 const closeModalWindow = () => {
-  store.state.passwordModal.resolvePromise(false);
+  store.state.modals.passwordModal.resolvePromise(false);
   emits("close");
 };
 </script>

@@ -30,14 +30,17 @@ const nickname = ref("");
 
 const setNick = async () => {
   if (nickname.value.length < 1) {
-    return store.commit("addError", { type: "error", msg: "Введите ник" });
+    return store.commit("notification/addNotification", {
+      type: "error",
+      msg: "Введите ник",
+    });
   }
   if (nickname.value.length > 16) {
-    return store.commit("addError", {
+    return store.commit("notification/addNotification", {
       type: "error",
       msg: "Длина ника не должна превышать 16 символов",
     });
   }
-  store.commit("setUsername", nickname.value);
+  store.commit("user/setUsername", nickname.value);
 };
 </script>

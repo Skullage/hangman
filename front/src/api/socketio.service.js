@@ -14,35 +14,44 @@ class SocketioService {
     this.socket = io(VUE_APP_SOCKET_ENDPOINT);
 
     this.socket.on("UPDATE_ROOMS", (data) => {
-      store.state.rooms = data;
+      store.state.room.rooms = data;
     });
     this.socket.on("CHAT_MESSAGE", (data) => {
-      store.commit("getMessage", data);
+      store.commit("room/getMessage", data);
     });
     this.socket.on("ERROR", (data) => {
-      store.commit("addError", { type: data.type, msg: data.message });
+      store.commit("notification/addNotification", {
+        type: data.type,
+        msg: data.message,
+      });
     });
     this.socket.on("NEW_USER", (userId) => {
-      store.state.userId = userId;
+      store.state.room.userId = userId;
     });
     this.socket.on("KICKED", async () => {
       this.router.push("/");
-      store.state.messages.length = 0;
-      store.commit("addError", { type: "info", msg: "Вас выгнали из комнаты" });
+      store.state.room.messages.length = 0;
+      store.commit("notification/addNotification", {
+        type: "info",
+        msg: "Вас выгнали из комнаты",
+      });
     });
     this.socket.on("startTurnTimer", (timeout) => {
-      store.commit("startTimer", timeout);
+      store.commit("room/startTimer", timeout);
     });
     this.socket.on("connect", () => {
-      if (store.getters.isLogined) {
-        this.newUser({ name: store.state.username });
+      if (store.getters["user/isLogined"]) {
+        this.newUser({ name: store.state.user.username });
       }
     });
     this.socket.on("connect_error", () => {
-      store.commit("addError", { type: "error", msg: "Сервер не доступен" });
+      store.commit("notification/addNotification", {
+        type: "error",
+        msg: "Сервер не доступен",
+      });
     });
     this.socket.on("disconnect", () => {
-      store.commit("addError", {
+      store.commit("notification/addNotification", {
         type: "error",
         msg: "Соединение было разорвано. Попробуйте  обновить страницу",
       });
@@ -63,11 +72,11 @@ class SocketioService {
   }
   leaveRoom(callback) {
     this.socket.emit("LEAVE_ROOM", callback);
-    store.state.messages.length = 0;
+    store.state.room.messages.length = 0;
   }
   joinRoom(roomId, password = "", callback) {
     this.socket.emit("JOIN", roomId, password, callback);
-    store.commit("setRoomId", roomId);
+    store.commit("room/setRoomId", roomId);
   }
   checkChar(char, callback) {
     this.socket.emit("checkChar", char, callback);
@@ -87,7 +96,7 @@ class SocketioService {
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();
-      store.commit("addError", {
+      store.commit("notification/addNotification", {
         type: "error",
         msg: "Соединение было разорвано. Попробуйте  обновить страницу",
       });

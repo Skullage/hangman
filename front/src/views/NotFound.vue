@@ -37,9 +37,9 @@ const joinRoom = () => {
       <div>
         <p class="mb-1">Ваш ник</p>
         <p class="text-xl text-thirdDark mb-2">
-          {{ store.state.username }}
+          {{ store.state.user.username }}
         </p>
-        <outlined-blue-button @click="store.commit('logout')"
+        <outlined-blue-button @click="store.commit('user/logout')"
           >Сменить ник</outlined-blue-button
         >
       </div>
