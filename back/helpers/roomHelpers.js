@@ -12,6 +12,7 @@ export function hostARoom(
   password,
   maxPlayers,
   language,
+  game,
 ) {
   if (isInRoom(clients, clientID)) {
     sendError(socket, "Вы уже в комнате");
@@ -30,6 +31,7 @@ export function hostARoom(
     password,
     maxPlayers,
     language,
+    game,
   );
 
   try {

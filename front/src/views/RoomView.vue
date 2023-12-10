@@ -6,9 +6,23 @@ import { useRouter } from "vue-router";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
 import ChatWindow from "../components/ChatWindow.vue";
-import Hangman from "../components/Games/Hangman.vue";
+import Hangman from "../components/Games/Hangman/Hangman.vue";
+import Simon from "../components/Games/Simon/Simon.vue";
+import { shallowRef } from "vue";
 
 const router = useRouter();
+const currentGame = shallowRef({});
+
+switch (store.getters["room/getRoomGame"]) {
+  case "Виселица":
+    currentGame.value = Hangman;
+    break;
+  case "Саймон говорит":
+    currentGame.value = Simon;
+    break;
+  default:
+    currentGame.value = "";
+}
 
 const copyId = (event) => {
   navigator.clipboard.writeText(event.target.innerText);
@@ -75,7 +89,7 @@ const leave = async () => {
           </p>
         </div>
       </div>
-      <component :is="Hangman"></component>
+      <component :is="currentGame"></component>
     </div>
     <div class="basis-full lg:basis-1/4 min-h-[500px]">
       <chat-window class="break-all" />

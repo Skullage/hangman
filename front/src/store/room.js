@@ -23,6 +23,9 @@ const room = {
     getGameStatus(state, getters) {
       return getters.getRoom ? getters.getRoom.gameStatus : null;
     },
+    getRoomGame(state, getters) {
+      return getters.getRoom ? getters.getRoom.game : null;
+    },
     isRoomsEmpty(state) {
       for (const prop in state.rooms) {
         if (Object.hasOwn(state.rooms, prop)) {

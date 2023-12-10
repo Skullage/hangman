@@ -1,8 +1,8 @@
 <script setup>
-import store from "../../store/index.js";
-import BaseButton from "../UI/Buttons/BaseButton.vue";
-import CharSlot from "../CharSlot.vue";
-import socketioService from "../../api/socketio.service.js";
+import store from "../../../store/index.js";
+import BaseButton from "../../UI/Buttons/BaseButton.vue";
+import CharSlot from "../../CharSlot.vue";
+import socketioService from "../../../api/socketio.service.js";
 
 const checkChar = (char) => {
   if (store.getters["room/isUserTurn"]) {

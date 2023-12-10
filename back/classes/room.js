@@ -2,7 +2,16 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const words = require("../json/words.json");
 const alphabet = require("../json/alphabet.json");
-function Room(id, client, hostId, readableName, password, size, game) {
+function Room(
+  id,
+  client,
+  hostId,
+  readableName,
+  password,
+  size,
+  language,
+  game,
+) {
   this.id = id;
   this.title = readableName;
   this.password = password;
@@ -14,7 +23,8 @@ function Room(id, client, hostId, readableName, password, size, game) {
   this.maxPlayers = size;
   this.word = "";
   this.alphabet = [];
-  this.language = game;
+  this.language = language;
+  this.game = game;
   this.gameStatus = "";
   this.blacklist = [];
   this.addClient(client);

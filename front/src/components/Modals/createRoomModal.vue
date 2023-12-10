@@ -25,6 +25,13 @@
           :options="languages"
           label="Язык комнаты"
           required
+          class="mb-6"
+        />
+        <base-select
+          v-model="selectedGame"
+          :options="availableGames.map((el) => el.title)"
+          label="Игра"
+          required
           class="mb-4"
         />
         <div class="mb-4">
@@ -37,6 +44,7 @@
                 'dark:!border-fourthDark dark:focus:border-fourthDark dark:hover:!border-fourthDark !border-fifthLight focus:border-fifthLight hover:border-fifthLight':
                   playerAmount === item,
               }"
+              :disabled="isAvailableCountPlayer(item)"
               class="grid grid-cols-2 text-center first:grid-cols-1 hover:border-secondaryLight dark:hover:border-thirdDark bg-white"
               @click.prevent="changePlayerAmount(item)"
             >
@@ -51,13 +59,12 @@
             </base-button>
           </div>
         </div>
+        <div>
+          <outlined-blue-button @click="createRoom" class="w-full">
+            Создать
+          </outlined-blue-button>
+        </div>
       </form>
-    </div>
-
-    <div>
-      <outlined-blue-button @click="createRoom" class="w-full">
-        Создать
-      </outlined-blue-button>
     </div>
   </base-modal>
 </template>
@@ -72,6 +79,7 @@ import BaseInput from "../UI/Inputs/BaseInput.vue";
 import BaseButton from "../UI/Buttons/BaseButton.vue";
 import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
 import BaseSelect from "../UI/BaseSelect.vue";
+import { availableGames } from "../../config/config.js";
 
 const router = useRouter();
 
@@ -82,6 +90,9 @@ const roomPassword = ref("");
 const roomLanguage = ref("Английский");
 const playerAmount = ref(1);
 const languages = reactive(["Английский", "Русский"]);
+const selectedGame = ref("");
+
+selectedGame.value = availableGames[0].title;
 
 const createRoom = async () => {
   if (roomTitle.value.length === 0) {
@@ -96,6 +107,7 @@ const createRoom = async () => {
     password: roomPassword.value,
     maxPlayers: playerAmount.value,
     language: roomLanguage.value,
+    game: selectedGame.value,
   };
   socketioService.hostRoom(room, function (roomId) {
     store.commit("room/setRoomId", roomId);
@@ -108,5 +120,12 @@ const closeModalWindow = () => {
 
 const changePlayerAmount = (value) => {
   playerAmount.value = value;
+};
+
+const isAvailableCountPlayer = (index) => {
+  return (
+    index >
+    availableGames.find((el) => el.title === selectedGame.value).maxPlayers
+  );
 };
 </script>

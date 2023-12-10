@@ -24,6 +24,7 @@ export function roomSocket(io, clients, rooms) {
         data.password,
         data.maxPlayers,
         data.language,
+        data.game,
       );
       if (newRoomID !== false) {
         io.emit("UPDATE_ROOMS", rooms);

@@ -5,6 +5,7 @@ import notification from "./notification.js";
 import user from "./user.js";
 import modals from "./modals.js";
 import hangman from "./hangman.js";
+import simon from "./simon.js";
 
 const store = createStore({
   modules: {
@@ -14,6 +15,7 @@ const store = createStore({
     user,
     modals,
     hangman,
+    simon,
   },
 });
 
