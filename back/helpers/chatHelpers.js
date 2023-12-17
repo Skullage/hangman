@@ -7,7 +7,7 @@ export const getCurrentTime = () => {
       ? currentDate.getHours()
       : "0" + currentDate.getHours();
   let currentMinutes =
-    currentDate.getHours() > 9
+    currentDate.getMinutes() > 9
       ? currentDate.getMinutes()
       : "0" + currentDate.getMinutes();
   return `${currentHours}:${currentMinutes}`;
