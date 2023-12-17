@@ -1,5 +1,6 @@
 import findClientBySocketId from "../helpers/helpers.js";
 import { findRoomByID, nextTurn } from "../helpers/roomHelpers.js";
+import { sendMessage } from "../helpers/chatHelpers.js";
 
 export function hangmanSocket(io, clients, rooms) {
   io.on("connection", (socket) => {
@@ -31,7 +32,8 @@ export function hangmanSocket(io, clients, rooms) {
         }
       }
       if (charFound) {
-        io.sockets.in(room.id).emit("CHAT_MESSAGE", {
+        sendMessage({
+          room: room.id,
           name: "SERVER",
           message:
             clients[uniqueId].name + " угадал букву " + char.toUpperCase(),
@@ -51,7 +53,8 @@ export function hangmanSocket(io, clients, rooms) {
       if (!charFound) {
         if (room.leftLives > 0) {
           room.leftLives--;
-          io.sockets.in(room.id).emit("CHAT_MESSAGE", {
+          sendMessage({
+            room: room.id,
             name: "SERVER",
             message:
               clients[uniqueId].name + " назвал букву " + char.toUpperCase(),

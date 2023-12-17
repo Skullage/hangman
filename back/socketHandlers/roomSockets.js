@@ -9,6 +9,7 @@ import {
   sendError,
   startTurnTimer,
 } from "../helpers/roomHelpers.js";
+import { sendMessage } from "../helpers/chatHelpers.js";
 
 export function roomSocket(io, clients, rooms) {
   io.on("connection", (socket) => {
@@ -50,7 +51,8 @@ export function roomSocket(io, clients, rooms) {
         if (leaveRoom(toBeKicked, room.id)) {
           io.to(toBeKicked.id).emit("KICKED");
           room.blacklist.push(uniqueIdKickedUser);
-          io.sockets.in(room.id).emit("CHAT_MESSAGE", {
+          sendMessage({
+            room: room.id,
             name: "SERVER",
             message: clients[uniqueIdKickedUser].name + " был выгнан с комнаты",
             type: "server",
@@ -67,7 +69,8 @@ export function roomSocket(io, clients, rooms) {
         return false;
       }
       if (connectClientToRoom(socket, roomId, password, uniqueId)) {
-        io.sockets.in(roomId).emit("CHAT_MESSAGE", {
+        sendMessage({
+          room: roomId,
           name: "SERVER",
           message: clients[uniqueId].name + " зашел в комнату",
           type: "server",
@@ -83,7 +86,8 @@ export function roomSocket(io, clients, rooms) {
       if (!isClient(socket)) return false;
       let roomID = clients[uniqueId].room;
       if (leaveRoom(socket, roomID)) {
-        io.sockets.in(roomID).emit("CHAT_MESSAGE", {
+        sendMessage({
+          room: roomID,
           name: "SERVER",
           type: "server",
           message: clients[uniqueId].name + " покинул комнату",

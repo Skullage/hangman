@@ -49,7 +49,9 @@ const clearInput = () => {
       <p
         v-for="(item, index) in store.state.chat.messages"
         :key="index"
-        class="mb-2"
+        class="mb-2 p-1 rounded"
+        :class="{ 'bg-secondaryDark': !item.isRead }"
+        @mouseover="item.isRead = true"
       >
         <span v-if="item.type !== 'smile'">
           <span :style="`color: ${item.color}`">{{

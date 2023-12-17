@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer } from "http";
 import https from "https";
 import { Server } from "socket.io";
 import cors from "cors";
@@ -12,6 +11,7 @@ import { roomSocket } from "./socketHandlers/roomSockets.js";
 import { hangmanSocket } from "./socketHandlers/hangmanSockets.js";
 import { chatSocket } from "./socketHandlers/chatSockets.js";
 import fs from "fs";
+import { sendMessage } from "./helpers/chatHelpers.js";
 
 const app = express();
 
@@ -21,7 +21,6 @@ const options = {
   ca: fs.readFileSync("/etc/ssl/play-together.ru/chain.crt"),
 };
 
-const httpServer = createServer(app);
 const httpsServer = https.createServer(options, app);
 
 export const io = new Server(httpsServer, {
@@ -76,7 +75,8 @@ io.on("connection", (socket) => {
     io.sockets.in(roomID).emit("USER_DISCONNECTING", clients[uniqueId]);
     if (!clients[uniqueId].isConnected) {
       if (isInRoom(clients, socket.id)) {
-        io.sockets.in(roomID).emit("CHAT_MESSAGE", {
+        sendMessage({
+          room: roomID,
           name: "SERVER",
           type: "server",
           message: clients[uniqueId].name + " вышел",

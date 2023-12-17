@@ -3,11 +3,10 @@ const chat = {
   state: () => ({
     messages: [],
     isChatShown: false,
-    readMessages: [],
   }),
   getters: {
     getUnreadMessagesCount(state) {
-      return state.messages.length - state.readMessages.length;
+      return state.messages.filter((el) => !el.isRead).length;
     },
   },
   mutations: {
@@ -18,10 +17,14 @@ const chat = {
         color: data.color,
         type: data.type,
         time: data.time,
+        isRead: false,
       });
     },
     clearChat(state) {
       state.messages.length = 0;
+    },
+    toggleChat(state) {
+      state.isChatShown = !state.isChatShown;
     },
   },
 };

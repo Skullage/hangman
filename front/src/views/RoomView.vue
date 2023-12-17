@@ -63,6 +63,23 @@ const leave = async () => {
           <icon icon="system-uicons:exit-left" width="32" />
         </button>
         <h1 class="flex-1">{{ store.getters["room/getRoomTitle"] }}</h1>
+        <button
+          class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300 relative"
+          @click="store.commit('chat/toggleChat')"
+          title="Чат"
+        >
+          <icon icon="mdi:message-outline" width="32" />
+          <span
+            class="w-5 h-5 flex items-center justify-center text-xs/none bg-red-700 absolute right-1 top-1 rounded-full !text-white text-small"
+            v-if="store.getters['chat/getUnreadMessagesCount'] > 0"
+          >
+            {{
+              store.getters["chat/getUnreadMessagesCount"] < 100
+                ? store.getters["chat/getUnreadMessagesCount"]
+                : "99+"
+            }}
+          </span>
+        </button>
       </div>
       <div class="flex lg:justify-between mb-10 flex-wrap justify-center gap-4">
         <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0 w-56">
@@ -91,7 +108,10 @@ const leave = async () => {
       </div>
       <component :is="currentGame"></component>
     </div>
-    <div class="basis-full lg:basis-1/4 min-h-[500px]">
+    <div
+      class="basis-full lg:basis-1/4 min-h-[500px] hidden"
+      :class="{ '!block': store.state.chat.isChatShown }"
+    >
       <chat-window class="break-all" />
     </div>
   </div>
@@ -100,3 +120,8 @@ const leave = async () => {
     :title="store.getters['room/getGameStatus']"
   />
 </template>
+<style>
+.text-small {
+  font-size: 10px;
+}
+</style>
