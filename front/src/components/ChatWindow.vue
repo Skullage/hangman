@@ -28,7 +28,7 @@ const sendMessage = () => {
 
 const isMessageEmpty = computed(() => message.value.length === 0);
 
-watch(store.state.room.messages, async () => {
+watch(store.state.chat.messages, async () => {
   await nextTick();
   chatLog.value.scrollTop = chatLog.value.scrollHeight + 120;
 });
@@ -47,12 +47,14 @@ const clearInput = () => {
       ref="chatLog"
     >
       <p
-        v-for="(item, index) in store.state.room.messages"
+        v-for="(item, index) in store.state.chat.messages"
         :key="index"
         class="mb-2"
       >
         <span v-if="item.type !== 'smile'">
-          <span :style="`color: ${item.color}`">{{ item.name + ": " }}</span
+          <span :style="`color: ${item.color}`">{{
+            `[${item.time}] ${item.name}: `
+          }}</span
           >{{ item.msg }}
         </span>
         <span v-else>

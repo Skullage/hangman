@@ -6,6 +6,7 @@ import user from "./user.js";
 import modals from "./modals.js";
 import hangman from "./hangman.js";
 import simon from "./simon.js";
+import chat from "./chat.js";
 
 const store = createStore({
   modules: {
@@ -16,6 +17,7 @@ const store = createStore({
     modals,
     hangman,
     simon,
+    chat,
   },
 });
 

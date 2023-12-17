@@ -17,7 +17,7 @@ class SocketioService {
       store.state.room.rooms = data;
     });
     this.socket.on("CHAT_MESSAGE", (data) => {
-      store.commit("room/getMessage", data);
+      store.commit("chat/getMessage", data);
     });
     this.socket.on("ERROR", (data) => {
       store.commit("notification/addNotification", {
@@ -30,7 +30,7 @@ class SocketioService {
     });
     this.socket.on("KICKED", async () => {
       this.router.push("/");
-      store.state.room.messages.length = 0;
+      store.commit("chat/clearChat");
       store.commit("notification/addNotification", {
         type: "info",
         msg: "Вас выгнали из комнаты",
@@ -72,7 +72,7 @@ class SocketioService {
   }
   leaveRoom(callback) {
     this.socket.emit("LEAVE_ROOM", callback);
-    store.state.room.messages.length = 0;
+    store.commit("chat/clearChat");
   }
   joinRoom(roomId, password = "", callback) {
     this.socket.emit("JOIN", roomId, password, callback);

@@ -3,7 +3,6 @@ const room = {
   state: () => ({
     roomId: null,
     rooms: undefined,
-    messages: [],
     turnTimer: 0,
     timer: undefined,
   }),
@@ -66,14 +65,6 @@ const room = {
     },
     setRoomId(state, id) {
       state.roomId = id;
-    },
-    getMessage(state, data) {
-      state.messages.push({
-        name: data.name,
-        msg: data.message,
-        color: data.color,
-        type: data.type,
-      });
     },
     startTimer(state, timeout) {
       state.turnTimer = timeout / 1000;
