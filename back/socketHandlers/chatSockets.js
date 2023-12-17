@@ -9,7 +9,7 @@ export function chatSocket(io, clients) {
   io.on("connection", (socket) => {
     socket.on(
       "sendMessage",
-      function ({ name, message, color, type, time = getCurrentTime }) {
+      function ({ name, message, color, type, time = getCurrentTime() }) {
         let uniqueId = findClientBySocketId(socket.id, clients);
         let roomID = clients[uniqueId].room;
         io.sockets.in(roomID).emit("CHAT_MESSAGE", {
