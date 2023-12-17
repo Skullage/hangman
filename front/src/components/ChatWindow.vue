@@ -61,7 +61,7 @@ const clearInput = () => {
         </span>
         <span v-else>
           <span :style="`color: ${item.color}`" class="mr-1">{{
-            item.name + ": "
+            `[${item.time}] ${item.name}: `
           }}</span
           ><img :src="`/smiles/${item.msg}.gif`" alt="Смайл" class="inline" />
         </span>

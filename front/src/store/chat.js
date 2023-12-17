@@ -17,7 +17,7 @@ const chat = {
         color: data.color,
         type: data.type,
         time: data.time,
-        isRead: false,
+        isRead: state.isChatShown,
       });
     },
     clearChat(state) {
