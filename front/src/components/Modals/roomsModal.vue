@@ -62,7 +62,11 @@ socketioService.showRooms(function (rooms) {
       >
         <div class="basis-1/5">{{ item.title }}</div>
         <div class="basis-1/5">
-          <icon icon="material-symbols:lock-outline" class="m-auto"></icon>
+          <icon
+            icon="material-symbols:lock-outline"
+            v-if="item.password.length > 0"
+            class="m-auto"
+          ></icon>
         </div>
         <div class="basis-1/5">
           {{ item.clients.length }}/{{ item.maxPlayers }}
@@ -70,6 +74,7 @@ socketioService.showRooms(function (rooms) {
         <div class="basis-1/5">{{ item.language }}</div>
         <div class="basis-1/5">
           <blue-button
+            :disabled="item.clients.length === item.maxPlayers"
             @click="
               item.password === '' ? connect(item.id) : setPassword(item.id)
             "
