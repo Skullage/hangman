@@ -40,7 +40,7 @@ const clearInput = () => {
 
 <template>
   <div
-    class="border h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat"
+    class="h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:!bg-secondaryDark border-l"
   >
     <div
       class="flex-1 pb-0 overflow-y-auto max-h-[750px] chatLog"
