@@ -50,7 +50,7 @@ const leave = async () => {
 </script>
 
 <template>
-  <div class="flex flex-wrap h-[80%]">
+  <div class="flex flex-wrap h-[90vh]">
     <div
       class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-2xl relative lg:flex-1 z-10 duration-300"
       :class="{
@@ -112,7 +112,7 @@ const leave = async () => {
       <component :is="currentGame"></component>
     </div>
     <div
-      class="min-h-[500px] basis-0 duration-300 overflow-x-hidden"
+      class="basis-0 duration-300 overflow-x-hidden"
       :class="{ 'basis-full lg:basis-1/4': store.state.chat.isChatShown }"
     >
       <chat-window class="break-all" />
