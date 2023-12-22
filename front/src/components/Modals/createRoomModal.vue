@@ -57,7 +57,6 @@
               />
             </base-button>
           </div>
-          {{ playerAmount }}
         </div>
         <div>
           <outlined-blue-button @click="createRoom" class="w-full">
