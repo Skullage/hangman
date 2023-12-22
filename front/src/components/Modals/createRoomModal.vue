@@ -29,6 +29,7 @@
         <base-select-custom
           :options="availableGames.map((el) => el.title)"
           v-model="selectedGame"
+          @update:modelValue="changeGame"
           label="Игра"
           class="mb-4"
         />
@@ -56,6 +57,7 @@
               />
             </base-button>
           </div>
+          {{ playerAmount }}
         </div>
         <div>
           <outlined-blue-button @click="createRoom" class="w-full">

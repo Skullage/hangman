@@ -3,7 +3,7 @@ import { Icon } from "@iconify/vue";
 import { ref } from "vue";
 import useClickOutside from "../../composables/useClickOutside.js";
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "change"]);
 
 const isShown = ref(false);
 const select = ref();
