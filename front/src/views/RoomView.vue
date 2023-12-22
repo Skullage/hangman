@@ -52,7 +52,7 @@ const leave = async () => {
 <template>
   <div class="flex flex-wrap h-[90vh]">
     <div
-      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-2xl relative lg:flex-1 z-10 duration-300"
+      class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-2xl relative lg:flex-1 duration-300"
       :class="{
         'lg:rounded-tr-none lg:rounded-br-none': store.state.chat.isChatShown,
       }"
@@ -73,7 +73,7 @@ const leave = async () => {
         >
           <icon icon="mdi:message-outline" width="32" />
           <span
-            class="w-5 h-5 flex items-center justify-center text-xs/none bg-red-700 absolute right-1 top-1 rounded-full !text-white text-small"
+            class="w-5 h-5 flex items-center justify-center text-xs/none bg-red-700 absolute right-1 top-1 rounded-full text-white text-small"
             v-if="store.getters['chat/getUnreadMessagesCount'] > 0"
           >
             {{
@@ -113,7 +113,9 @@ const leave = async () => {
     </div>
     <div
       class="basis-0 duration-300 overflow-x-hidden"
-      :class="{ 'basis-full lg:basis-1/4': store.state.chat.isChatShown }"
+      :class="{
+        'basis-full lg:basis-1/4': store.state.chat.isChatShown,
+      }"
     >
       <chat-window class="break-all" />
     </div>

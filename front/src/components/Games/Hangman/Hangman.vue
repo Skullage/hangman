@@ -37,7 +37,7 @@ const checkChar = (char) => {
       <base-button
         v-for="(slot, index) in store.getters['hangman/getCharSlots']"
         :key="index"
-        class="text-xl dark:bg-fourthDark dark:text-fifthDark basis-14 flex-initial dark:hover:border-thirdDark hover:border-4 !border-4 border-transparent"
+        class="text-xl dark:bg-fourthDark dark:text-fifthDark basis-14 flex-initial dark:hover:border-thirdDark border-4 border-transparent"
         :disabled="slot.disabled"
         @click="checkChar(slot.char)"
       >

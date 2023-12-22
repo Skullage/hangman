@@ -20,18 +20,16 @@
           type="password"
           class="mb-6"
         ></base-input>
-        <base-select
-          v-model="roomLanguage"
+        <base-select-custom
           :options="languages"
+          v-model="roomLanguage"
           label="Язык комнаты"
-          required
           class="mb-6"
         />
-        <base-select
-          v-model="selectedGame"
+        <base-select-custom
           :options="availableGames.map((el) => el.title)"
+          v-model="selectedGame"
           label="Игра"
-          required
           class="mb-4"
         />
         <div class="mb-4">
@@ -41,7 +39,7 @@
               v-for="item in 4"
               :key="item"
               :class="{
-                'dark:!border-fourthDark dark:focus:border-fourthDark dark:hover:!border-fourthDark !border-fifthLight focus:border-fifthLight hover:border-fifthLight':
+                'dark:border-fourthDark dark:focus:border-fourthDark dark:hover:border-fourthDark border-fifthLight focus:border-fifthLight hover:border-fifthLight':
                   playerAmount === item,
               }"
               :disabled="isAvailableCountPlayer(item)"
@@ -78,8 +76,9 @@ import BaseModal from "./BaseModal.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
 import BaseButton from "../UI/Buttons/BaseButton.vue";
 import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
-import BaseSelect from "../UI/BaseSelect.vue";
 import { availableGames } from "../../config/config.js";
+
+import BaseSelectCustom from "../UI/BaseSelectCustom.vue";
 
 const router = useRouter();
 
@@ -120,6 +119,14 @@ const closeModalWindow = () => {
 
 const changePlayerAmount = (value) => {
   playerAmount.value = value;
+};
+
+const changeGame = () => {
+  if (isAvailableCountPlayer(playerAmount.value)) {
+    changePlayerAmount(
+      availableGames.find((el) => el.title === selectedGame.value).maxPlayers,
+    );
+  }
 };
 
 const isAvailableCountPlayer = (index) => {
