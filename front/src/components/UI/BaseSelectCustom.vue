@@ -59,7 +59,7 @@ useClickOutside(
       </label>
     </div>
     <ul
-      class="bg-white max-h-0 overflow-y-auto absolute bottom-0 translate-y-full left-0 w-full duration-300 rounded-b z-10"
+      class="bg-white max-h-0 overflow-y-auto relative bottom-0 left-0 w-full duration-500 rounded-b z-10 border ease-in"
       :class="{ '!max-h-[120px]': isShown }"
       ref="optionsList"
     >

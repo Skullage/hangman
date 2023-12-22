@@ -34,7 +34,7 @@
         />
         <div class="mb-4">
           <h2 class="text-center mb-2 text-xl">Количество игроков</h2>
-          <div class="grid grid-cols-4 gap-2">
+          <div class="grid grid-cols-4 gap-4">
             <base-button
               v-for="item in 4"
               :key="item"
