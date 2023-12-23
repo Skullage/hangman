@@ -44,7 +44,7 @@
                   playerAmount === item,
               }"
               :disabled="isAvailableCountPlayer(item)"
-              class="grid grid-cols-2 text-center first:grid-cols-1 hover:border-secondaryLight dark:hover:border-thirdDark bg-white"
+              class="grid grid-cols-2 text-center first:grid-cols-1 hover:border-secondaryLight dark:hover:border-thirdDark border-white"
               @click.prevent="changePlayerAmount(item)"
             >
               <Icon

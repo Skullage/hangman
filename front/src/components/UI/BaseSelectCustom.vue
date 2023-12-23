@@ -49,7 +49,7 @@ useClickOutside(
       <icon
         icon="ic:round-expand-more"
         width="36"
-        class="absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none text-black duration-500"
+        class="absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none text-black duration-300"
         :class="{ 'rotate-180': isShown }"
       ></icon>
       <label
@@ -59,8 +59,8 @@ useClickOutside(
       </label>
     </div>
     <ul
-      class="bg-white max-h-0 overflow-y-auto relative bottom-0 left-0 w-full duration-500 rounded-b z-10 border ease-in"
-      :class="{ '!max-h-[120px]': isShown }"
+      class="bg-white max-h-0 overflow-hidden relative bottom-0 left-0 w-full duration-300 rounded-b z-10 ease-linear"
+      :class="{ '!max-h-[120px] !overflow-y-auto': isShown }"
       ref="optionsList"
     >
       <li
