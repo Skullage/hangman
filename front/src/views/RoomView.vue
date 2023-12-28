@@ -69,7 +69,9 @@ const leave = async () => {
           >
             <icon icon="system-uicons:exit-left" width="32" />
           </button>
-          <h1 class="flex-1">{{ store.getters["room/getRoomTitle"] }}</h1>
+          <h1 class="flex-1 break-all">
+            {{ store.getters["room/getRoomTitle"] }}
+          </h1>
           <button
             class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300 relative"
             @click="store.commit('chat/toggleChat')"

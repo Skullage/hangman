@@ -14,7 +14,7 @@ const checkChar = (char) => {
 <template>
   <div>
     <div
-      class="flex md:justify-between flex-wrap justify-center mb-10 items-start"
+      class="flex md:justify-between flex-wrap justify-center mb-10 items-start gap-2"
     >
       <div>
         <p>Осталось жизней</p>
