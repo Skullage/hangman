@@ -1,28 +1,33 @@
-const routes = [
-    {
-      path: '/',
-      name: 'home',
-      component: () => import('../views/HomeView.vue'),
-      meta: {
-          title: "Hangman"
-      },
-    },
-    {
-        path: '/room/:id',
-        name: 'room',
-        component: () => import('../views/RoomView.vue'),
-        meta: {
-            title: "Hangman"
-        },
-    },
-    { 
-      path: "/:catchAll(.*)",
-      name: "NotFound",
-      component: () => import('../views/NotFound.vue'),
-      meta: {
-          title: "ОШИБКА 404 - Страница не найдена"
-      },
-    },
-]
+import HomeView from "../views/HomeView.vue";
+import RoomView from "../views/RoomView.vue";
 
-export default routes
+const routes = [
+  {
+    path: "/",
+    name: "home",
+    component: HomeView,
+    meta: {
+      title: "Hangman",
+      transition: "slide-left",
+    },
+  },
+  {
+    path: "/room/:id",
+    name: "room",
+    component: RoomView,
+    meta: {
+      title: "Hangman",
+      transition: "slide-right",
+    },
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: () => import("../views/NotFound.vue"),
+    meta: {
+      title: "ОШИБКА 404 - Страница не найдена",
+    },
+  },
+];
+
+export default routes;

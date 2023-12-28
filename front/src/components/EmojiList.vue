@@ -18,13 +18,14 @@ const sendEmoji = (smile) => {
 
 <template>
   <div
-    class="grid grid-cols-5 border rounded text-center gap-2 p-2 dark:bg-primaryDark overflow-auto max-h-[300px] overflow-x-hidden"
+    class="grid grid-cols-5 border rounded text-center gap-2 dark:bg-primaryDark overflow-y-auto overflow-x-hidden"
   >
     <img
       :src="`/smiles/${item}.gif`"
+      width="64"
       v-for="item in 49"
       :key="item"
-      class="cursor-pointer"
+      class="cursor-pointer mx-auto"
       alt="Смайл обезьянка"
       @click="sendEmoji(item)"
     />

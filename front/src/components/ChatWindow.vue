@@ -40,12 +40,9 @@ const clearInput = () => {
 
 <template>
   <div
-    class="h-full text-left p-2 flex flex-col rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l"
+    class="h-full text-left p-2 grid grid-rows-[1fr_auto] grid-cols-[1fr_40px] rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l"
   >
-    <div
-      class="flex-1 pb-0 overflow-y-auto max-h-[750px] chatLog"
-      ref="chatLog"
-    >
+    <div class="flex-grow overflow-y-auto chatLog" ref="chatLog">
       <p
         v-for="(item, index) in store.state.chat.messages"
         :key="index"
@@ -67,8 +64,18 @@ const clearInput = () => {
         </span>
       </p>
     </div>
+    <div>
+      <button>
+        <icon
+          width="32"
+          height="32"
+          icon="material-symbols:close"
+          @click="store.commit('chat/toggleChat')"
+        />
+      </button>
+    </div>
     <form
-      class="flex gap-2 items-center relative"
+      class="flex gap-2 items-center relative col-span-2"
       @submit.prevent="sendMessage"
     >
       <div class="tooltip absolute w-6 h-6 ml-2 top-1/2 -translate-y-1/2">
@@ -79,18 +86,17 @@ const clearInput = () => {
         >
           <icon icon="bi:emoji-smile" width="24" height="24"></icon>
         </button>
-        <suspense>
-          <emoji-list
-            class="w-[230px] absolute bottom-full mb-6 left-0"
-            :class="{ hidden: !showSmiles }"
-            @close="showSmiles = false"
-          />
-        </suspense>
       </div>
+      <emoji-list
+        class="max-w-full w-full absolute bottom-full mb-6 left-0 right-0 max-h-[300px] p-2"
+        v-if="showSmiles"
+        @close="showSmiles = false"
+      />
       <base-textarea
         v-model="message"
         class="flex-1 pl-10"
-        :max-length="100"
+        max-length="100"
+        rows="1"
         @enter="sendMessage"
       ></base-textarea>
       <button type="submit" title="Отправить">

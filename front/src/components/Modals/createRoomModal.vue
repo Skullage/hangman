@@ -10,7 +10,7 @@
           v-model="roomTitle"
           placeholder="Название комнаты"
           label="Название комнаты"
-          class="mb-6"
+          class="mb-3"
           required
         ></base-input>
         <base-input
@@ -18,7 +18,7 @@
           placeholder="Пароль"
           label="Пароль"
           type="password"
-          class="mb-6"
+          class="mb-3"
         ></base-input>
         <base-select-custom
           :options="languages"
@@ -111,7 +111,7 @@ const createRoom = async () => {
   };
   socketioService.hostRoom(room, function (roomId) {
     store.commit("room/setRoomId", roomId);
-    router.push({ path: `/room/${roomId}`, replace: true });
+    router.push({ path: `/room/${roomId}`, replace: false });
   });
 };
 const closeModalWindow = () => {

@@ -30,16 +30,9 @@ const setHeight = (event) => {
 
 const props = defineProps({
   label: String,
-  required: Boolean,
-  placeholder: String,
   modelValue: {
     type: [Number, String],
   },
-  rows: {
-    type: Number,
-    default: 1,
-  },
-  maxLength: Number,
 });
 </script>
 
@@ -47,10 +40,9 @@ const props = defineProps({
   <textarea
     class="w-full rounded-2xl border outline-none bg-transparent resize-none bg-white dark:bg-inherit min-h-[50px] overflow-hidden h-full max-h-[150px]"
     @input="updateValue"
-    :required="props.required"
     :value="props.modelValue"
-    :rows="props.rows"
     ref="textarea"
+    v-bind="$attrs"
     @keydown.enter.prevent.exact="onEnter"
     :class="{
       'pt-4 pb-1': props.label !== undefined,

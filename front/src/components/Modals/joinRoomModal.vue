@@ -50,7 +50,7 @@ const closeModalWindow = () => {
 
 const connect = () => {
   socketioService.joinRoom(roomId.value, password.value, function (roomId) {
-    router.push({ path: `/room/${roomId}`, replace: true });
+    router.push({ path: `/room/${roomId}`, replace: false });
   });
 };
 </script>

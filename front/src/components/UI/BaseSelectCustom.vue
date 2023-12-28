@@ -16,7 +16,6 @@ const changeValue = (value) => {
 
 const props = defineProps({
   label: String,
-  required: Boolean,
   modelValue: {
     type: [Number, String],
   },
@@ -58,20 +57,37 @@ useClickOutside(
         {{ props.label }}
       </label>
     </div>
-    <ul
-      class="bg-white max-h-0 overflow-hidden relative bottom-0 left-0 w-full duration-300 rounded-b z-10 ease-linear"
-      :class="{ '!max-h-[120px] !overflow-y-auto': isShown }"
-      ref="optionsList"
-    >
-      <li
-        v-for="(item, index) in props.options.filter((el) => el !== modelValue)"
-        :key="index"
-        @click="changeValue(item)"
-        class="text-black hover:bg-gray-200 px-3 py-2 cursor-pointer"
+    <Transition name="fade">
+      <ul
+        class="bg-white overflow-y-auto max-h-[120px] rounded-b"
+        ref="optionsList"
+        v-if="isShown"
       >
-        {{ item }}
-      </li>
-    </ul>
+        <li
+          v-for="(item, index) in props.options.filter(
+            (el) => el !== modelValue,
+          )"
+          :key="index"
+          @click="changeValue(item)"
+          class="text-black hover:bg-gray-200 px-3 py-2 cursor-pointer"
+        >
+          {{ item }}
+        </li>
+      </ul>
+    </Transition>
   </div>
 </template>
-<style></style>
+<style>
+.fade-enter-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
