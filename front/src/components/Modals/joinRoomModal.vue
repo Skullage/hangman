@@ -22,9 +22,9 @@
     </div>
 
     <div>
-      <outlined-blue-button @click="connect" class="w-full">
+      <custom-button class="outlined-blue-btn w-full" @click="connect">
         Подключиться
-      </outlined-blue-button>
+      </custom-button>
     </div>
   </base-modal>
 </template>
@@ -34,7 +34,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import BaseModal from "./BaseModal.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
-import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
 import socketioService from "../../api/socketio.service.js";
 
 const router = useRouter();

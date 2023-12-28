@@ -1,6 +1,6 @@
 <script setup>
 import BaseModal from "./BaseModal.vue";
-import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
@@ -48,8 +48,8 @@ const closeModalWindow = () => {
     </div>
 
     <div>
-      <outlined-blue-button @click="sendPassword" class="w-full"
-        >Подтвердить</outlined-blue-button
+      <custom-button @click="sendPassword" class="outlined-blue-btn w-full"
+        >Подтвердить</custom-button
       >
     </div>
   </base-modal>

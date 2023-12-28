@@ -13,8 +13,8 @@
     </div>
 
     <div>
-      <outlined-blue-button @click="setNick" class="w-full"
-        >Подтвердить</outlined-blue-button
+      <custom-button @click="setNick" class="w-full outlined-blue-btn"
+        >Подтвердить</custom-button
       >
     </div>
   </base-modal>
@@ -23,8 +23,8 @@
 import { ref } from "vue";
 import store from "../../store/index.js";
 import BaseModal from "./BaseModal.vue";
-import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
 
 const nickname = ref("");
 

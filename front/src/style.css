@@ -4,8 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+  .base-btn {
+    @apply dark:disabled:bg-black dark:disabled:border-transparent dark:disabled:hover:border-transparent disabled:cursor-not-allowed dark:bg-fifthDark bg-fourthLight hover:border-secondaryLight rounded-lg border-2 border-transparent dark:hover:border-thirdDark px-4 py-2 font-bold duration-300;
+  }
+  .blue-btn {
+    @apply dark:disabled:bg-black dark:disabled:border-transparent dark:disabled:hover:border-transparent disabled:cursor-not-allowed rounded-lg border-2 border-transparent px-4 py-2 font-bold duration-300 dark:bg-thirdDark hover:border-fourthLight bg-secondaryLight dark:hover:bg-fourthDark dark:hover:border-thirdDark;
+  }
+  .outlined-blue-btn {
+    @apply dark:disabled:bg-black dark:disabled:border-transparent dark:disabled:hover:border-transparent disabled:cursor-not-allowed dark:bg-fifthDark bg-fourthLight hover:border-secondaryLight rounded-lg border-2 border-transparent dark:hover:border-thirdDark px-4 py-2 font-bold duration-300 dark:bg-transparent border-fourthLight hover:bg-fourthLight text-fourthLight hover:text-black dark:hover:bg-fourthDark dark:hover:text-black dark:text-fourthDark dark:border-fourthDark;
+  }
+}
 :root {
-  /*font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
   font-family: 'Balsamiq Sans', cursive;
   line-height: 1.5;
   font-weight: 400;

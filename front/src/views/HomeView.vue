@@ -4,9 +4,7 @@ import { useStore } from "vuex";
 import CreateRoomModal from "../components/Modals/createRoomModal.vue";
 import JoinRoomModal from "../components/Modals/joinRoomModal.vue";
 import RoomsModal from "../components/Modals/roomsModal.vue";
-import BaseButton from "../components/UI/Buttons/BaseButton.vue";
-import BlueButton from "../components/UI/Buttons/BlueButton.vue";
-import OutlinedBlueButton from "../components/UI/Buttons/OutlinedBlueButton.vue";
+import CustomButton from "../components/UI/Buttons/CustomButton.vue";
 import { Icon } from "@iconify/vue";
 import PasswordModal from "../components/Modals/PasswordModal.vue";
 
@@ -36,17 +34,25 @@ const joinRoom = () => {
     >
       <h1 class="mb-12">Play Together</h1>
       <div class="flex flex-col gap-2 mb-10">
-        <blue-button @click="createRoom">Создать комнату</blue-button>
-        <base-button @click="showRooms">Список комнат</base-button>
-        <base-button @click="joinRoom">Присоединиться к комнате</base-button>
+        <custom-button class="blue-btn" @click="createRoom"
+          >Создать комнату</custom-button
+        >
+        <custom-button class="base-btn" @click="showRooms"
+          >Список комнат</custom-button
+        >
+        <custom-button class="base-btn" @click="joinRoom"
+          >Присоединиться к комнате</custom-button
+        >
       </div>
       <div class="mb-4">
         <p class="mb-1">Ваш ник</p>
         <p class="text-xl dark:text-thirdDark text-fifthLight mb-2">
           {{ store.state.user.username }}
         </p>
-        <outlined-blue-button @click="store.commit('user/logout')"
-          >Сменить ник</outlined-blue-button
+        <custom-button
+          class="outlined-blue-btn"
+          @click="store.commit('user/logout')"
+          >Сменить ник</custom-button
         >
       </div>
     </div>

@@ -36,7 +36,7 @@
         <div class="mb-4">
           <h2 class="text-center mb-2 text-xl">Количество игроков</h2>
           <div class="grid grid-cols-4 gap-4">
-            <base-button
+            <custom-button
               v-for="item in 4"
               :key="item"
               :class="{
@@ -44,7 +44,7 @@
                   playerAmount === item,
               }"
               :disabled="isAvailableCountPlayer(item)"
-              class="grid grid-cols-2 text-center first:grid-cols-1 hover:border-secondaryLight dark:hover:border-thirdDark border-white"
+              class="base-btn grid grid-cols-2 text-center first:grid-cols-1 hover:border-secondaryLight dark:hover:border-thirdDark border-white"
               @click.prevent="changePlayerAmount(item)"
             >
               <Icon
@@ -55,13 +55,13 @@
                 v-for="index in item"
                 :key="index"
               />
-            </base-button>
+            </custom-button>
           </div>
         </div>
         <div>
-          <outlined-blue-button @click="createRoom" class="w-full">
+          <custom-button @click="createRoom" class="w-full outlined-blue-btn">
             Создать
-          </outlined-blue-button>
+          </custom-button>
         </div>
       </form>
     </div>
@@ -75,8 +75,7 @@ import { useRouter } from "vue-router";
 import store from "../../store/index.js";
 import BaseModal from "./BaseModal.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
-import BaseButton from "../UI/Buttons/BaseButton.vue";
-import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
 import { availableGames } from "../../config/config.js";
 
 import BaseSelectCustom from "../UI/BaseSelectCustom.vue";

@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import SimonButton from "./SimonButton.vue";
-import OutlinedBlueButton from "../../UI/Buttons/OutlinedBlueButton.vue";
+import CustomButton from "../../UI/Buttons/CustomButton.vue";
 
 const round = ref(0);
 const bgcolors = ["blue", "red", "yellow", "green"];
@@ -102,7 +102,9 @@ const getBorderRadius = (index) => {
       </div>
     </div>
     <div>
-      <outlined-blue-button @click="startGame">Start</outlined-blue-button>
+      <custom-button class="outlined-blue-btn" @click="startGame"
+        >Start</custom-button
+      >
     </div>
   </div>
 </template>

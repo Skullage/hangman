@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import socketioService from "../../api/socketio.service.js";
 import store from "../../store/index.js";
 import BaseModal from "./BaseModal.vue";
-import BlueButton from "../UI/Buttons/BlueButton.vue";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
 
 const router = useRouter();
 
@@ -73,12 +73,13 @@ socketioService.showRooms(function (rooms) {
         </div>
         <div class="basis-1/5">{{ item.language }}</div>
         <div class="basis-1/5">
-          <blue-button
+          <custom-button
+            class="blue-btn"
             :disabled="item.clients.length === item.maxPlayers"
             @click="
               item.password === '' ? connect(item.id) : setPassword(item.id)
             "
-            >Войти</blue-button
+            >Войти</custom-button
           >
         </div>
       </div>

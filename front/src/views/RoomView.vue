@@ -53,7 +53,7 @@ const leave = async () => {
   <div>
     <div
       class="grid min-h-[90vh] grid-cols-[1fr_0] duration-300"
-      :class="{ 'grid-cols-[1fr_25%]': store.state.chat.isChatShown }"
+      :class="{ 'lg:grid-cols-[1fr_25%]': store.state.chat.isChatShown }"
     >
       <div
         class="dark:bg-secondaryDark bg-thirdLight p-4 lg:p-16 rounded-t-2xl lg:rounded-2xl relative lg:flex-1 duration-300 h-full"

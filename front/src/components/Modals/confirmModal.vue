@@ -8,16 +8,17 @@
     </div>
 
     <div class="flex justify-center gap-4">
-      <outlined-blue-button @click="confirm"> Да </outlined-blue-button>
-      <blue-button @click="cancel">Нет</blue-button>
+      <custom-button class="outlined-blue-btn" @click="confirm">
+        Да
+      </custom-button>
+      <custom-button class="blue-btn" @click="cancel">Нет</custom-button>
     </div>
   </base-modal>
 </template>
 <script setup>
 import BaseModal from "./BaseModal.vue";
-import OutlinedBlueButton from "../UI/Buttons/OutlinedBlueButton.vue";
 import store from "../../store/index.js";
-import BlueButton from "../UI/Buttons/BlueButton.vue";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
 
 const emits = defineEmits(["close"]);
 

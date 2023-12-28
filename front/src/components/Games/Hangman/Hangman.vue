@@ -1,6 +1,6 @@
 <script setup>
 import store from "../../../store/index.js";
-import BaseButton from "../../UI/Buttons/BaseButton.vue";
+import CustomButton from "../../UI/Buttons/CustomButton.vue";
 import CharSlot from "../../CharSlot.vue";
 import socketioService from "../../../api/socketio.service.js";
 
@@ -34,15 +34,15 @@ const checkChar = (char) => {
       />
     </div>
     <div class="word flex justify-center flex-wrap gap-3">
-      <base-button
+      <custom-button
         v-for="(slot, index) in store.getters['hangman/getCharSlots']"
         :key="index"
-        class="text-xl dark:bg-fourthDark dark:text-fifthDark basis-14 flex-initial dark:hover:border-thirdDark border-4 border-transparent"
+        class="base-btn text-xl dark:bg-fourthDark dark:text-fifthDark basis-14 flex-initial dark:hover:border-thirdDark border-4 border-transparent"
         :disabled="slot.disabled"
         @click="checkChar(slot.char)"
       >
         {{ slot.char.toUpperCase() }}
-      </base-button>
+      </custom-button>
       <button
         class="p-0 focus:outline-none hover:outline-none"
         :class="{ 'bg-gray-200': store.getters['room/isGamePaused'] }"
