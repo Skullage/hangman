@@ -61,19 +61,19 @@ const leave = async () => {
           'lg:rounded-tr-none lg:rounded-br-none': store.state.chat.isChatShown,
         }"
       >
-        <div class="flex justify-between items-start mb-12 flex-wrap gap-4">
+        <div class="grid room-header justify-between items-start mb-12 gap-4">
           <button
-            class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300"
+            class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300 exit-btn"
             @click="leave"
             title="Выйти"
           >
             <icon icon="system-uicons:exit-left" width="32" />
           </button>
-          <h1 class="flex-1 break-all">
+          <h1 class="flex-1 break-all room-title">
             {{ store.getters["room/getRoomTitle"] }}
           </h1>
           <button
-            class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300 relative"
+            class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300 relative chat-btn"
             @click="store.commit('chat/toggleChat')"
             title="Чат"
           >
@@ -137,5 +137,22 @@ const leave = async () => {
 <style>
 .text-small {
   font-size: 10px;
+}
+.room-header {
+  grid-template-areas: "exit title chat";
+  @media screen and (max-width: 768px) {
+    grid-template-areas:
+      "exit chat"
+      "title title";
+  }
+}
+.chat-btn {
+  grid-area: chat;
+}
+.room-title {
+  grid-area: title;
+}
+.exit-btn {
+  grid-area: exit;
 }
 </style>
