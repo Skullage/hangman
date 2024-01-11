@@ -40,14 +40,17 @@ const clearInput = () => {
 
 <template>
   <div
-    class="h-full text-left p-2 grid grid-rows-[1fr_auto] grid-cols-[1fr_40px] rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l"
+    class="relative h-full max-h-[90vh] text-left p-2 grid grid-rows-[1fr_auto] grid-cols-1 gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l"
   >
-    <div class="flex-grow overflow-y-auto chatLog" ref="chatLog">
+    <div class="max-h-full overflow-y-auto chatLog mt-10" ref="chatLog">
       <p
         v-for="(item, index) in store.state.chat.messages"
         :key="index"
         class="mb-2 p-1 rounded"
-        :class="{ 'bg-secondaryDark': !item.isRead }"
+        :class="[
+          { 'bg-secondaryDark': !item.isRead },
+          { '!mb-1': item.type !== 'smile' },
+        ]"
         @mouseover="item.isRead = true"
       >
         <span v-if="item.type !== 'smile'">
@@ -64,18 +67,16 @@ const clearInput = () => {
         </span>
       </p>
     </div>
-    <div>
-      <button>
-        <icon
-          width="32"
-          height="32"
-          icon="material-symbols:close"
-          @click="store.commit('chat/toggleChat')"
-        />
-      </button>
-    </div>
+    <button class="absolute top-2 right-2">
+      <icon
+        width="32"
+        height="32"
+        icon="material-symbols:close"
+        @click="store.commit('chat/toggleChat')"
+      />
+    </button>
     <form
-      class="flex gap-2 items-center relative col-span-2"
+      class="flex gap-2 items-center relative"
       @submit.prevent="sendMessage"
     >
       <div class="tooltip absolute w-6 h-6 ml-2 top-1/2 -translate-y-1/2">

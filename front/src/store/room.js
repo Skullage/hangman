@@ -2,7 +2,7 @@ const room = {
   namespaced: true,
   state: () => ({
     roomId: null,
-    rooms: undefined,
+    rooms: null,
     turnTimer: 0,
     timer: undefined,
   }),
