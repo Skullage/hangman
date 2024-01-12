@@ -32,7 +32,7 @@ const joinRoom = () => {
     <div
       class="dark:bg-secondaryDark bg-thirdLight px-2 md:px-20 py-10 rounded-t-2xl"
     >
-      <h1 class="mb-12">Play Together</h1>
+      <h1 class="mb-12 holtwood">Play <span class="block">Together</span></h1>
       <div class="flex flex-col gap-2 mb-10">
         <custom-button class="blue-btn" @click="createRoom"
           >Создать комнату</custom-button
