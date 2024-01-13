@@ -59,9 +59,9 @@ useClickOutside(
     </div>
     <Transition name="fade">
       <ul
-        class="bg-white overflow-y-auto max-h-[120px] rounded-b"
+        class="bg-white overflow-y-auto max-h-[120px] rounded-b h-0 duration-300"
+        :class="{ '!h-full': isShown }"
         ref="optionsList"
-        v-if="isShown"
       >
         <li
           v-for="(item, index) in props.options.filter(
