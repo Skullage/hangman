@@ -14,7 +14,7 @@ const selectedGame = ref("");
 
 selectedGame.value = availableGames[0].title;
 
-const emits = defineEmits(["submit"]);
+const emits = defineEmits(["next"]);
 
 const createRoom = async () => {
   if (roomTitle.value.length === 0) {
@@ -30,7 +30,7 @@ const createRoom = async () => {
     maxPlayers: playerAmount.value,
     game: selectedGame.value,
   };
-  emits("submit", room);
+  emits("next", room);
 };
 
 const changePlayerAmount = (value) => {

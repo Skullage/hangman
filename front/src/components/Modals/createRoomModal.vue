@@ -5,7 +5,7 @@
       <Icon icon="material-symbols:close" width="24" height="24" />
     </button>
     <div class="modal-content flex-1 overflow-y-auto px-4">
-      <component :is="currentStep" @submit="createRoom" />
+      <component :is="currentStep" @submit="createRoom" @next="nextStep" />
     </div>
   </base-modal>
 </template>
@@ -17,8 +17,9 @@ import store from "../../store/index.js";
 import BaseModal from "./BaseModal.vue";
 
 import BaseSettings from "./CreateRoomModal/BaseSettings.vue";
-import ExtraSettings from "./CreateRoomModal/ExtraSettings.vue";
+import HangmanSettings from "./CreateRoomModal/HangmanSettings.vue";
 import { reactive, shallowRef } from "vue";
+import SimonSettings from "./CreateRoomModal/SimonSettings.vue";
 
 const router = useRouter();
 
@@ -28,15 +29,24 @@ let currentStep = shallowRef(BaseSettings);
 const emits = defineEmits(["close"]);
 
 const createRoom = async (event) => {
-  if (currentStep.value.__name === "BaseSettings") {
-    Object.assign(roomSettings, event);
-    return (currentStep.value = ExtraSettings);
-  }
   Object.assign(roomSettings, event);
   socketioService.hostRoom(roomSettings, function (roomId) {
     store.commit("room/setRoomId", roomId);
     router.push({ path: `/room/${roomId}`, replace: false });
   });
+};
+const nextStep = (event) => {
+  Object.assign(roomSettings, event);
+  switch (event.game) {
+    case "Виселица":
+      currentStep.value = HangmanSettings;
+      break;
+    case "Саймон говорит":
+      currentStep.value = SimonSettings;
+      break;
+    default:
+      createRoom(null);
+  }
 };
 const closeModalWindow = () => {
   currentStep.value = BaseSettings;
