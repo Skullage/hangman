@@ -8,7 +8,7 @@ export const sendFeedback = async (req, res) => {
     service: "gmail",
     auth: {
       user: "dogonadze1999@gmail.com",
-      pass: "xvslsmayehstecdi",
+      pass: "zhplqnnwvxdaxwyq",
     },
   });
 
