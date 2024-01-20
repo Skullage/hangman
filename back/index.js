@@ -21,14 +21,6 @@ const options = {
   ca: fs.readFileSync("/etc/ssl/play-together.ru/chain.crt"),
 };
 
-const httpsServer = https.createServer(options, app);
-
-export const io = new Server(httpsServer, {
-  cors: {
-    origins: ["http://localhost:8080"],
-  },
-});
-
 app.get("/", (req, res) => {
   res.send("<h1>Hey Socket.io</h1>");
 });
@@ -37,6 +29,14 @@ app.use(express.json());
 app.use(cors());
 app.set("trust proxy", "8.8.8.8");
 app.use(Router);
+
+const httpsServer = https.createServer(options, app);
+
+export const io = new Server(httpsServer, {
+  cors: {
+    origins: "*",
+  },
+});
 
 export let rooms = {};
 export let clients = {};

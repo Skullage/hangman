@@ -78,7 +78,7 @@ const isAvailableCountPlayer = (index) => {
     />
     <div class="mb-4">
       <h2 class="text-center mb-2 text-xl">Количество игроков</h2>
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <custom-button
           v-for="item in 4"
           :key="item"

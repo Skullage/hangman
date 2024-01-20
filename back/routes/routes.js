@@ -1,5 +1,7 @@
-import express from 'express'
+import express from "express";
+import { sendFeedback } from "../controllers/feedback.js";
 
-const router = express.Router()
+const router = express.Router();
 
-export default router
+router.post("/feedback/send", sendFeedback);
+export default router;

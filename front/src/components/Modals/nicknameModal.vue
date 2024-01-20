@@ -7,15 +7,16 @@
           v-model="nickname"
           placeholder="Ник"
           label="Ник"
+          class="mb-2"
           required
         ></base-input>
+        <custom-button
+          @click="setNick"
+          class="w-full outlined-blue-btn"
+          type="submit"
+          >Подтвердить</custom-button
+        >
       </form>
-    </div>
-
-    <div>
-      <custom-button @click="setNick" class="w-full outlined-blue-btn"
-        >Подтвердить</custom-button
-      >
     </div>
   </base-modal>
 </template>

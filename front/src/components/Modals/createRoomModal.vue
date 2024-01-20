@@ -1,16 +1,13 @@
 <template>
   <base-modal>
     <h3 class="mb-4 border-b py-8 text-center text-2xl">Создание комнаты</h3>
-    <button class="absolute right-3 top-3" @click="closeModalWindow">
-      <Icon icon="material-symbols:close" width="24" height="24" />
-    </button>
+    <close-button @click="closeModalWindow" />
     <div class="modal-content flex-1 overflow-y-auto px-4">
       <component :is="currentStep" @submit="createRoom" @next="nextStep" />
     </div>
   </base-modal>
 </template>
 <script setup>
-import { Icon } from "@iconify/vue";
 import socketioService from "../../api/socketio.service.js";
 import { useRouter } from "vue-router";
 import store from "../../store/index.js";
@@ -20,6 +17,7 @@ import BaseSettings from "./CreateRoomModal/BaseSettings.vue";
 import HangmanSettings from "./CreateRoomModal/HangmanSettings.vue";
 import { reactive, shallowRef } from "vue";
 import SimonSettings from "./CreateRoomModal/SimonSettings.vue";
+import CloseButton from "../UI/Buttons/CloseButton.vue";
 
 const router = useRouter();
 

@@ -3,7 +3,7 @@ import { computed, nextTick, ref, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
-import BaseTextarea from "./UI/Inputs/BaseTextarea.vue";
+import ChatInput from "./UI/Inputs/ChatInput.vue";
 import EmojiList from "./EmojiList.vue";
 
 const message = ref("");
@@ -93,13 +93,13 @@ const clearInput = () => {
         v-if="showSmiles"
         @close="showSmiles = false"
       />
-      <base-textarea
+      <chat-input
         v-model="message"
         class="flex-1 pl-10"
         max-length="100"
         rows="1"
         @enter="sendMessage"
-      ></base-textarea>
+      />
       <button type="submit" title="Отправить">
         <icon icon="fe:paper-plane" width="32"></icon>
       </button>
