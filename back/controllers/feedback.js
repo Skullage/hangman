@@ -5,7 +5,9 @@ export const sendFeedback = async (req, res) => {
   const msg = req.body.msg;
 
   const transport = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: "dogonadze1999@gmail.com",
       pass: "zhplqnnwvxdaxwyq",
