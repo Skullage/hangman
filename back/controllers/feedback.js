@@ -4,32 +4,24 @@ export const sendFeedback = async (req, res) => {
   const email = req.body.email;
   const msg = req.body.msg;
 
-  const transport = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+  let transporter = nodemailer.createTransport({
+    host: "mail.play-together.ru",
     port: 465,
     secure: true,
     auth: {
-      user: "dogonadze1999@gmail.com",
-      pass: "zhplqnnwvxdaxwyq",
+      user: "root",
+      pass: "adik1234",
     },
   });
 
   const mailOptions = {
-    from: "dogonadze1999@gmail.com",
-    to: "dogonadze1999@gmail.com",
+    from: "feedback@play-together.ru",
+    to: "dogonadze1999@mail.ru",
     subject: `Обратная связь с сайта Play-Together от ${email}`,
     html: msg,
   };
 
-  transport.verify(function (error) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Server is ready to take our messages");
-    }
-  });
-
-  transport.sendMail(mailOptions, (error, info) => {
+  await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
       res.status(500).send({ msg: error.message });

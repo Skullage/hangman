@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
   res.send("<h1>Hey Socket.io</h1>");
 });
 
-app.use(express.json());
+app.use(express.json({ limit: "50kb" }));
 app.use(cors());
 app.set("trust proxy", "8.8.8.8");
 app.use(Router);
@@ -34,7 +34,7 @@ const httpsServer = https.createServer(options, app);
 
 export const io = new Server(httpsServer, {
   cors: {
-    origins: "*",
+    origin: "*",
   },
 });
 

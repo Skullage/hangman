@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import { useStore } from "vuex";
-import CreateRoomModal from "../components/Modals/createRoomModal.vue";
-import JoinRoomModal from "../components/Modals/joinRoomModal.vue";
-import RoomsModal from "../components/Modals/roomsModal.vue";
+import CreateRoomModal from "../components/Modals/CreateRoomModal.vue";
+import JoinRoomModal from "../components/Modals/JoinRoomModal.vue";
+import RoomsModal from "../components/Modals/RoomsListModal.vue";
 import CustomButton from "../components/UI/Buttons/CustomButton.vue";
 import { Icon } from "@iconify/vue";
 import PasswordModal from "../components/Modals/PasswordModal.vue";

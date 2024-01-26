@@ -1,13 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import { useStore } from "vuex";
-import CreateRoomModal from "../components/Modals/createRoomModal.vue";
-import JoinRoomModal from "../components/Modals/joinRoomModal.vue";
-import RoomsModal from "../components/Modals/roomsModal.vue";
+import CreateRoomModal from "../components/Modals/CreateRoomModal.vue";
+import JoinRoomModal from "../components/Modals/JoinRoomModal.vue";
+import RoomsListModal from "../components/Modals/RoomsListModal.vue";
 import CustomButton from "../components/UI/Buttons/CustomButton.vue";
 import { Icon } from "@iconify/vue";
 import PasswordModal from "../components/Modals/PasswordModal.vue";
-import BugReportModal from "../components/Modals/BugReportModal.vue";
+import FeedbackModal from "../components/Modals/FeedbackModal.vue";
 
 const showCreateModal = ref(false);
 const showJoinModal = ref(false);
@@ -95,13 +95,16 @@ const joinRoom = () => {
     />
     <join-room-modal :show="showJoinModal" @close="showJoinModal = false" />
     <suspense>
-      <rooms-modal :show="showRoomsModal" @close="showRoomsModal = false" />
+      <rooms-list-modal
+        :show="showRoomsModal"
+        @close="showRoomsModal = false"
+      />
     </suspense>
     <password-modal
       :show="store.state.modals.passwordModal.isShow"
       @close="store.state.modals.passwordModal.isShow = false"
     />
-    <bug-report-modal
+    <feedback-modal
       :show="showBugReportModal"
       @close="showBugReportModal = false"
     />

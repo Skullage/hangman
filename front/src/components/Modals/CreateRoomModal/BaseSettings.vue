@@ -1,7 +1,7 @@
 <script setup>
 import { availableGames } from "../../../config/config.js";
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
-import BaseSelectCustom from "../../UI/BaseSelectCustom.vue";
+import BaseSelect from "../../UI/BaseSelect.vue";
 import { ref } from "vue";
 import store from "../../../store/index.js";
 import BaseInput from "../../UI/Inputs/BaseInput.vue";
@@ -69,7 +69,7 @@ const isAvailableCountPlayer = (index) => {
       type="password"
       class="mb-3"
     ></base-input>
-    <base-select-custom
+    <base-select
       :options="availableGames.map((el) => el.title)"
       v-model="selectedGame"
       @update:modelValue="changeGame"

@@ -1,6 +1,6 @@
 <script setup>
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
-import BaseSelectCustom from "../../UI/BaseSelectCustom.vue";
+import BaseSelect from "../../UI/BaseSelect.vue";
 import { reactive, ref } from "vue";
 
 const languages = reactive(["Английский", "Русский"]);
@@ -15,7 +15,7 @@ const createRoom = async () => {
 
 <template>
   <form class="p-4">
-    <base-select-custom
+    <base-select
       :options="languages"
       v-model="roomLanguage"
       label="Язык комнаты"

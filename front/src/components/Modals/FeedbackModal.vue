@@ -9,8 +9,8 @@ import api from "../../api/api.js";
 
 const emits = defineEmits(["close"]);
 
-const email = ref("123@mail.ru");
-const msg = ref("234234");
+const email = ref();
+const msg = ref();
 
 const sendFeedback = async () => {
   await api

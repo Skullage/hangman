@@ -1,11 +1,11 @@
 <script setup>
 import SocketioService from "./api/socketio.service.js";
 import { onBeforeUnmount, ref, watch } from "vue";
-import NicknameModal from "./components/Modals/nicknameModal.vue";
+import NicknameModal from "./components/Modals/NicknameModal.vue";
 import store from "./store/index.js";
 import { useRoute, useRouter } from "vue-router";
 import NotificationPopup from "./components/NotificationPopup.vue";
-import ConfirmModal from "./components/Modals/confirmModal.vue";
+import ConfirmModal from "./components/Modals/ConfirmModal.vue";
 
 useRouter().push({ path: `/`, replace: true });
 
