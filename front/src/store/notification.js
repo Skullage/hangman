@@ -2,6 +2,7 @@ const notification = {
   namespaced: true,
   state: () => ({
     notifications: [],
+    timer: undefined,
   }),
   getters: {
     isEmpty(state) {
@@ -44,11 +45,18 @@ const notification = {
     },
   },
   mutations: {
-    addNotification(state, { type, msg, disappearTime }) {
+    addNotification(state, { type, msg, disappearTime = 10000 }) {
+      this.commit("notification/closeNotification");
       state.notifications.push({ type, msg, disappearTime });
+      state.timer = setTimeout(() => {
+        this.commit("notification/closeNotification");
+      }, disappearTime);
     },
     closeNotification(state) {
-      state.notifications.shift();
+      clearTimeout(state.timer);
+      if (state.notifications.length > 0) {
+        state.notifications.shift();
+      }
     },
   },
 };

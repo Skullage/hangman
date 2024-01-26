@@ -6,20 +6,39 @@ import { ref } from "vue";
 import BaseTextarea from "../UI/Inputs/BaseTextarea.vue";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 import api from "../../api/api.js";
+import store from "../../store/index.js";
 
 const emits = defineEmits(["close"]);
 
-const email = ref();
-const msg = ref();
+const email = ref("");
+const msg = ref("");
 
 const sendFeedback = async () => {
+  if (email.value.length < 1) {
+    store.commit("notification/addNotification", {
+      type: "error",
+      msg: "Введите E-mail.",
+    });
+    return;
+  }
+  if (msg.value.length < 1) {
+    store.commit("notification/addNotification", {
+      type: "error",
+      msg: "Введите сообщение",
+    });
+    return;
+  }
   await api
     .post("/feedback/send", {
       email: email.value,
       msg: msg.value,
     })
-    .then((response) => {
-      console.log(response);
+    .then(() => {
+      closeModalWindow();
+      store.commit("notification/addNotification", {
+        type: "success",
+        msg: "Ваше сообщение успешно отправлено администратору.",
+      });
     })
     .catch((error) => {
       console.log(error);
@@ -53,6 +72,7 @@ const closeModalWindow = () => {
         <custom-button type="submit" class="outlined-blue-btn w-full"
           >Отправить</custom-button
         >
+        {{ store.state.notification.timer }}
       </form>
     </div>
   </base-modal>

@@ -5,10 +5,6 @@ import store from "../store/index.js";
 const closeError = () => {
   store.commit("notification/closeNotification");
 };
-
-setTimeout(function () {
-  closeError();
-}, store.getters["notification/getDisappearTime"]);
 </script>
 
 <template>
