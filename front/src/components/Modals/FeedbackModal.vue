@@ -72,7 +72,6 @@ const closeModalWindow = () => {
         <custom-button type="submit" class="outlined-blue-btn w-full"
           >Отправить</custom-button
         >
-        {{ store.state.notification.timer }}
       </form>
     </div>
   </base-modal>
