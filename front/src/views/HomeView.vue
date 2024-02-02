@@ -32,7 +32,7 @@ const joinRoom = () => {
 <template>
   <div class="h-full flex flex-col md:block">
     <div
-      class="dark:bg-secondaryDark bg-thirdLight px-2 md:px-20 py-10 rounded-t-2xl overflow-hidden flex-1"
+      class="dark:bg-secondaryDark bg-thirdLight px-2 md:px-20 py-10 rounded-t-2xl overflow-hidden flex-1 flex-col flex justify-center"
     >
       <h1 class="mb-12 holtwood text-4xl md:text-5xl">
         Play <span class="block">Together</span>

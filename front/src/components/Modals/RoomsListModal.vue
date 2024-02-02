@@ -37,8 +37,8 @@ socketioService.showRooms(function (rooms) {
       <slot name="title">Комнаты</slot>
     </h3>
     <close-button @click="closeModalWindow" />
-    <div class="modal-content flex-0 overflow-y-auto text-center">
-      <div class="border-b py-2 flex justify-between items-center mb-4">
+    <div class="modal-content flex-0 overflow-auto text-center grid">
+      <div class="border-b py-2 flex justify-between items-center mb-4 gap-2">
         <div class="basis-1/5">Название</div>
         <div class="basis-1/5">Пароль?</div>
         <div class="basis-1/5">Количество людей</div>
@@ -52,7 +52,7 @@ socketioService.showRooms(function (rooms) {
       <div
         v-for="(item, index) in store.state.room.rooms"
         :key="index"
-        class="border-b last:border-none flex justify-between py-2 items-center"
+        class="border-b last:border-none flex justify-between py-2 items-center gap-2 leading-none"
       >
         <div class="basis-1/5">{{ item.title }}</div>
         <div class="basis-1/5">
