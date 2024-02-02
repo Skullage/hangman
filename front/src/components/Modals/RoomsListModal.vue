@@ -37,46 +37,56 @@ socketioService.showRooms(function (rooms) {
       <slot name="title">Комнаты</slot>
     </h3>
     <close-button @click="closeModalWindow" />
-    <div class="modal-content flex-0 overflow-auto text-center grid">
-      <div class="border-b py-2 flex justify-between items-center mb-4 gap-2">
-        <div class="basis-1/5">Название</div>
-        <div class="basis-1/5">Пароль?</div>
-        <div class="basis-1/5">Количество людей</div>
-        <div class="basis-1/5">Язык игры</div>
-        <div class="basis-1/5"></div>
-      </div>
-      <div v-if="store.getters['room/isRoomsEmpty']">
-        <p>К сожалению, в данный момент комнат нет :(</p>
-        <p>Но Вы можете создать свою :)</p>
-      </div>
-      <div
-        v-for="(item, index) in store.state.room.rooms"
-        :key="index"
-        class="border-b last:border-none flex justify-between py-2 items-center gap-2 leading-none"
-      >
-        <div class="basis-1/5">{{ item.title }}</div>
-        <div class="basis-1/5">
-          <icon
-            icon="material-symbols:lock-outline"
-            v-if="item.password.length > 0"
-            class="m-auto"
-          ></icon>
-        </div>
-        <div class="basis-1/5">
-          {{ item.clients.length }}/{{ item.maxPlayers }}
-        </div>
-        <div class="basis-1/5">{{ item.language }}</div>
-        <div class="basis-1/5">
-          <custom-button
-            class="blue-btn"
-            :disabled="item.clients.length === item.maxPlayers"
-            @click="
-              item.password === '' ? connect(item.id) : setPassword(item.id)
-            "
-            >Войти</custom-button
+    <div class="overflow-auto min-h-[50vh]">
+      <table class="modal-content flex-0 text-center">
+        <thead class="border-b">
+          <tr>
+            <td class="pr-2 py-2">Название</td>
+            <td class="pr-2 py-2">Пароль?</td>
+            <td class="pr-2 py-2">Количество людей</td>
+            <td class="pr-2 py-2">Язык игры</td>
+            <td class="py-2"></td>
+          </tr>
+        </thead>
+        <tbody v-if="store.getters['room/isRoomsEmpty']">
+          <tr>
+            <td>К сожалению, в данный момент комнат нет :(</td>
+          </tr>
+          <tr>
+            <td>Но Вы можете создать свою :)</td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr
+            v-for="(item, index) in store.state.room.rooms"
+            :key="index"
+            class="border-b last:border-none leading-none"
           >
-        </div>
-      </div>
+            <td class="pr-2 py-2">{{ item.title }}</td>
+            <td class="pr-2 py-2">
+              <icon
+                icon="material-symbols:lock-outline"
+                v-if="item.password.length > 0"
+                class="m-auto"
+              ></icon>
+            </td>
+            <td class="pr-2 py-2">
+              {{ item.clients.length }}/{{ item.maxPlayers }}
+            </td>
+            <td class="pr-2 py-2">{{ item.language }}</td>
+            <td class="py-2">
+              <custom-button
+                class="blue-btn"
+                :disabled="item.clients.length === item.maxPlayers"
+                @click="
+                  item.password === '' ? connect(item.id) : setPassword(item.id)
+                "
+                >Войти</custom-button
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </base-modal>
 </template>
