@@ -50,10 +50,10 @@ socketioService.showRooms(function (rooms) {
         </thead>
         <tbody v-if="store.getters['room/isRoomsEmpty']">
           <tr>
-            <td>К сожалению, в данный момент комнат нет :(</td>
+            <td colspan="4">К сожалению, в данный момент комнат нет :(</td>
           </tr>
           <tr>
-            <td>Но Вы можете создать свою :)</td>
+            <td colspan="4">Но Вы можете создать свою :)</td>
           </tr>
         </tbody>
         <tbody v-else>
