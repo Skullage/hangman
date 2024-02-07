@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import { useStore } from "vuex";
 import CreateRoomModal from "../components/Modals/CreateRoomModal.vue";
 import JoinRoomModal from "../components/Modals/JoinRoomModal.vue";
@@ -9,23 +8,21 @@ import { Icon } from "@iconify/vue";
 import PasswordModal from "../components/Modals/PasswordModal.vue";
 import FeedbackModal from "../components/Modals/FeedbackModal.vue";
 
-const showCreateModal = ref(false);
-const showJoinModal = ref(false);
-const showRoomsModal = ref(false);
-const showBugReportModal = ref(false);
-
 const store = useStore();
 
-const createRoom = () => {
-  showCreateModal.value = true;
+const showCreateModal = () => {
+  store.commit("modals/showCreateModal");
 };
 
-const showRooms = () => {
-  showRoomsModal.value = true;
+const showRoomsModal = () => {
+  store.commit("modals/showRoomsModal");
 };
 
-const joinRoom = () => {
-  showJoinModal.value = true;
+const showJoinModal = () => {
+  store.commit("modals/showJoinModal");
+};
+const showFeedbackModal = () => {
+  store.commit("modals/showFeedbackModal");
 };
 </script>
 
@@ -38,13 +35,13 @@ const joinRoom = () => {
         Play <span class="block">Together</span>
       </h1>
       <div class="flex flex-col gap-2 mb-10">
-        <custom-button class="blue-btn" @click="createRoom"
+        <custom-button class="blue-btn" @click="showCreateModal"
           >Создать комнату</custom-button
         >
-        <custom-button class="base-btn" @click="showRooms"
+        <custom-button class="base-btn" @click="showRoomsModal"
           >Список комнат</custom-button
         >
-        <custom-button class="base-btn" @click="joinRoom"
+        <custom-button class="base-btn" @click="showJoinModal"
           >Присоединиться к комнате</custom-button
         >
       </div>
@@ -67,7 +64,7 @@ const joinRoom = () => {
         <button
           title="Обратная связь"
           class="cursor-pointer"
-          @click="showBugReportModal = true"
+          @click="showFeedbackModal"
         >
           <Icon icon="ri:bug-fill" width="32" height="32" />
         </button>
@@ -90,14 +87,17 @@ const joinRoom = () => {
       </div>
     </div>
     <create-room-modal
-      :show="showCreateModal"
-      @close="showCreateModal = false"
+      :show="store.state.modals.isCreateModalShown"
+      @close="store.commit('modals/closeCreateModal')"
     />
-    <join-room-modal :show="showJoinModal" @close="showJoinModal = false" />
+    <join-room-modal
+      :show="store.state.modals.isJoinModalShown"
+      @close="store.commit('modals/closeJoinModal')"
+    />
     <suspense>
       <rooms-list-modal
-        :show="showRoomsModal"
-        @close="showRoomsModal = false"
+        :show="store.state.modals.isRoomsModalShown"
+        @close="store.commit('modals/closeRoomsModal')"
       />
     </suspense>
     <password-modal
@@ -105,8 +105,8 @@ const joinRoom = () => {
       @close="store.state.modals.passwordModal.isShow = false"
     />
     <feedback-modal
-      :show="showBugReportModal"
-      @close="showBugReportModal = false"
+      :show="store.state.modals.isFeedbackModalShown"
+      @close="store.commit('modals/closeFeedbackModal')"
     />
   </div>
 </template>

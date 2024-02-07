@@ -9,6 +9,7 @@
           required
           label="Id комнаты"
           class="mb-4"
+          ref="firstInput"
         ></base-input>
         <base-input v-model="password" label="Пароль" class="mb-2"></base-input>
         <custom-button class="outlined-blue-btn w-full" @click="connect">
@@ -19,13 +20,14 @@
   </base-modal>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import BaseModal from "./BaseModal.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 import socketioService from "../../api/socketio.service.js";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
+import store from "../../store/index.js";
 
 const router = useRouter();
 
@@ -33,7 +35,7 @@ const emits = defineEmits(["close"]);
 
 const roomId = ref("");
 const password = ref("");
-
+const firstInput = ref();
 const closeModalWindow = () => {
   emits("close");
 };
@@ -43,4 +45,13 @@ const connect = () => {
     router.push({ path: `/room/${roomId}`, replace: false });
   });
 };
+
+watch(
+  () => store.state.modals.isJoinModalShown,
+  (newValue) => {
+    if (newValue) {
+      firstInput.value.$refs.input.focus();
+    }
+  },
+);
 </script>

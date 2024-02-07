@@ -9,6 +9,7 @@
           label="Ник"
           class="mb-2"
           required
+          ref="firstInput"
         ></base-input>
         <custom-button
           @click="setNick"
@@ -21,13 +22,14 @@
   </base-modal>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import store from "../../store/index.js";
 import BaseModal from "./BaseModal.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 
 const nickname = ref("");
+const firstInput = ref();
 
 const setNick = async () => {
   if (nickname.value.length < 1) {
@@ -44,4 +46,13 @@ const setNick = async () => {
   }
   store.commit("user/setUsername", nickname.value);
 };
+
+watch(
+  () => store.getters["user/isLogined"],
+  (newValue) => {
+    if (!newValue) {
+      firstInput.value.$refs.input.focus();
+    }
+  },
+);
 </script>

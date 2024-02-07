@@ -2,7 +2,7 @@
 import BaseModal from "./BaseModal.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import BaseTextarea from "../UI/Inputs/BaseTextarea.vue";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 import api from "../../api/api.js";
@@ -12,6 +12,7 @@ const emits = defineEmits(["close"]);
 
 const email = ref("");
 const msg = ref("");
+const firstInput = ref();
 
 const sendFeedback = async () => {
   if (email.value.length < 1) {
@@ -48,6 +49,15 @@ const sendFeedback = async () => {
 const closeModalWindow = () => {
   emits("close");
 };
+
+watch(
+  () => store.state.modals.isFeedbackModalShown,
+  (newValue) => {
+    if (newValue) {
+      firstInput.value.$refs.input.focus();
+    }
+  },
+);
 </script>
 
 <template>
@@ -62,6 +72,7 @@ const closeModalWindow = () => {
           class="mb-4"
           label="E-mail"
           v-model="email"
+          ref="firstInput"
         />
         <base-textarea
           label="Сообщение"

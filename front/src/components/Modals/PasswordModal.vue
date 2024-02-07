@@ -2,13 +2,14 @@
 import BaseModal from "./BaseModal.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import store from "../../store/index.js";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 
 const emits = defineEmits(["close"]);
 
 const password = ref("");
+const firstInput = ref();
 
 const sendPassword = async () => {
   if (password.value.length > 0) {
@@ -22,6 +23,15 @@ const closeModalWindow = () => {
   store.state.modals.passwordModal.resolvePromise(false);
   emits("close");
 };
+
+watch(
+  () => store.state.modals.passwordModal.isShow,
+  (newValue) => {
+    if (newValue) {
+      firstInput.value.$refs.input.focus();
+    }
+  },
+);
 </script>
 
 <template>
@@ -37,6 +47,7 @@ const closeModalWindow = () => {
           v-model="password"
           class="mb-2"
           required
+          ref="firstInput"
         ></base-input>
         <custom-button @click="sendPassword" class="outlined-blue-btn w-full"
           >Подтвердить</custom-button

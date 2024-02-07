@@ -38,7 +38,7 @@ socketioService.showRooms(function (rooms) {
     </h3>
     <close-button @click="closeModalWindow" />
     <div class="overflow-auto min-h-[50vh]">
-      <table class="modal-content flex-0 text-center">
+      <table class="modal-content flex-0 text-center w-full">
         <thead class="border-b">
           <tr>
             <td class="pr-2 py-2">Название</td>
@@ -50,7 +50,9 @@ socketioService.showRooms(function (rooms) {
         </thead>
         <tbody v-if="store.getters['room/isRoomsEmpty']">
           <tr>
-            <td colspan="4">К сожалению, в данный момент комнат нет :(</td>
+            <td colspan="4" class="pt-4">
+              К сожалению, в данный момент комнат нет :(
+            </td>
           </tr>
           <tr>
             <td colspan="4">Но Вы можете создать свою :)</td>

@@ -1,7 +1,9 @@
 <script setup>
 import { Icon } from "@iconify/vue";
+import { ref } from "vue";
 
 const emits = defineEmits(["update:modelValue"]);
+const input = ref();
 
 const updateValue = (event) => {
   emits("update:modelValue", event.target.value);
@@ -29,7 +31,7 @@ const props = defineProps({
     />
     <div>
       <input
-        class="w-full rounded border px-3 outline-none bg-white text-xl dark:text-black"
+        class="w-full rounded border px-3 outline-none bg-white text-xl dark:text-black focus:outline-amber-300"
         @input="updateValue"
         :value="props.modelValue"
         :class="{
@@ -37,6 +39,7 @@ const props = defineProps({
           'p-2': props.label === undefined,
         }"
         v-bind="$attrs"
+        ref="input"
       />
       <label
         class="pointer-events-none absolute top-0 left-4 bg-thirdLight dark:bg-fifthDark -translate-y-1/2 px-4 border"
