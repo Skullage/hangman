@@ -75,7 +75,7 @@ socketioService.showRooms(function (rooms) {
             <td class="pr-2 py-2">
               {{ item.clients.length }}/{{ item.maxPlayers }}
             </td>
-            <td class="pr-2 py-2">{{ item.language }}</td>
+            <td class="pr-2 py-2">{{ item.gameStatus.language }}</td>
             <td class="py-2">
               <custom-button
                 class="blue-btn"

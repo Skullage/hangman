@@ -17,10 +17,10 @@ const room = {
       return getters.getRoom ? getters.getRoom.title : null;
     },
     isGamePaused(state, getters) {
-      return getters.getRoom ? getters.getRoom.gameStatus !== "" : null;
+      return getters.getRoom ? getters.getRoom.gameStatus.status !== "" : null;
     },
     getGameStatus(state, getters) {
-      return getters.getRoom ? getters.getRoom.gameStatus : null;
+      return getters.getRoom ? getters.getRoom.gameStatus.status : null;
     },
     getRoomGame(state, getters) {
       return getters.getRoom ? getters.getRoom.game : null;

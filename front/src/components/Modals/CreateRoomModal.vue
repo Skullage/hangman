@@ -32,6 +32,7 @@ const createRoom = async (event) => {
     store.commit("room/setRoomId", roomId);
     router.push({ path: `/room/${roomId}`, replace: false });
   });
+  closeModalWindow();
 };
 const nextStep = (event) => {
   Object.assign(roomSettings, event);
