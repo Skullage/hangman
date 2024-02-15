@@ -11,7 +11,7 @@ export function hostARoom(
   title,
   password,
   maxPlayers,
-  language,
+  options,
   game,
 ) {
   if (isInRoom(clients, clientID)) {
@@ -30,7 +30,7 @@ export function hostARoom(
     title,
     password,
     maxPlayers,
-    language,
+    options,
     game,
   );
 

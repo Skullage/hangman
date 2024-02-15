@@ -2,34 +2,33 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const words = require("../json/words.json");
 const alphabet = require("../json/alphabet.json");
-function Room(
-  id,
-  client,
-  hostId,
-  readableName,
-  password,
-  size,
-  language,
-  game,
-) {
+function Room(id, client, hostId, title, password, maxPlayers, options, game) {
   this.id = id;
-  this.title = readableName;
+  this.title = title;
   this.password = password;
   this.hostID = hostId;
   this.turnUserID = hostId;
   this.clients = [];
-  this.openedChars = [];
-  this.leftLives = 7;
-  this.maxPlayers = size;
-  this.word = "";
-  this.alphabet = [];
-  this.language = language;
+  this.maxPlayers = maxPlayers;
+  this.options = options;
   this.game = game;
-  this.gameStatus = "";
+  this.gameStatus = { status: "" };
   this.blacklist = [];
+  this.changeGame();
   this.addClient(client);
-  this.generateWord();
 }
+
+Room.prototype.changeGame = function () {
+  switch (this.game) {
+    case "Виселица":
+      this.gameStatus.leftLives = 7;
+      this.gameStatus.word = "";
+      this.gameStatus.openedChars = [];
+      this.gameStatus.alphabet = [];
+      this.generateWord();
+      break;
+  }
+};
 
 Room.prototype.addClient = function (client) {
   this.clients.push(client);
@@ -42,14 +41,14 @@ Room.prototype.addClient = function (client) {
 };
 
 Room.prototype.generateWord = function () {
-  if (this.language === "Английский") {
+  if (this.options.language === "Английский") {
     let index = Math.floor(Math.random() * words.en.length);
-    this.word = words.en[index];
-    this.alphabet = alphabet.en;
+    this.gameStatus.word = words.en[index];
+    this.gameStatus.alphabet = alphabet.en;
   } else {
     let index = Math.floor(Math.random() * words.ru.length);
-    this.word = words.ru[index];
-    this.alphabet = alphabet.ru;
+    this.gameStatus.word = words.ru[index];
+    this.gameStatus.alphabet = alphabet.ru;
   }
 };
 

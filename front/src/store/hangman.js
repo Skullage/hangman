@@ -4,8 +4,10 @@ const hangman = {
     getWord(state, getters, rootState, rootGetters) {
       if (rootGetters["room/getRoom"]) {
         let buffer = "";
-        rootGetters["room/getRoom"].word.split("").forEach((el) => {
-          if (!rootGetters["room/getRoom"].openedChars.includes(el)) {
+        rootGetters["room/getRoom"].gameStatus.word.split("").forEach((el) => {
+          if (
+            !rootGetters["room/getRoom"].gameStatus.openedChars.includes(el)
+          ) {
             buffer += " ";
           } else {
             buffer += el;
@@ -19,10 +21,11 @@ const hangman = {
     getCharSlots(state, getters, rootState, rootGetters) {
       let buffer = [];
       if (rootGetters["room/getRoom"]) {
-        rootGetters["room/getRoom"].alphabet.forEach((el) => {
+        rootGetters["room/getRoom"].gameStatus.alphabet.forEach((el) => {
           buffer.push({
             char: el,
-            disabled: rootGetters["room/getRoom"].openedChars.includes(el),
+            disabled:
+              rootGetters["room/getRoom"].gameStatus.openedChars.includes(el),
           });
         });
         return buffer;
@@ -32,7 +35,7 @@ const hangman = {
     },
     getLivesLast(state, getters, rootState, rootGetters) {
       return rootGetters["room/getRoom"]
-        ? rootGetters["room/getRoom"].leftLives
+        ? rootGetters["room/getRoom"].gameStatus.leftLives
         : null;
     },
   },

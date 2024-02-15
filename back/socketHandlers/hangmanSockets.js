@@ -7,9 +7,9 @@ export function hangmanSocket(io, clients, rooms) {
     socket.on("restartGame", function () {
       let room = findRoomByID(socket.id, rooms);
       room.generateWord();
-      room.leftLives = 7;
-      room.openedChars = [];
-      room.gameStatus = "";
+      room.gameStatus.leftLives = 7;
+      room.gameStatus.openedChars = [];
+      room.gameStatus.status = "";
       io.sockets.in(room.id).emit("UPDATE_ROOMS", rooms);
     });
 
@@ -21,13 +21,13 @@ export function hangmanSocket(io, clients, rooms) {
       if (room.turnUserID !== uniqueId) {
         return;
       }
-      if (room.openedChars.includes(char)) {
+      if (room.gameStatus.openedChars.includes(char)) {
         return;
       }
-      room.openedChars.push(char);
+      room.gameStatus.openedChars.push(char);
 
-      for (let i = 0; i < room.word.length; i++) {
-        if (room.word[i] === char) {
+      for (let i = 0; i < room.gameStatus.word.length; i++) {
+        if (room.gameStatus.word[i] === char) {
           charFound = true;
         }
       }
@@ -41,18 +41,18 @@ export function hangmanSocket(io, clients, rooms) {
           color: "inherit",
         });
       }
-      for (let i = 0; i < room.word.length; i++) {
-        if (!room.openedChars.includes(room.word[i])) {
+      for (let i = 0; i < room.gameStatus.word.length; i++) {
+        if (!room.gameStatus.openedChars.includes(room.gameStatus.word[i])) {
           isFullString = false;
           break;
         }
       }
       if (isFullString) {
-        room.gameStatus = `<p>${room.word}</p><p>Вы отгадали слово! Молодцы! :)</p>`;
+        room.gameStatus.status = `<p>${room.gameStatus.word}</p><p>Вы отгадали слово! Молодцы! :)</p>`;
       }
       if (!charFound) {
-        if (room.leftLives > 0) {
-          room.leftLives--;
+        if (room.gameStatus.leftLives > 0) {
+          room.gameStatus.leftLives--;
           sendMessage({
             room: room.id,
             name: "SERVER",
@@ -62,7 +62,7 @@ export function hangmanSocket(io, clients, rooms) {
             color: "inherit",
           });
         } else {
-          room.gameStatus = `<p>Вы проиграли :(</p> <p>Загаданное слово: ${room.word}</p>`;
+          room.gameStatus.status = `<p>Вы проиграли :(</p> <p>Загаданное слово: ${room.gameStatus.word}</p>`;
         }
       }
       if (room.clients.length > 1) {

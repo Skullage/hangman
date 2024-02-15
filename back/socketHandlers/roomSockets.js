@@ -24,7 +24,7 @@ export function roomSocket(io, clients, rooms) {
         data.title,
         data.password,
         data.maxPlayers,
-        data.language,
+        data.options,
         data.game,
       );
       if (newRoomID !== false) {

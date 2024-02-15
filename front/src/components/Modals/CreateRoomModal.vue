@@ -27,7 +27,7 @@ let currentStep = shallowRef(BaseSettings);
 const emits = defineEmits(["close"]);
 
 const createRoom = async (event) => {
-  Object.assign(roomSettings, event);
+  roomSettings["options"] = event;
   socketioService.hostRoom(roomSettings, function (roomId) {
     store.commit("room/setRoomId", roomId);
     router.push({ path: `/room/${roomId}`, replace: false });
