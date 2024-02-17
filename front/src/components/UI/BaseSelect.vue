@@ -5,15 +5,6 @@ import useClickOutside from "../../composables/useClickOutside.js";
 
 const emits = defineEmits(["update:modelValue", "change"]);
 
-const isShown = ref(false);
-const select = ref();
-const optionsList = ref();
-
-const changeValue = (value) => {
-  emits("update:modelValue", value);
-  isShown.value = false;
-};
-
 const props = defineProps({
   label: String,
   modelValue: {
@@ -23,7 +14,22 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  values: {
+    type: Array,
+    required: true,
+  },
 });
+
+const isShown = ref(false);
+const select = ref();
+const optionsList = ref();
+const selectedValue = ref(props.modelValue);
+
+const changeValue = (index) => {
+  emits("update:modelValue", props.values[index]);
+  selectedValue.value = props.options[index];
+  isShown.value = false;
+};
 
 useClickOutside(
   select,
@@ -43,7 +49,7 @@ useClickOutside(
         @click="isShown = !isShown"
         ref="select"
       >
-        {{ modelValue }}
+        {{ selectedValue }}
       </div>
       <icon
         icon="ic:round-expand-more"
@@ -64,12 +70,11 @@ useClickOutside(
         v-if="isShown"
       >
         <li
-          v-for="(item, index) in props.options.filter(
-            (el) => el !== modelValue,
-          )"
+          v-for="(item, index) in props.options"
           :key="index"
-          @click="changeValue(item)"
+          @click="changeValue(index)"
           class="text-black hover:bg-gray-200 px-3 py-2 cursor-pointer"
+          :class="{ hidden: item === modelValue }"
         >
           {{ item }}
         </li>

@@ -2,13 +2,13 @@
 import { reactive, ref } from "vue";
 import SimonButton from "./SimonButton.vue";
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
+import store from "../../../store/index.js";
 
 const round = ref(0);
 const bgcolors = ["blue", "red", "yellow", "green"];
 const hiddenArray = reactive([]);
 const isPlayerTurn = ref(false);
 const turn = ref(0);
-const timeoutTimer = ref(1500);
 const isLooseGame = ref(false);
 
 let btnRefs = ref([]);
@@ -21,23 +21,21 @@ const click = (index) => {
     isPlayerTurn.value = false;
     setTimeout(() => {
       nextRound();
-    }, timeoutTimer.value);
+    }, store.getters["room/getRoom"].options.difficult);
   }
 };
 const startGame = () => {
+  isLooseGame.value = false;
   resetGame();
   addElementToHiddenArray();
   showCombination();
   isPlayerTurn.value = true;
 };
-const getRandomNumber = (min, max) => {
-  return Math.random() * (max - min) + min;
-};
 const showCombination = () => {
   for (let i = 0; i < hiddenArray.length; i++) {
     setTimeout(() => {
       btnRefs.value[hiddenArray[i] - 1].clickBtn();
-    }, i * timeoutTimer.value);
+    }, i * store.getters["room/getRoom"].options.difficult);
   }
 };
 const loseGame = () => {
@@ -45,13 +43,16 @@ const loseGame = () => {
   isLooseGame.value = true;
 };
 const resetGame = () => {
-  isLooseGame.value = false;
   round.value = 0;
   isPlayerTurn.value = false;
   turn.value = 0;
   hiddenArray.length = 0;
 };
 const addElementToHiddenArray = () => {
+  const getRandomNumber = (min, max) => {
+    return Math.random() * (max - min) + min;
+  };
+
   hiddenArray.push(Math.round(getRandomNumber(1, 4)));
 };
 const nextRound = () => {
@@ -96,7 +97,7 @@ const getBorderRadius = (index) => {
           }; border-radius: ${getBorderRadius(index)}`"
           ref="btnRefs"
           :sound="`${index}.mp3`"
-          :timeout-time="timeoutTimer"
+          :timeout-time="store.getters['room/getRoom'].options.difficult"
           :disabled="!isPlayerTurn"
         />
       </div>

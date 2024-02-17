@@ -86,6 +86,7 @@ watch(
       @update:modelValue="changeGame"
       label="Игра"
       class="mb-4"
+      :values="availableGames.map((el) => el.title)"
     />
     <div class="mb-4">
       <h2 class="text-center mb-2 text-xl">Количество игроков</h2>

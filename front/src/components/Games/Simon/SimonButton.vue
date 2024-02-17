@@ -12,7 +12,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  timeoutTime: Number,
+  timeoutTime: [String, Number],
   disabled: Boolean,
 });
 

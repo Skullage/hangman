@@ -17,6 +17,7 @@ const createRoom = async () => {
   <form class="p-4">
     <base-select
       :options="languages"
+      :values="languages"
       v-model="roomLanguage"
       label="Язык комнаты"
       class="mb-6"
