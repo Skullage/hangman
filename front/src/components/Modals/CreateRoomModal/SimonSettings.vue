@@ -8,7 +8,7 @@ const difficulties = reactive([
   { title: "Средний", value: 1200 },
   { title: "Сложный", value: 800 },
 ]);
-const difficult = ref("Легкий");
+const difficult = ref();
 
 const emits = defineEmits(["submit"]);
 

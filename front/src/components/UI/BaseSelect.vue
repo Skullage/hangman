@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from "@iconify/vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import useClickOutside from "../../composables/useClickOutside.js";
 
 const emits = defineEmits(["update:modelValue", "change"]);
@@ -23,7 +23,7 @@ const props = defineProps({
 const isShown = ref(false);
 const select = ref();
 const optionsList = ref();
-const selectedValue = ref(props.modelValue);
+const selectedValue = ref();
 
 const changeValue = (index) => {
   emits("update:modelValue", props.values[index]);
@@ -38,6 +38,10 @@ useClickOutside(
   },
   optionsList,
 );
+
+onMounted(() => {
+  changeValue(0);
+});
 </script>
 
 <template>

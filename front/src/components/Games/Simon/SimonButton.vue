@@ -12,7 +12,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  timeoutTime: [String, Number],
   disabled: Boolean,
 });
 

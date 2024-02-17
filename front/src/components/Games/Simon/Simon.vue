@@ -21,7 +21,7 @@ const click = (index) => {
     isPlayerTurn.value = false;
     setTimeout(() => {
       nextRound();
-    }, store.getters["room/getRoom"].options.difficult);
+    }, 1000);
   }
 };
 const startGame = () => {
@@ -97,7 +97,6 @@ const getBorderRadius = (index) => {
           }; border-radius: ${getBorderRadius(index)}`"
           ref="btnRefs"
           :sound="`${index}.mp3`"
-          :timeout-time="store.getters['room/getRoom'].options.difficult"
           :disabled="!isPlayerTurn"
         />
       </div>
