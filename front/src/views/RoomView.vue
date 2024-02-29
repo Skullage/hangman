@@ -117,9 +117,9 @@ const leave = async () => {
       <component :is="currentGame"></component>
     </div>
     <div
-      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0"
+      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0 h-screen lg:h-auto"
       :class="{
-        'translate-x-0': store.state.chat.isChatShown,
+        '!translate-x-0': store.state.chat.isChatShown,
       }"
     >
       <chat-window class="break-all" />

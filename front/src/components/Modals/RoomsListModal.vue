@@ -32,19 +32,17 @@ socketioService.showRooms(function (rooms) {
 });
 </script>
 <template>
-  <base-modal>
-    <h3 class="border-b py-8 text-center text-2xl">
-      <slot name="title">Комнаты</slot>
-    </h3>
+  <base-modal @close="closeModalWindow">
+    <h3 class="border-b py-8 text-center text-2xl">Комнаты</h3>
     <close-button @click="closeModalWindow" />
     <div class="overflow-auto min-h-[50vh]">
-      <table class="modal-content flex-0 text-center w-full">
+      <table class="text-center w-full">
         <thead class="border-b">
           <tr>
             <td class="pr-2 py-2">Название</td>
             <td class="pr-2 py-2">Пароль?</td>
             <td class="pr-2 py-2">Количество людей</td>
-            <td class="pr-2 py-2">Язык игры</td>
+            <td class="pr-2 py-2">Настройки</td>
             <td class="py-2"></td>
           </tr>
         </thead>
@@ -75,7 +73,13 @@ socketioService.showRooms(function (rooms) {
             <td class="pr-2 py-2">
               {{ item.clients.length }}/{{ item.maxPlayers }}
             </td>
-            <td class="pr-2 py-2">{{ item.gameStatus.language }}</td>
+            <td class="pr-2 py-2">
+              {{
+                Object.entries(item.options)
+                  .map((x) => x.join(": "))
+                  .join("\r\n")
+              }}
+            </td>
             <td class="py-2">
               <custom-button
                 class="blue-btn"

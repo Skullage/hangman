@@ -4,10 +4,13 @@ import { Icon } from "@iconify/vue";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
 import ChatInput from "./UI/Inputs/ChatInput.vue";
-import EmojiList from "./EmojiList.vue";
+import EmojiListComponent from "./EmojiList.vue";
+import useClickOutside from "../composables/useClickOutside.js";
 
 const message = ref("");
 const chatLog = ref("chatLog");
+const emojiBtn = ref();
+const emojiList = ref();
 
 const showSmiles = ref(false);
 
@@ -36,13 +39,21 @@ watch(store.state.chat.messages, async () => {
 const clearInput = () => {
   message.value = "";
 };
+
+useClickOutside(
+  emojiBtn,
+  () => {
+    showSmiles.value = false;
+  },
+  emojiList,
+);
 </script>
 
 <template>
   <div
-    class="relative h-full max-h-[90vh] text-left p-2 grid grid-rows-[1fr_auto] grid-cols-1 gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l"
+    class="relative h-full lg:max-h-[90vh] text-left p-2 grid grid-rows-[1fr_auto] grid-cols-1 gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l"
   >
-    <div class="max-h-full overflow-y-auto chatLog mt-10" ref="chatLog">
+    <div class="max-h-full overflow-y-auto mt-10" ref="chatLog">
       <p
         v-for="(item, index) in store.state.chat.messages"
         :key="index"
@@ -84,14 +95,16 @@ const clearInput = () => {
           type="button"
           title="Открыть смайлы"
           @click="showSmiles = !showSmiles"
+          ref="emojiBtn"
         >
           <icon icon="bi:emoji-smile" width="24" height="24"></icon>
         </button>
       </div>
-      <emoji-list
+      <emoji-list-component
         class="max-w-full w-full absolute bottom-full mb-6 left-0 right-0 max-h-[300px] p-2"
         v-if="showSmiles"
         @close="showSmiles = false"
+        ref="emojiList"
       />
       <chat-input
         v-model="message"

@@ -1,8 +1,8 @@
 <template>
-  <base-modal>
+  <base-modal @close="closeModalWindow">
     <h3 class="mb-4 border-b py-8 text-center text-2xl">Создание комнаты</h3>
     <close-button @click="closeModalWindow" />
-    <div class="modal-content flex-1 overflow-y-auto px-4">
+    <div class="overflow-y-auto">
       <component :is="currentStep" @submit="createRoom" @next="nextStep" />
     </div>
   </base-modal>

@@ -61,10 +61,10 @@ watch(
 </script>
 
 <template>
-  <base-modal>
-    <h3 class="mb-4 border-b py-8 text-center text-2xl z-40">Обратная связь</h3>
+  <base-modal @close="closeModalWindow">
+    <h3 class="mb-4 border-b py-8 text-center text-2xl">Обратная связь</h3>
     <close-button @click="closeModalWindow" />
-    <div class="overflow-y-auto px-4">
+    <div class="overflow-y-auto">
       <form class="p-4" @submit.prevent="sendFeedback">
         <base-input
           type="email"

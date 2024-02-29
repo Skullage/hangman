@@ -48,9 +48,11 @@ onMounted(() => {
   <div class="relative">
     <div class="relative">
       <div
-        class="w-full rounded border px-3 pb-1 pt-4 outline-none bg-transparent text-xl bg-white appearance-none dark:text-black cursor-pointer"
+        class="w-full rounded border px-3 pb-1 pt-4 outline-none bg-transparent text-xl bg-white appearance-none dark:text-black cursor-pointer focus:outline-amber-400"
         :class="{ 'rounded-b-none': isShown }"
+        tabindex="0"
         @click="isShown = !isShown"
+        @keydown.space="isShown = !isShown"
         ref="select"
       >
         {{ selectedValue }}
@@ -67,36 +69,26 @@ onMounted(() => {
         {{ props.label }}
       </label>
     </div>
-    <Transition name="fade">
+    <div
+      class="grid grid-rows-[0fr] duration-300"
+      :class="{ 'grid-rows-[1fr]': isShown }"
+    >
       <ul
         class="bg-white overflow-y-auto max-h-[120px] rounded-b"
         ref="optionsList"
-        v-if="isShown"
       >
         <li
           v-for="(item, index) in props.options"
           :key="index"
           @click="changeValue(index)"
-          class="text-black hover:bg-gray-200 px-3 py-2 cursor-pointer"
+          @keydown.space="changeValue(index)"
+          class="text-black hover:bg-gray-200 px-3 py-2 cursor-pointer focus:outline-amber-400"
           :class="{ hidden: item === modelValue }"
+          tabindex="0"
         >
           {{ item }}
         </li>
       </ul>
-    </Transition>
+    </div>
   </div>
 </template>
-<style>
-.fade-enter-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-leave-active {
-  transition: opacity 0.15s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
