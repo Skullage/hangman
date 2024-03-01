@@ -9,7 +9,6 @@ class SocketioService {
   constructor() {}
 
   setupSocketConnection() {
-    // @ts-ignore
     this.router = useRouter();
     this.socket = io(VUE_APP_SOCKET_ENDPOINT);
 
@@ -66,6 +65,9 @@ class SocketioService {
     this.socket.emit("NEW_USER", {
       username: data.name,
     });
+  }
+  changeName(name) {
+    this.socket.emit("CHANGE_NAME", name);
   }
   showRooms(callback) {
     this.socket.emit("showRooms", callback);

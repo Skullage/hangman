@@ -15,10 +15,15 @@ const user = {
       state.username = null;
       localStorage.removeItem("username");
     },
-    setUsername(state, name) {
+    auth(state, name) {
       state.username = name;
       localStorage.setItem("username", state.username);
       SocketioService.setupSocketConnection();
+    },
+    changeNickname(state, name) {
+      state.username = name;
+      localStorage.setItem("username", state.username);
+      SocketioService.changeName(name);
     },
   },
 };

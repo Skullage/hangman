@@ -8,6 +8,9 @@ import { Icon } from "@iconify/vue";
 import PasswordModal from "../components/Modals/PasswordModal.vue";
 import FeedbackModal from "../components/Modals/FeedbackModal.vue";
 
+import Test from "../components/Modals/Test.vue";
+import BaseModalNew from "../components/Modals/BaseModalNew.vue";
+
 const store = useStore();
 
 const showCreateModal = () => {
@@ -24,6 +27,13 @@ const showJoinModal = () => {
 const showFeedbackModal = () => {
   store.commit("modals/showFeedbackModal");
 };
+
+function handleOnClickOpenModal() {
+  store.commit("newModal/open", {
+    view: Test,
+    actions: [],
+  });
+}
 </script>
 
 <template>
@@ -84,6 +94,7 @@ const showFeedbackModal = () => {
         >
           <Icon icon="fluent:dark-theme-24-regular" width="32" height="32" />
         </button>
+        <button @click="handleOnClickOpenModal">Toggle</button>
       </div>
     </div>
     <create-room-modal
@@ -108,5 +119,6 @@ const showFeedbackModal = () => {
       :show="store.state.modals.isFeedbackModalShown"
       @close="store.commit('modals/closeFeedbackModal')"
     />
+    <base-modal-new />
   </div>
 </template>

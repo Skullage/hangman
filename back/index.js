@@ -58,8 +58,13 @@ io.on("connection", (socket) => {
       null,
     );
     socket.emit("NEW_USER", uniqueId);
-    data.name = data.username;
     socket.emit("UPDATE_ROOMS", rooms);
+  });
+
+  socket.on("CHANGE_NAME", function (name) {
+    let uniqueId = findClientBySocketId(socket.id, clients);
+    clients[uniqueId].changeName(name);
+    console.log(socket.id + " is now known as: " + name);
   });
 
   socket.on("disconnect", function () {
