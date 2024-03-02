@@ -1,45 +1,41 @@
 <script setup>
-import BaseModal from "./BaseModal.vue";
-import CustomButton from "../UI/Buttons/CustomButton.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import store from "../../store/index.js";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
+import socketioService from "../../api/socketio.service.js";
+import router from "../../router/index.js";
+import RoomsListModal from "./RoomsListModal.vue";
 
-const emits = defineEmits(["close"]);
+const emits = defineEmits(["update:modelValue"]);
 
 const password = ref("");
-const firstInput = ref();
 
-const sendPassword = async () => {
+const connect = async (roomID) => {
   if (password.value.length > 0) {
-    store.state.modals.passwordModal.password = password.value;
-    store.state.modals.passwordModal.resolvePromise(true);
-    emits("close");
+    socketioService.joinRoom(roomID, password.value, function (roomId) {
+      if (roomId) {
+        router.push({ path: `/room/${roomId}`, replace: true });
+        store.commit("newModal/close");
+      }
+    });
   }
 };
 
 const closeModalWindow = () => {
-  store.state.modals.passwordModal.resolvePromise(false);
-  emits("close");
+  store.commit("newModal/open", {
+    view: RoomsListModal,
+  });
 };
-
-watch(
-  () => store.state.modals.passwordModal.isShow,
-  (newValue) => {
-    if (newValue) {
-      firstInput.value.$refs.input.focus();
-    }
-  },
-);
 </script>
 
 <template>
-  <base-modal @close="closeModalWindow">
+  <div>
     <h3 class="mb-4 border-b py-8 text-center text-2xl z-50">Введите пароль</h3>
     <close-button @click="closeModalWindow" />
-    <div class="overflow-y-auto">
-      <form class="p-4">
+    <div class="overflow-y-auto p-6">
+      <form @submit.prevent="connect(store.state.newModal.props.roomId)">
         <base-input
           placeholder="Пароль"
           label="Пароль"
@@ -47,12 +43,11 @@ watch(
           v-model="password"
           class="mb-2"
           required
-          ref="firstInput"
         ></base-input>
-        <custom-button @click="sendPassword" class="outlined-blue-btn w-full"
-          >Подтвердить</custom-button
+        <custom-button class="outlined-blue-btn w-full" type="submit"
+          >Войти</custom-button
         >
       </form>
     </div>
-  </base-modal>
+  </div>
 </template>

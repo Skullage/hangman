@@ -3,6 +3,7 @@ import { Icon } from "@iconify/vue";
 import store from "../store/index.js";
 import socketioService from "../api/socketio.service.js";
 import { computed } from "vue";
+import ConfirmModal from "./Modals/ConfirmModal.vue";
 
 const props = defineProps({
   userId: {
@@ -27,13 +28,30 @@ const kickUser = async () => {
   let client = store.getters["room/getRoom"].clients.find(
     (el) => el.uniqueId === props.userId,
   );
-  const ok = await store.dispatch("modals/showConfirm", {
-    title: "Подтвердите действие",
-    msg: `Вы действительно хотите выгнать пользователя  ${client.name}?`,
+  store.commit("newModal/open", {
+    view: ConfirmModal,
+    props: {
+      title: "Выгнать игрока?",
+      msg: `Он будет добавлен в черный список комнаты`,
+    },
+    actions: [
+      {
+        label: "Выгнать",
+        btnClass: "red-btn",
+        callback: () => {
+          socketioService.kickUser(client.id);
+          store.commit("newModal/close");
+        },
+      },
+      {
+        label: "Отмена",
+        btnClass: "outlined-blue-btn",
+        callback: () => {
+          store.commit("newModal/close");
+        },
+      },
+    ],
   });
-  if (ok) {
-    socketioService.kickUser(client.id);
-  }
 };
 
 const isPlayerTurn = computed(() => {

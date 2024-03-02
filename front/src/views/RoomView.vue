@@ -9,6 +9,7 @@ import ChatWindow from "../components/ChatWindow.vue";
 import Hangman from "../components/Games/Hangman/Hangman.vue";
 import Simon from "../components/Games/Simon/Simon.vue";
 import { shallowRef } from "vue";
+import ConfirmModal from "../components/Modals/ConfirmModal.vue";
 
 const router = useRouter();
 const currentGame = shallowRef({});
@@ -35,17 +36,37 @@ const copyId = (event) => {
 
 const leave = async () => {
   if (store.getters["room/getRoom"].clients.length === 1) {
-    const ok = await store.dispatch("modals/showConfirm", {
-      title: "Вы действительно хотите выйти?",
-      msg: "Кроме вас в комнате никого нет, в случае вашего выхода комната будет удалена.",
+    store.commit("newModal/open", {
+      view: ConfirmModal,
+      props: {
+        title: "Выйти с комнаты?",
+        msg: `Комната будет удалена`,
+      },
+      actions: [
+        {
+          label: "Выйти",
+          btnClass: "red-btn",
+          callback: () => {
+            socketioService.leaveRoom(function () {
+              router.push({ path: `/`, replace: true });
+            });
+            store.commit("newModal/close");
+          },
+        },
+        {
+          label: "Остаться",
+          btnClass: "outlined-blue-btn",
+          callback: () => {
+            store.commit("newModal/close");
+          },
+        },
+      ],
     });
-    if (!ok) {
-      return;
-    }
+  } else {
+    socketioService.leaveRoom(function () {
+      router.push({ path: `/`, replace: true });
+    });
   }
-  socketioService.leaveRoom(function () {
-    router.push({ path: `/`, replace: true });
-  });
 };
 </script>
 

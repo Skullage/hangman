@@ -2,7 +2,7 @@
 import { availableGames } from "../../../config/config.js";
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
 import BaseSelect from "../../UI/BaseSelect.vue";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import store from "../../../store/index.js";
 import BaseInput from "../../UI/Inputs/BaseInput.vue";
 import { Icon } from "@iconify/vue";
@@ -52,15 +52,6 @@ const isAvailableCountPlayer = (index) => {
     availableGames.find((el) => el.title === selectedGame.value).maxPlayers
   );
 };
-
-watch(
-  () => store.state.modals.isCreateModalShown,
-  (newValue) => {
-    if (newValue) {
-      firstInput.value.$refs.input.focus();
-    }
-  },
-);
 </script>
 
 <template>

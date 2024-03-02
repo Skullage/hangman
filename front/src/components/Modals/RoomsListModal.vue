@@ -3,27 +3,23 @@ import { Icon } from "@iconify/vue";
 import { useRouter } from "vue-router";
 import socketioService from "../../api/socketio.service.js";
 import store from "../../store/index.js";
-import BaseModal from "./BaseModal.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
+import PasswordModal from "./PasswordModal.vue";
 
 const router = useRouter();
 
-const emits = defineEmits(["close"]);
-const closeModalWindow = () => {
-  emits("close");
-};
-
 const setPassword = async (roomId) => {
-  const ok = await store.dispatch("modals/showModal");
-  if (ok) {
-    connect(roomId, store.state.modals.passwordModal.password);
-  }
+  store.commit("newModal/open", {
+    view: PasswordModal,
+    props: { roomId: roomId },
+  });
 };
 
 const connect = (roomId, password = "") => {
   socketioService.joinRoom(roomId, password, function (roomId) {
     router.push({ path: `/room/${roomId}`, replace: true });
+    store.commit("newModal/close");
   });
 };
 
@@ -32,9 +28,9 @@ socketioService.showRooms(function (rooms) {
 });
 </script>
 <template>
-  <base-modal @close="closeModalWindow">
+  <div>
     <h3 class="border-b py-8 text-center text-2xl">Комнаты</h3>
-    <close-button @click="closeModalWindow" />
+    <close-button @click="store.commit('newModal/close')" />
     <div class="overflow-auto min-h-[50vh]">
       <table class="text-center w-full">
         <thead class="border-b">
@@ -94,5 +90,5 @@ socketioService.showRooms(function (rooms) {
         </tbody>
       </table>
     </div>
-  </base-modal>
+  </div>
 </template>

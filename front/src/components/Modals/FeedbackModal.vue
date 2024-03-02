@@ -1,8 +1,7 @@
 <script setup>
-import BaseModal from "./BaseModal.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import BaseTextarea from "../UI/Inputs/BaseTextarea.vue";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 import api from "../../api/api.js";
@@ -12,7 +11,6 @@ const emits = defineEmits(["close"]);
 
 const email = ref("");
 const msg = ref("");
-const firstInput = ref();
 
 const sendFeedback = async () => {
   if (email.value.length < 1) {
@@ -35,7 +33,7 @@ const sendFeedback = async () => {
       msg: msg.value,
     })
     .then(() => {
-      closeModalWindow();
+      store.commit("newModal/close");
       store.commit("notification/addNotification", {
         type: "success",
         msg: "Ваше сообщение успешно отправлено администратору.",
@@ -45,34 +43,20 @@ const sendFeedback = async () => {
       console.log(error);
     });
 };
-
-const closeModalWindow = () => {
-  emits("close");
-};
-
-watch(
-  () => store.state.modals.isFeedbackModalShown,
-  (newValue) => {
-    if (newValue) {
-      firstInput.value.$refs.input.focus();
-    }
-  },
-);
 </script>
 
 <template>
-  <base-modal @close="closeModalWindow">
+  <div>
     <h3 class="mb-4 border-b py-8 text-center text-2xl">Обратная связь</h3>
-    <close-button @click="closeModalWindow" />
-    <div class="overflow-y-auto">
-      <form class="p-4" @submit.prevent="sendFeedback">
+    <close-button @click="store.commit('newModal/close')" />
+    <div class="overflow-y-auto p-6">
+      <form @submit.prevent="sendFeedback">
         <base-input
           type="email"
           placeholder="E-mail"
           class="mb-4"
           label="E-mail"
           v-model="email"
-          ref="firstInput"
         />
         <base-textarea
           label="Сообщение"
@@ -85,5 +69,5 @@ watch(
         >
       </form>
     </div>
-  </base-modal>
+  </div>
 </template>

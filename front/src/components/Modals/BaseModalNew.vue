@@ -1,10 +1,6 @@
 <script setup>
-import { reactive } from "vue";
 import store from "../../store/index.js";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
-
-// reactive container to save the payload returned by the mounted view
-const model = reactive({});
 </script>
 
 <template>
@@ -15,21 +11,17 @@ const model = reactive({});
         v-if="store.state.newModal.isOpen"
       >
         <div
-          class="h-auto max-h-full w-full rounded-lg bg-thirdLight dark:bg-fifthDark duration-500 lg:max-h-[80%] lg:w-1/2 p-4 border-black relative"
+          class="h-auto max-h-full w-screen rounded-lg bg-thirdLight dark:bg-fifthDark duration-500 lg:max-h-[80%] lg:w-1/2 p-4 border-black relative"
           role="dialog"
           aria-modal="true"
           ref="modal"
           tabindex="0"
         >
-          <component
-            :is="store.state.newModal.view"
-            v-model="model"
-          ></component>
-          <div class="modal-action">
-            <!-- render all actions and pass the model payload as parameter -->
+          <component :is="store.state.newModal.view"></component>
+          <div class="flex gap-4 justify-center">
             <custom-button
-              @click="action.callback(model)"
-              class="w-full outlined-blue-btn"
+              @click="action.callback()"
+              :class="action.btnClass"
               v-for="action in store.state.newModal.actions"
               >{{ action.label }}</custom-button
             >

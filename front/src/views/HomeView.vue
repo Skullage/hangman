@@ -5,35 +5,36 @@ import JoinRoomModal from "../components/Modals/JoinRoomModal.vue";
 import RoomsListModal from "../components/Modals/RoomsListModal.vue";
 import CustomButton from "../components/UI/Buttons/CustomButton.vue";
 import { Icon } from "@iconify/vue";
-import PasswordModal from "../components/Modals/PasswordModal.vue";
 import FeedbackModal from "../components/Modals/FeedbackModal.vue";
-
-import Test from "../components/Modals/Test.vue";
-import BaseModalNew from "../components/Modals/BaseModalNew.vue";
+import NicknameModal from "../components/Modals/NicknameModal.vue";
 
 const store = useStore();
 
-const showCreateModal = () => {
-  store.commit("modals/showCreateModal");
-};
-
-const showRoomsModal = () => {
-  store.commit("modals/showRoomsModal");
-};
-
-const showJoinModal = () => {
-  store.commit("modals/showJoinModal");
-};
-const showFeedbackModal = () => {
-  store.commit("modals/showFeedbackModal");
-};
-
-function handleOnClickOpenModal() {
+const handleOnClickOpenNicknameModal = () => {
   store.commit("newModal/open", {
-    view: Test,
-    actions: [],
+    view: NicknameModal,
   });
-}
+};
+const handleOnClickOpenCreateModal = () => {
+  store.commit("newModal/open", {
+    view: CreateRoomModal,
+  });
+};
+const handleOnClickOpenRoomsListModal = () => {
+  store.commit("newModal/open", {
+    view: RoomsListModal,
+  });
+};
+const handleOnClickOpenJoinModal = () => {
+  store.commit("newModal/open", {
+    view: JoinRoomModal,
+  });
+};
+const handleOnClickOpenFeedbackModal = () => {
+  store.commit("newModal/open", {
+    view: FeedbackModal,
+  });
+};
 </script>
 
 <template>
@@ -45,13 +46,13 @@ function handleOnClickOpenModal() {
         Play <span class="block">Together</span>
       </h1>
       <div class="flex flex-col gap-2 mb-10">
-        <custom-button class="blue-btn" @click="showCreateModal"
+        <custom-button class="blue-btn" @click="handleOnClickOpenCreateModal"
           >Создать комнату</custom-button
         >
-        <custom-button class="base-btn" @click="showRoomsModal"
+        <custom-button class="base-btn" @click="handleOnClickOpenRoomsListModal"
           >Список комнат</custom-button
         >
-        <custom-button class="base-btn" @click="showJoinModal"
+        <custom-button class="base-btn" @click="handleOnClickOpenJoinModal"
           >Присоединиться к комнате</custom-button
         >
       </div>
@@ -62,7 +63,7 @@ function handleOnClickOpenModal() {
         </p>
         <custom-button
           class="outlined-blue-btn"
-          @click="store.commit('user/logout')"
+          @click="handleOnClickOpenNicknameModal"
           >Сменить ник</custom-button
         >
       </div>
@@ -74,7 +75,7 @@ function handleOnClickOpenModal() {
         <button
           title="Обратная связь"
           class="cursor-pointer"
-          @click="showFeedbackModal"
+          @click="handleOnClickOpenFeedbackModal"
         >
           <Icon icon="ri:bug-fill" width="32" height="32" />
         </button>
@@ -94,31 +95,7 @@ function handleOnClickOpenModal() {
         >
           <Icon icon="fluent:dark-theme-24-regular" width="32" height="32" />
         </button>
-        <button @click="handleOnClickOpenModal">Toggle</button>
       </div>
     </div>
-    <create-room-modal
-      :show="store.state.modals.isCreateModalShown"
-      @close="store.commit('modals/closeCreateModal')"
-    />
-    <join-room-modal
-      :show="store.state.modals.isJoinModalShown"
-      @close="store.commit('modals/closeJoinModal')"
-    />
-    <suspense>
-      <rooms-list-modal
-        :show="store.state.modals.isRoomsModalShown"
-        @close="store.commit('modals/closeRoomsModal')"
-      />
-    </suspense>
-    <password-modal
-      :show="store.state.modals.passwordModal.isShow"
-      @close="store.state.modals.passwordModal.isShow = false"
-    />
-    <feedback-modal
-      :show="store.state.modals.isFeedbackModalShown"
-      @close="store.commit('modals/closeFeedbackModal')"
-    />
-    <base-modal-new />
   </div>
 </template>

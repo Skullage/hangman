@@ -25,6 +25,12 @@
     dark:bg-thirdDark
     bg-secondaryLight
   }
+  .red-btn {
+    @apply border-transparent
+    dark:hover:bg-red-600
+    dark:bg-red-700
+    bg-red-700
+  }
   .outlined-blue-btn {
     @apply
     bg-transparent

@@ -11,10 +11,6 @@ const user = {
     },
   },
   mutations: {
-    logout(state) {
-      state.username = null;
-      localStorage.removeItem("username");
-    },
     auth(state, name) {
       state.username = name;
       localStorage.setItem("username", state.username);
