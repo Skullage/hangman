@@ -1,6 +1,5 @@
 <script setup>
 import PlayerSlot from "../components/PlayerSlot.vue";
-import OverlayModal from "../components/Modals/OverlayModal.vue";
 import { Icon } from "@iconify/vue";
 import { useRouter } from "vue-router";
 import store from "../store/index.js";
@@ -8,8 +7,9 @@ import socketioService from "../api/socketio.service.js";
 import ChatWindow from "../components/ChatWindow.vue";
 import Hangman from "../components/Games/Hangman/Hangman.vue";
 import Simon from "../components/Games/Simon/Simon.vue";
-import { shallowRef } from "vue";
+import { shallowRef, watch } from "vue";
 import ConfirmModal from "../components/Modals/ConfirmModal.vue";
+import OverlayModal from "../components/Modals/OverlayModal.vue";
 
 const router = useRouter();
 const currentGame = shallowRef({});
@@ -68,6 +68,18 @@ const leave = async () => {
     });
   }
 };
+
+watch(
+  () => store.getters["room/isGamePaused"],
+  (newValue) => {
+    if (newValue) {
+      store.commit("newModal/open", {
+        view: OverlayModal,
+        props: { title: store.getters["room/getGameStatus"] },
+      });
+    }
+  },
+);
 </script>
 
 <template>
@@ -145,10 +157,6 @@ const leave = async () => {
     >
       <chat-window class="break-all" />
     </div>
-    <overlay-modal
-      :show="store.getters['room/isGamePaused']"
-      :title="store.getters['room/getGameStatus']"
-    />
   </div>
 </template>
 <style>
