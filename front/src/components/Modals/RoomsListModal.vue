@@ -10,7 +10,7 @@ import PasswordModal from "./PasswordModal.vue";
 const router = useRouter();
 
 const setPassword = async (roomId) => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: PasswordModal,
     props: { roomId: roomId },
   });
@@ -19,7 +19,7 @@ const setPassword = async (roomId) => {
 const connect = (roomId, password = "") => {
   socketioService.joinRoom(roomId, password, function (roomId) {
     router.push({ path: `/room/${roomId}`, replace: true });
-    store.commit("newModal/close");
+    store.commit("modals/close");
   });
 };
 
@@ -30,7 +30,7 @@ socketioService.showRooms(function (rooms) {
 <template>
   <div>
     <h3 class="border-b py-8 text-center text-2xl">Комнаты</h3>
-    <close-button @click="store.commit('newModal/close')" />
+    <close-button @click="store.commit('modals/close')" />
     <div class="overflow-auto min-h-[50vh]">
       <table class="text-center w-full">
         <thead class="border-b">

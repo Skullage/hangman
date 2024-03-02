@@ -43,6 +43,6 @@ const setNick = async () => {
   } else {
     store.commit("user/auth", nickname.value);
   }
-  store.commit("newModal/close");
+  store.commit("modals/close");
 };
 </script>

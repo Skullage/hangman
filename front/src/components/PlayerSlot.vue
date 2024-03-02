@@ -28,7 +28,7 @@ const kickUser = async () => {
   let client = store.getters["room/getRoom"].clients.find(
     (el) => el.uniqueId === props.userId,
   );
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: ConfirmModal,
     props: {
       title: "Выгнать игрока?",
@@ -40,14 +40,14 @@ const kickUser = async () => {
         btnClass: "red-btn",
         callback: () => {
           socketioService.kickUser(client.id);
-          store.commit("newModal/close");
+          store.commit("modals/close");
         },
       },
       {
         label: "Отмена",
         btnClass: "outlined-blue-btn",
         callback: () => {
-          store.commit("newModal/close");
+          store.commit("modals/close");
         },
       },
     ],

@@ -5,7 +5,7 @@ import notification from "./notification.js";
 import user from "./user.js";
 import hangman from "./hangman.js";
 import chat from "./chat.js";
-import newModal from "./newModal.ts";
+import modals from "./modals.ts";
 
 const store = createStore({
   modules: {
@@ -15,7 +15,7 @@ const store = createStore({
     user,
     hangman,
     chat,
-    newModal,
+    modals,
   },
 });
 

@@ -11,27 +11,27 @@ import NicknameModal from "../components/Modals/NicknameModal.vue";
 const store = useStore();
 
 const handleOnClickOpenNicknameModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: NicknameModal,
   });
 };
 const handleOnClickOpenCreateModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: CreateRoomModal,
   });
 };
 const handleOnClickOpenRoomsListModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: RoomsListModal,
   });
 };
 const handleOnClickOpenJoinModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: JoinRoomModal,
   });
 };
 const handleOnClickOpenFeedbackModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: FeedbackModal,
   });
 };

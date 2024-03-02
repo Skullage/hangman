@@ -5,34 +5,33 @@ import JoinRoomModal from "../components/Modals/JoinRoomModal.vue";
 import RoomsListModal from "../components/Modals/RoomsListModal.vue";
 import CustomButton from "../components/UI/Buttons/CustomButton.vue";
 import { Icon } from "@iconify/vue";
-import PasswordModal from "../components/Modals/PasswordModal.vue";
 import FeedbackModal from "../components/Modals/FeedbackModal.vue";
 import NicknameModal from "../components/Modals/NicknameModal.vue";
 
 const store = useStore();
 
 const handleOnClickOpenNicknameModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: NicknameModal,
   });
 };
 const handleOnClickOpenCreateModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: CreateRoomModal,
   });
 };
 const handleOnClickOpenRoomsListModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: RoomsListModal,
   });
 };
 const handleOnClickOpenJoinModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: JoinRoomModal,
   });
 };
 const handleOnClickOpenFeedbackModal = () => {
-  store.commit("newModal/open", {
+  store.commit("modals/open", {
     view: FeedbackModal,
   });
 };
@@ -98,9 +97,5 @@ const handleOnClickOpenFeedbackModal = () => {
         </button>
       </div>
     </div>
-    <password-modal
-      :show="store.state.modals.passwordModal.isShow"
-      @close="store.state.modals.passwordModal.isShow = false"
-    />
   </div>
 </template>

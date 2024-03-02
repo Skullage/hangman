@@ -2,7 +2,7 @@
   <div>
     <h3
       class="mb-4 py-8 text-center text-2xl"
-      v-html="store.state.newModal.props.title"
+      v-html="store.state.modals.props.title"
     ></h3>
     <p class="text-center">Новый раунд начнется через {{ timesLeft }} сек.</p>
   </div>
@@ -22,7 +22,7 @@ onMounted(() => {
     } else {
       clearInterval(timer);
       socketioService.restartGame();
-      store.commit("newModal/close");
+      store.commit("modals/close");
     }
   }, 1000);
 });

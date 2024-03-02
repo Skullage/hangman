@@ -36,7 +36,7 @@ const copyId = (event) => {
 
 const leave = async () => {
   if (store.getters["room/getRoom"].clients.length === 1) {
-    store.commit("newModal/open", {
+    store.commit("modals/open", {
       view: ConfirmModal,
       props: {
         title: "Выйти с комнаты?",
@@ -50,14 +50,14 @@ const leave = async () => {
             socketioService.leaveRoom(function () {
               router.push({ path: `/`, replace: true });
             });
-            store.commit("newModal/close");
+            store.commit("modals/close");
           },
         },
         {
           label: "Остаться",
           btnClass: "outlined-blue-btn",
           callback: () => {
-            store.commit("newModal/close");
+            store.commit("modals/close");
           },
         },
       ],
@@ -73,7 +73,7 @@ watch(
   () => store.getters["room/isGamePaused"],
   (newValue) => {
     if (newValue) {
-      store.commit("newModal/open", {
+      store.commit("modals/open", {
         view: OverlayModal,
         props: { title: store.getters["room/getGameStatus"] },
       });

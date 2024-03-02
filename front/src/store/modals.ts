@@ -13,7 +13,7 @@ export type ModalAction = {
   callback: (props?: any) => void;
 };
 
-const newModal = {
+const modals = {
   namespaced: true,
   state: (): Modal => ({
     isOpen: false,
@@ -37,4 +37,4 @@ const newModal = {
   },
 };
 
-export default newModal;
+export default modals;

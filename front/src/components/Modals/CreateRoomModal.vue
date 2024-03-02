@@ -30,7 +30,7 @@ const createRoom = async (event) => {
     store.commit("room/setRoomId", roomId);
     router.push({ path: `/room/${roomId}`, replace: false });
   });
-  store.commit("newModal/close");
+  store.commit("modals/close");
 };
 const nextStep = (event) => {
   Object.assign(roomSettings, event);
@@ -48,6 +48,6 @@ const nextStep = (event) => {
 const closeModalWindow = () => {
   currentStep.value = BaseSettings;
   roomSettings = {};
-  store.commit("newModal/close");
+  store.commit("modals/close");
 };
 </script>

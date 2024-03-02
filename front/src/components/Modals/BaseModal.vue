@@ -1,38 +1,45 @@
+<script setup>
+import store from "../../store/index.js";
+import CustomButton from "../UI/Buttons/CustomButton.vue";
+</script>
+
 <template>
   <teleport to="body">
-    <div
-      class="fixed top-0 left-0 z-40 flex h-full w-full justify-center backdrop-blur-lg items-center duration-500"
-      :class="{ 'opacity-0 pointer-events-none': !props.show }"
-    >
+    <transition name="fade">
       <div
-        class="flex h-auto max-h-full w-full flex-col rounded-lg bg-thirdLight dark:bg-fifthDark duration-500 lg:max-h-[80%] lg:w-1/2 relative p-4 border-black focus:outline-none"
-        role="dialog"
-        aria-modal="true"
-        ref="modal"
-        tabindex="0"
-        :class="{ '-translate-y-full': !props.show }"
-        @keydown.esc="emits('close')"
+        class="w-screen h-screen fixed top-0 left-0 backdrop-blur-lg grid place-items-center"
+        v-if="store.state.modals.isOpen"
       >
-        <slot> </slot>
+        <div
+          class="h-auto max-h-full w-screen rounded-lg bg-thirdLight dark:bg-fifthDark duration-500 lg:max-h-[80%] lg:w-1/2 p-4 border-black relative"
+          role="dialog"
+          aria-modal="true"
+          ref="modal"
+          tabindex="0"
+        >
+          <component :is="store.state.modals.view"></component>
+          <div class="flex gap-4 justify-center">
+            <custom-button
+              @click="action.callback()"
+              :class="action.btnClass"
+              v-for="action in store.state.modals.actions"
+              >{{ action.label }}</custom-button
+            >
+          </div>
+        </div>
       </div>
-    </div>
+    </transition>
   </teleport>
 </template>
-<script setup>
-import { ref, watch } from "vue";
 
-const modal = ref();
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
 
-const props = defineProps({
-  show: Boolean,
-});
-const emits = defineEmits(["close"]);
-watch(
-  () => props.show,
-  (newValue) => {
-    if (newValue) {
-      modal.value.focus();
-    }
-  },
-);
-</script>
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
