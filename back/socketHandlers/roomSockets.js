@@ -79,6 +79,8 @@ export function roomSocket(io, clients, rooms) {
         startTurnTimer(roomId);
         io.emit("UPDATE_ROOMS", rooms);
         callback(roomId);
+      } else {
+        callback(false);
       }
     });
     socket.on("LEAVE_ROOM", function (callback) {
