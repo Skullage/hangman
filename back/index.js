@@ -13,6 +13,9 @@ import { chatSocket } from "./socketHandlers/chatSockets.js";
 import fs from "fs";
 import { sendMessage } from "./helpers/chatHelpers.js";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 const app = express();
 
 const options = {

@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-require("dotenv").config();
 
 export const sendFeedback = async (req, res) => {
   const email = req.body.email;
