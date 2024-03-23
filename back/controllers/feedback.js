@@ -1,16 +1,17 @@
 import nodemailer from "nodemailer";
+require("dotenv").config();
 
 export const sendFeedback = async (req, res) => {
   const email = req.body.email;
   const msg = req.body.msg;
 
   let transporter = nodemailer.createTransport({
-    host: "mail.play-together.ru",
-    port: 465,
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT,
     secure: true,
     auth: {
-      user: "root",
-      pass: "adik1234",
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
     },
   });
 

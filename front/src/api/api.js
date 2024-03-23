@@ -1,7 +1,6 @@
 import axios from "axios";
-import { VUE_APP_SOCKET_ENDPOINT } from "../config/config.js";
 
-axios.defaults.baseURL = VUE_APP_SOCKET_ENDPOINT;
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 const instance = axios.create({});
 

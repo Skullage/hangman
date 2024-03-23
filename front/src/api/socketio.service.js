@@ -1,5 +1,4 @@
 import { io } from "socket.io-client";
-import { VUE_APP_SOCKET_ENDPOINT } from "../config/config.js";
 import store from "../store/index.js";
 import { useRouter } from "vue-router";
 
@@ -10,7 +9,7 @@ class SocketioService {
 
   setupSocketConnection() {
     this.router = useRouter();
-    this.socket = io(VUE_APP_SOCKET_ENDPOINT);
+    this.socket = io(import.meta.env.VITE_API_URL);
 
     this.socket.on("UPDATE_ROOMS", (data) => {
       store.state.room.rooms = data;
