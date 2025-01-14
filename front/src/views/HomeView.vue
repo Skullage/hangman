@@ -79,22 +79,22 @@ const handleOnClickOpenFeedbackModal = () => {
         >
           <Icon icon="ri:bug-fill" width="32" height="32" />
         </button>
-        <button
-          v-if="store.state.theme.themeMode !== 'dark'"
-          title="Темная тема"
-          @click="store.commit('theme/toggleTheme', 'dark')"
-          class="cursor-pointer"
-        >
-          <Icon icon="fluent:dark-theme-24-regular" width="32" height="32" />
-        </button>
-        <button
-          v-else
-          title="Светлая тема"
-          class="cursor-pointer"
-          @click="store.commit('theme/toggleTheme', 'light')"
-        >
-          <Icon icon="fluent:dark-theme-24-regular" width="32" height="32" />
-        </button>
+        <!--        <button-->
+        <!--          v-if="store.state.theme.themeMode !== 'dark'"-->
+        <!--          title="Темная тема"-->
+        <!--          @click="store.commit('theme/toggleTheme', 'dark')"-->
+        <!--          class="cursor-pointer"-->
+        <!--        >-->
+        <!--          <Icon icon="fluent:dark-theme-24-regular" width="32" height="32" />-->
+        <!--        </button>-->
+        <!--        <button-->
+        <!--          v-else-->
+        <!--          title="Светлая тема"-->
+        <!--          class="cursor-pointer"-->
+        <!--          @click="store.commit('theme/toggleTheme', 'light')"-->
+        <!--        >-->
+        <!--          <Icon icon="fluent:dark-theme-24-regular" width="32" height="32" />-->
+        <!--        </button>-->
       </div>
     </div>
   </div>

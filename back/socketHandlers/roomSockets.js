@@ -3,6 +3,7 @@ import {
   connectClientToRoom,
   findRoomByID,
   hostARoom,
+  isAllClientsReady,
   isClient,
   isInRoom,
   leaveRoom,
@@ -97,6 +98,21 @@ export function roomSocket(io, clients, rooms) {
         });
         io.emit("UPDATE_ROOMS", rooms);
         callback();
+      }
+    });
+    socket.on("toggleReadyStatus", () => {
+      let uniqueId = findClientBySocketId(socket.id, clients);
+      let roomID = clients[uniqueId].room;
+      clients[uniqueId].toggleReadyStatus();
+      io.emit("UPDATE_ROOMS", rooms);
+      io.sockets.in(roomID).emit("GET_ROOM_INFO", rooms[roomID]);
+      rooms[roomID].clients.forEach((el) => {
+        if (!el.isReady) {
+          return false;
+        }
+      });
+      if (isAllClientsReady(roomID)) {
+        rooms[roomID].startGame();
       }
     });
   });

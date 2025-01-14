@@ -66,6 +66,9 @@ const room = {
     setRoomId(state, id) {
       state.roomId = id;
     },
+    updateRoomInfo(state, data) {
+      state.rooms[state.roomId] = data;
+    },
     startTimer(state, timeout) {
       state.turnTimer = timeout / 1000;
       if (state.timer !== undefined) {

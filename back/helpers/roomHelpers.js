@@ -116,7 +116,6 @@ export function leaveRoom(client, roomID) {
       return false;
     }
   }
-  // Emit changes
   io.sockets.emit("UPDATE_ROOMS", rooms);
   return true;
 }
@@ -153,10 +152,18 @@ export function isInRoom(clients, clientID) {
 }
 
 export function getPeopleInRoom(clientID, roomID) {
-  // var room = findRoomByID(clientID, rooms);
   if (rooms[roomID] != null || rooms[roomID] !== undefined) {
     io.sockets.in(roomID).emit("GET_ROOM_INFO", rooms[roomID]);
   }
+}
+
+export function isAllClientsReady(roomID) {
+  rooms[roomID].clients.forEach((el) => {
+    if (!el.isReady) {
+      return false;
+    }
+  });
+  return true;
 }
 
 export function findRoomByID(clientID, rooms) {

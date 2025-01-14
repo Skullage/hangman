@@ -42,6 +42,9 @@ class SocketioService {
         this.newUser({ name: store.state.user.username });
       }
     });
+    this.socket.on("GET_ROOM_INFO", (data) => {
+      store.commit("room/updateRoomInfo", data);
+    });
     this.socket.on("connect_error", () => {
       store.commit("notification/addNotification", {
         type: "error",
@@ -102,6 +105,9 @@ class SocketioService {
         msg: "Соединение было разорвано. Попробуйте  обновить страницу",
       });
     }
+  }
+  toggleReadyStatus() {
+    this.socket.emit("toggleReadyStatus");
   }
 }
 

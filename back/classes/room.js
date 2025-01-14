@@ -27,6 +27,9 @@ Room.prototype.changeGame = function () {
       this.gameStatus.alphabet = [];
       this.generateWord();
       break;
+    case "Саймон":
+      this.gameStatus.combination = [];
+      break;
   }
 };
 
@@ -40,15 +43,28 @@ Room.prototype.addClient = function (client) {
   );
 };
 
+Room.prototype.startGame = () => {};
+
+Room.prototype.addElementToCombinationArray = function () {
+  const getRandomNumber = (min, max) => {
+    return Math.random() * (max - min) + min;
+  };
+  this.gameStatus.combination.push(Math.round(getRandomNumber(1, 4)));
+};
+
 Room.prototype.generateWord = function () {
-  if (this.options.language === "Английский") {
-    let index = Math.floor(Math.random() * words.en.length);
-    this.gameStatus.word = words.en[index];
-    this.gameStatus.alphabet = alphabet.en;
-  } else {
-    let index = Math.floor(Math.random() * words.ru.length);
-    this.gameStatus.word = words.ru[index];
-    this.gameStatus.alphabet = alphabet.ru;
+  let index = 0;
+  switch (this.options.language) {
+    case "Английский":
+      index = Math.floor(Math.random() * words.en.length);
+      this.gameStatus.word = words.en[index];
+      this.gameStatus.alphabet = alphabet.en;
+      break;
+    case "Русский":
+      index = Math.floor(Math.random() * words.ru.length);
+      this.gameStatus.word = words.ru[index];
+      this.gameStatus.alphabet = alphabet.ru;
+      break;
   }
 };
 

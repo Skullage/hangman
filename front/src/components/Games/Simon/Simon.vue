@@ -3,15 +3,20 @@ import { reactive, ref } from "vue";
 import SimonButton from "./SimonButton.vue";
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
 import store from "../../../store/index.js";
+import socketioService from "../../../api/socketio.service.js";
 
 const round = ref(0);
-const bgcolors = ["blue", "red", "yellow", "green"];
+const bgColors = ["blue", "red", "yellow", "green"];
 const hiddenArray = reactive([]);
 const isPlayerTurn = ref(false);
 const turn = ref(0);
 const isLooseGame = ref(false);
 
 let btnRefs = ref([]);
+
+const toggleReadyStatus = () => {
+  socketioService.toggleReadyStatus();
+};
 const click = (index) => {
   if (hiddenArray[turn.value] !== index) {
     return loseGame();
@@ -93,7 +98,7 @@ const getBorderRadius = (index) => {
           :key="index"
           :index="index"
           :style="`background-color: ${
-            bgcolors[index - 1]
+            bgColors[index - 1]
           }; border-radius: ${getBorderRadius(index)}`"
           ref="btnRefs"
           :sound="`${index}.mp3`"
@@ -103,7 +108,7 @@ const getBorderRadius = (index) => {
     </div>
     <div>
       <custom-button class="outlined-blue-btn" @click="startGame"
-        >Start</custom-button
+        >Готов</custom-button
       >
     </div>
   </div>

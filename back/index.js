@@ -1,5 +1,6 @@
 import express from "express";
 import https from "https";
+import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import Router from "./routes/routes.js";
@@ -18,11 +19,13 @@ dotenv.config();
 
 const app = express();
 
+/*
 const options = {
   key: fs.readFileSync("/etc/ssl/play-together.ru/private.key"),
   cert: fs.readFileSync("/etc/ssl/play-together.ru/cert.crt"),
   ca: fs.readFileSync("/etc/ssl/play-together.ru/chain.crt"),
 };
+*/
 
 app.get("/", (req, res) => {
   res.send("<h1>Hey Socket.io</h1>");
@@ -33,9 +36,10 @@ app.use(cors());
 app.set("trust proxy", "8.8.8.8");
 app.use(Router);
 
-const httpsServer = https.createServer(options, app);
+const httpServer = http.createServer(app);
+//const httpsServer = https.createServer(options, app);
 
-export const io = new Server(httpsServer, {
+export const io = new Server(httpServer, {
   cors: {
     origin: "*",
   },
@@ -105,6 +109,6 @@ roomSocket(io, clients, rooms);
 hangmanSocket(io, clients, rooms);
 chatSocket(io, clients);
 
-httpsServer.listen(3000, () => {
+httpServer.listen(3000, () => {
   console.log("listening on *:3000");
 });
