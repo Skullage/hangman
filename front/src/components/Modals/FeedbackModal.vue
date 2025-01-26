@@ -1,7 +1,7 @@
 <script setup>
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import BaseTextarea from "../UI/Inputs/BaseTextarea.vue";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 import api from "../../api/api.js";
@@ -12,19 +12,22 @@ const emits = defineEmits(["close"]);
 const email = ref("");
 const msg = ref("");
 
+const validate = reactive({
+  email: "",
+  msg: "",
+});
+
 const sendFeedback = async () => {
+  let isErrors = false;
   if (email.value.length < 1) {
-    store.commit("notification/addNotification", {
-      type: "error",
-      msg: "Введите E-mail.",
-    });
-    return;
+    validate.email = "Введите E-mail";
+    isErrors = true;
   }
   if (msg.value.length < 1) {
-    store.commit("notification/addNotification", {
-      type: "error",
-      msg: "Введите сообщение",
-    });
+    validate.email = "Введите сообщение";
+    isErrors = true;
+  }
+  if (isErrors) {
     return;
   }
   await api
@@ -54,15 +57,19 @@ const sendFeedback = async () => {
         <base-input
           type="email"
           placeholder="E-mail"
-          class="mb-4"
+          class="mb-8"
           label="E-mail"
           v-model="email"
+          required
+          :error="validate.email"
         />
         <base-textarea
           label="Сообщение"
           placeholder="Сообщение"
           class="mb-2"
           v-model="msg"
+          required
+          :error="validate.msg"
         />
         <custom-button type="submit" class="outlined-blue-btn w-full"
           >Отправить</custom-button

@@ -4,11 +4,13 @@
     <div class="overflow-y-auto p-6">
       <form @submit.prevent="setNick">
         <base-input
+          id="nick"
           v-model="nickname"
           placeholder="Ник"
           label="Ник"
-          class="mb-2"
+          class="mb-4"
           required
+          :error="validate.nickname"
         ></base-input>
         <custom-button class="w-full outlined-blue-btn" type="submit"
           >Подтвердить</custom-button
@@ -18,25 +20,27 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import store from "../../store/index.js";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 
 const nickname = ref("");
+const validate = reactive({
+  nickname: "",
+});
 
 const setNick = async () => {
+  let isErrors = false;
   if (nickname.value.length < 1) {
-    return store.commit("notification/addNotification", {
-      type: "error",
-      msg: "Введите ник",
-    });
+    validate.nickname = "Введите ник";
+    isErrors = true;
+  } else if (nickname.value.length > 16) {
+    validate.nickname = "Длина ника не должна превышать 16 символов";
+    isErrors = true;
   }
-  if (nickname.value.length > 16) {
-    return store.commit("notification/addNotification", {
-      type: "error",
-      msg: "Длина ника не должна превышать 16 символов",
-    });
+  if (isErrors) {
+    return;
   }
   if (store.getters["user/isLogined"]) {
     store.commit("user/changeNickname", nickname.value);

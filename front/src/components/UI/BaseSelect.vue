@@ -48,7 +48,7 @@ onMounted(() => {
   <div class="relative">
     <div class="relative">
       <div
-        class="w-full rounded border px-3 pb-1 pt-4 outline-none bg-transparent text-xl bg-white appearance-none dark:text-black cursor-pointer focus:outline-amber-400"
+        class="w-full rounded border px-3 pb-1 pt-4 outline-none bg-transparent text-xl bg-white appearance-none dark:text-black cursor-pointer"
         :class="{ 'rounded-b-none': isShown }"
         tabindex="0"
         @click="isShown = !isShown"

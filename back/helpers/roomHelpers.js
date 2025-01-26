@@ -166,6 +166,16 @@ export function isAllClientsReady(roomID) {
   return true;
 }
 
+export function isRoomExist(roomId, rooms) {
+  let key;
+  for (key in rooms) {
+    if (key === roomId) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function findRoomByID(clientID, rooms) {
   let key, room;
   for (key in rooms) {

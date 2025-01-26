@@ -6,6 +6,7 @@ import {
   isAllClientsReady,
   isClient,
   isInRoom,
+  isRoomExist,
   leaveRoom,
   sendError,
   startTurnTimer,
@@ -65,6 +66,10 @@ export function roomSocket(io, clients, rooms) {
     socket.on("JOIN", function (roomId, password = "", callback) {
       if (!isClient(socket)) return false;
       let uniqueId = findClientBySocketId(socket.id, clients);
+      if (!isRoomExist(roomId, rooms)) {
+        sendError(socket, "Комната не существует");
+        return false;
+      }
       if (rooms[roomId].blacklist.includes(uniqueId)) {
         sendError(socket, "Вы были выгнаны с этой комнаты");
         return false;

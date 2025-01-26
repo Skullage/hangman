@@ -2,27 +2,31 @@
 import { availableGames } from "../../../config/config.js";
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
 import BaseSelect from "../../UI/BaseSelect.vue";
-import { ref } from "vue";
-import store from "../../../store/index.js";
+import { reactive, ref } from "vue";
 import BaseInput from "../../UI/Inputs/BaseInput.vue";
 import { Icon } from "@iconify/vue";
 
-const roomTitle = ref(null);
-const roomPassword = ref(null);
+const roomTitle = ref("");
+const roomPassword = ref("");
 const playerAmount = ref(1);
 const selectedGame = ref("");
 const firstInput = ref();
+const validate = reactive({
+  title: "",
+  password: "",
+});
 
 selectedGame.value = availableGames[0].title;
 
 const emits = defineEmits(["next"]);
 
 const createRoom = async () => {
+  let isErrors = false;
   if (roomTitle.value.length === 0) {
-    store.commit("notification/addNotification", {
-      type: "error",
-      msg: "Введите название комнаты",
-    });
+    validate.title = "Введите название комнаты";
+    isErrors = true;
+  }
+  if (isErrors) {
     return;
   }
   const room = {
@@ -57,19 +61,23 @@ const isAvailableCountPlayer = (index) => {
 <template>
   <form class="p-4">
     <base-input
+      id="room-title"
       v-model="roomTitle"
       placeholder="Название комнаты"
       label="Название комнаты"
-      class="mb-3"
+      class="mb-6"
       required
       ref="firstInput"
+      :error="validate.title"
     ></base-input>
     <base-input
+      id="room-password"
       v-model="roomPassword"
       placeholder="Пароль"
       label="Пароль"
       type="password"
-      class="mb-3"
+      class="mb-6"
+      :error="validate.password"
     ></base-input>
     <base-select
       :options="availableGames.map((el) => el.title)"
