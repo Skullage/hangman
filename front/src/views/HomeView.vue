@@ -40,12 +40,12 @@ const handleOnClickOpenFeedbackModal = () => {
 <template>
   <div class="h-full flex flex-col md:block">
     <div
-      class="dark:bg-secondaryDark bg-thirdLight px-2 md:px-20 py-10 rounded-t-2xl overflow-hidden flex-1 flex-col flex justify-center"
+      class="dark:bg-secondaryDark bg-thirdLight px-2 md:px-20 py-8 rounded-t-2xl overflow-hidden flex-1 flex-col flex justify-center"
     >
-      <h1 class="mb-12 holtwood text-4xl md:text-5xl">
+      <h1 class="mb-8 holtwood text-4xl md:text-5xl">
         Play <span class="block">Together</span>
       </h1>
-      <div class="flex flex-col gap-2 mb-10">
+      <div class="flex flex-col gap-2 mb-8">
         <custom-button class="blue-btn" @click="handleOnClickOpenCreateModal"
           >Создать комнату</custom-button
         >
@@ -56,7 +56,7 @@ const handleOnClickOpenFeedbackModal = () => {
           >Присоединиться к комнате</custom-button
         >
       </div>
-      <div class="mb-4">
+      <div>
         <p class="mb-1">Ваш ник</p>
         <p class="text-xl dark:text-thirdDark text-fifthLight mb-2">
           {{ store.state.user.username }}
