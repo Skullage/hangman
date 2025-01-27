@@ -77,7 +77,7 @@ const handleOnClickOpenFeedbackModal = () => {
           class="cursor-pointer"
           @click="handleOnClickOpenFeedbackModal"
         >
-          <Icon icon="ri:bug-fill" width="32" height="32" />
+          <Icon icon="ri:bug-fill" width="32" height="32" class="hover:scale-110 duration-300" />
         </button>
         <!--        <button-->
         <!--          v-if="store.state.theme.themeMode !== 'dark'"-->

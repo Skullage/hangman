@@ -59,7 +59,7 @@ const isAvailableCountPlayer = (index) => {
 </script>
 
 <template>
-  <form class="p-4">
+  <form>
     <base-input
       id="room-title"
       v-model="roomTitle"

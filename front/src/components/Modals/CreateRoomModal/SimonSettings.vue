@@ -18,7 +18,7 @@ const createRoom = async () => {
 </script>
 
 <template>
-  <form class="p-4">
+  <form>
     <base-select
       :options="difficulties.map((el) => el.title)"
       :values="difficulties.map((el) => el.value)"

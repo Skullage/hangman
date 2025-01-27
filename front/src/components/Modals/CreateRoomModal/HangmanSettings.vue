@@ -14,7 +14,7 @@ const createRoom = async () => {
 </script>
 
 <template>
-  <form class="p-4">
+  <form>
     <base-select
       :options="languages"
       :values="languages"
