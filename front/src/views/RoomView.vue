@@ -122,7 +122,7 @@ watch(
           </span>
         </button>
       </div>
-      <div class="flex lg:justify-between mb-10 flex-wrap justify-center gap-4">
+      <div class="flex md:justify-between mb-10 flex-wrap justify-center gap-4">
         <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0 w-56">
           <player-slot
             v-for="(client, index) in store.getters['room/getUsers']"

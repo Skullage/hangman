@@ -31,9 +31,16 @@ const sendMessage = () => {
 
 const isMessageEmpty = computed(() => message.value.length === 0);
 
-watch(store.state.chat.messages, async () => {
-  await nextTick();
-  chatLog.value.scrollTop = chatLog.value.scrollHeight + 120;
+// watch(store.state.chat.messages, async () => {
+//     await nextTick();
+//     chatLog.value.scrollTop = chatLog.value.scrollHeight + 120;
+// });
+
+watch(() => store.getters["chat/getIsChatShown"], async (newValue) => {
+  if(newValue) {
+    await nextTick();
+    chatLog.value.scrollTop = chatLog.value.scrollHeight + 120;
+  }
 });
 
 const clearInput = () => {
@@ -59,7 +66,7 @@ useClickOutside(
         :key="index"
         class="mb-2 p-1 rounded"
         :class="[
-          { 'bg-secondaryDark': !item.isRead },
+          { 'bg-gray-300/25': !item.isRead },
           { '!mb-1': item.type !== 'smile' },
         ]"
         @mouseover="item.isRead = true"

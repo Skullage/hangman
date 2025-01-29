@@ -8,6 +8,9 @@ const chat = {
     getUnreadMessagesCount(state) {
       return state.messages.filter((el) => !el.isRead).length;
     },
+    getIsChatShown(state) {
+      return state.isChatShown;
+    }
   },
   mutations: {
     getMessage(state, data) {
