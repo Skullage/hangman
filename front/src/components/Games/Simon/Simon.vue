@@ -2,7 +2,7 @@
 import { reactive, ref } from "vue";
 import SimonButton from "./SimonButton.vue";
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
-import store from "../../../store/index.js";
+import store from "../../../store/index";
 import socketioService from "../../../api/socketio.service.js";
 
 const round = ref(0);
@@ -11,6 +11,8 @@ const hiddenArray = reactive([]);
 const isPlayerTurn = ref(false);
 const turn = ref(0);
 const isLooseGame = ref(false);
+
+const room = computed(() => store.getters['room/getRoom']);
 
 let btnRefs = ref([]);
 
@@ -40,7 +42,7 @@ const showCombination = () => {
   for (let i = 0; i < hiddenArray.length; i++) {
     setTimeout(() => {
       btnRefs.value[hiddenArray[i] - 1].clickBtn();
-    }, i * store.getters["room/getRoom"].options.difficult);
+    }, i * room.options.difficult);
   }
 };
 const loseGame = () => {

@@ -10,6 +10,7 @@ import findClientBySocketId from "./helpers/helpers.js";
 import { leaveRoom, isInRoom } from "./helpers/roomHelpers.js";
 import { roomSocket } from "./socketHandlers/roomSockets.js";
 import { hangmanSocket } from "./socketHandlers/hangmanSockets.js";
+import { wordleSocket } from "./socketHandlers/wordleSockets.js";
 import { chatSocket } from "./socketHandlers/chatSockets.js";
 import fs from "fs";
 import { sendMessage } from "./helpers/chatHelpers.js";
@@ -107,6 +108,7 @@ io.on("connection", (socket) => {
 
 roomSocket(io, clients, rooms);
 hangmanSocket(io, clients, rooms);
+wordleSocket(io, clients, rooms);
 chatSocket(io, clients);
 
 httpServer.listen(3000, () => {

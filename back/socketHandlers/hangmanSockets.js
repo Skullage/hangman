@@ -51,7 +51,7 @@ export function hangmanSocket(io, clients, rooms) {
         room.gameStatus.status = `<p>${room.gameStatus.word}</p><p>Вы отгадали слово! Молодцы! :)</p>`;
       }
       if (!charFound) {
-        if (room.gameStatus.leftLives > 0) {
+        if (room.gameStatus.leftLives > 1) {
           room.gameStatus.leftLives--;
           sendMessage({
             room: room.id,

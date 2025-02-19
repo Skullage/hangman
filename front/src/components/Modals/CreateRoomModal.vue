@@ -10,12 +10,13 @@
 <script setup>
 import socketioService from "../../api/socketio.service.js";
 import { useRouter } from "vue-router";
-import store from "../../store/index.js";
+import store from "../../store/index";
 
 import BaseSettings from "./CreateRoomModal/BaseSettings.vue";
 import HangmanSettings from "./CreateRoomModal/HangmanSettings.vue";
 import { reactive, shallowRef } from "vue";
 import SimonSettings from "./CreateRoomModal/SimonSettings.vue";
+import WordleSettings from "./CreateRoomModal/WordleSettings.vue"
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 
 const router = useRouter();
@@ -37,6 +38,9 @@ const nextStep = (event) => {
   switch (event.game) {
     case "Виселица":
       currentStep.value = HangmanSettings;
+      break;
+    case "Wordle":
+      currentStep.value = WordleSettings;
       break;
     case "Саймон говорит":
       currentStep.value = SimonSettings;

@@ -1,17 +1,5 @@
-import { markRaw } from "vue";
-
-export type Modal = {
-  isOpen: boolean;
-  view: object;
-  actions?: ModalAction[];
-  props?: object;
-};
-
-export type ModalAction = {
-  label: string;
-  btnClass: string;
-  callback: (props?: any) => void;
-};
+import { markRaw } from 'vue';
+import { Modal, ModalAction } from '@/types/modules/modals';
 
 const modals = {
   namespaced: true,

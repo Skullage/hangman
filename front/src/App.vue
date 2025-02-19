@@ -1,7 +1,7 @@
 <script setup>
 import SocketioService from "./api/socketio.service.js";
 import { onBeforeUnmount } from "vue";
-import store from "./store/index.js";
+import store from "./store/index";
 import { useRouter } from "vue-router";
 import NotificationPopup from "./components/NotificationPopup.vue";
 import BaseModal from "./components/Modals/BaseModal.vue";

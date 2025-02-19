@@ -7,7 +7,7 @@ const routes = [
     name: "home",
     component: HomeView,
     meta: {
-      title: "Hangman",
+      title: "Play-Together",
       transition: "slide-left",
     },
   },
@@ -16,7 +16,7 @@ const routes = [
     name: "room",
     component: RoomView,
     meta: {
-      title: "Hangman",
+      title: "Play-Together",
       transition: "slide-right",
     },
   },

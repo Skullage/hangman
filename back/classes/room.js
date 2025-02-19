@@ -30,6 +30,12 @@ Room.prototype.changeGame = function () {
     case "Саймон":
       this.gameStatus.combination = [];
       break;
+    case "Wordle":
+      this.gameStatus.leftLives = 6;
+      this.gameStatus.word = "";
+      this.gameStatus.alphabet = [];
+      this.generateWord();
+      break;
   }
 };
 
@@ -54,18 +60,10 @@ Room.prototype.addElementToCombinationArray = function () {
 
 Room.prototype.generateWord = function () {
   let index = 0;
-  switch (this.options.language) {
-    case "Английский":
-      index = Math.floor(Math.random() * words.en.length);
-      this.gameStatus.word = words.en[index];
-      this.gameStatus.alphabet = alphabet.en;
-      break;
-    case "Русский":
-      index = Math.floor(Math.random() * words.ru.length);
-      this.gameStatus.word = words.ru[index];
-      this.gameStatus.alphabet = alphabet.ru;
-      break;
-  }
+  const filteredDict = this.options.wordLength ? words[this.options.language.value].filter(el => el.length == this.options.wordLength.value) : words[this.options.language.value];
+  index = Math.floor(Math.random() * filteredDict.length);
+  this.gameStatus.word = filteredDict[index];
+  this.gameStatus.alphabet = alphabet[this.options.language.value];
 };
 
 export default Room;

@@ -1,5 +1,5 @@
 <script setup>
-import store from "../../store/index.js";
+import store from "../../store/index";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 </script>
 
@@ -11,7 +11,7 @@ import CustomButton from "../UI/Buttons/CustomButton.vue";
         v-if="store.state.modals.isOpen"
       >
         <div
-          class="h-auto max-h-full w-screen rounded-lg bg-thirdLight dark:bg-fifthDark duration-500 lg:max-h-[80%] lg:w-1/2 p-4 border-black relative overflow-y-auto"
+          class="h-auto max-h-full w-screen rounded-lg bg-thirdLight dark:bg-fifthDark duration-500 lg:max-h-[80vh] lg:w-1/2 p-4 border-black relative overflow-y-auto"
           role="dialog"
           aria-modal="true"
           ref="modal"

@@ -12,5 +12,3 @@ const props = defineProps({
     {{ showChar ? props.char.toUpperCase() : "" }}
   </div>
 </template>
-
-<style scoped></style>

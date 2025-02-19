@@ -5,7 +5,7 @@ import { reactive, ref } from "vue";
 import BaseTextarea from "../UI/Inputs/BaseTextarea.vue";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 import api from "../../api/api.js";
-import store from "../../store/index.js";
+import store from "../../store/index";
 
 const emits = defineEmits(["close"]);
 

@@ -8,8 +8,16 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
   "dependencies": {
     "@iconify/vue": "^4.1.1",
+    "@vueuse/components": "^12.6.1",
+    "@vueuse/core": "^12.6.1",
     "axios": "^1.6.5",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
@@ -24,6 +32,8 @@
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-vue-devtools": "^7.7.1"
   }
 }

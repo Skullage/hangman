@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from "@iconify/vue";
-import store from "../store/index.js";
+import store from "../store/index";
 import socketioService from "../api/socketio.service.js";
 import { computed } from "vue";
 import ConfirmModal from "./Modals/ConfirmModal.vue";
@@ -24,8 +24,10 @@ const props = defineProps({
   },
 });
 
+const room = computed(() => store.getters['room/getRoom']);
+
 const kickUser = async () => {
-  let client = store.getters["room/getRoom"].clients.find(
+  let client = room.clients.find(
     (el) => el.uniqueId === props.userId,
   );
   store.commit("modals/open", {
@@ -56,7 +58,7 @@ const kickUser = async () => {
 
 const isPlayerTurn = computed(() => {
   return (
-    props.userId === store.getters["room/getRoom"].turnUserID &&
+    props.userId === room.turnUserID &&
     store.state.room.turnTimer > 0
   );
 });

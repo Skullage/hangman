@@ -18,6 +18,7 @@ export function sendMessage({
   name,
   message,
   type,
+  smileFolder,
   color,
   time = getCurrentTime(),
 }) {
@@ -25,6 +26,7 @@ export function sendMessage({
     name: name,
     message: message,
     type: type,
+    smileFolder: smileFolder,
     color: color,
     time: time,
   });

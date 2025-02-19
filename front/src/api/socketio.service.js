@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import store from "../store/index.js";
+import store from "../store/index";
 import { useRouter } from "vue-router";
 
 class SocketioService {
@@ -84,6 +84,9 @@ class SocketioService {
   }
   checkChar(char, callback) {
     this.socket.emit("checkChar", char, callback);
+  }
+  checkWord(word, callback) {
+    this.socket.emit("checkWord", word, callback);
   }
   hostRoom(data, callback) {
     this.socket.emit("HOST", data, callback);

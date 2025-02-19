@@ -9,7 +9,7 @@
 </template>
 <script setup>
 import { onMounted, ref } from "vue";
-import store from "../../store/index.js";
+import store from "../../store/index";
 import socketioService from "../../api/socketio.service.js";
 
 const timesLeft = ref(5);

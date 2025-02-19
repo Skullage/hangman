@@ -21,7 +21,7 @@
 </template>
 <script setup>
 import { reactive, ref } from "vue";
-import store from "../../store/index.js";
+import store from "../../store/index";
 import BaseInput from "../UI/Inputs/BaseInput.vue";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 

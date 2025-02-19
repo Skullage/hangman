@@ -1,8 +1,13 @@
 <script setup>
-import store from "../../../store/index.js";
+import { computed } from 'vue';
+import store from "../../../store/index";
 import CustomButton from "../../UI/Buttons/CustomButton.vue";
 import CharSlot from "../../CharSlot.vue";
 import socketioService from "../../../api/socketio.service.js";
+
+const word = computed(() => store.getters['hangman/getWord']);
+const charSlots = computed(() => store.getters['hangman/getCharSlots']);
+const livesLast = computed(() => store.getters['hangman/getLivesLast']);
 
 const checkChar = (char) => {
   if (store.getters["room/isUserTurn"]) {
@@ -18,16 +23,16 @@ const checkChar = (char) => {
     >
       <div>
         <p>Осталось жизней</p>
-        <p>{{ store.getters["hangman/getLivesLast"] + 1 }}</p>
+        <p>{{ livesLast }}</p>
       </div>
       <div
-        :class="`step-${store.getters['hangman/getLivesLast']}`"
+        :class="`step-${livesLast}`"
         class="human"
       ></div>
     </div>
     <div class="word flex flex-wrap justify-center mb-10 gap-2">
       <char-slot
-        v-for="(slot, index) in store.getters['hangman/getWord']"
+        v-for="(slot, index) in word"
         :key="index"
         :char="slot"
         :show-char="true"
@@ -35,7 +40,7 @@ const checkChar = (char) => {
     </div>
     <div class="word flex justify-center flex-wrap gap-3">
       <custom-button
-        v-for="(slot, index) in store.getters['hangman/getCharSlots']"
+        v-for="(slot, index) in charSlots"
         :key="index"
         class="base-btn text-xl dark:bg-fourthDark dark:text-fifthDark basis-14 flex-initial dark:hover:border-thirdDark border-4 border-transparent"
         :disabled="slot.disabled"

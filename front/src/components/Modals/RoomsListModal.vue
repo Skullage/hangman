@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/vue";
 import { useRouter } from "vue-router";
 import socketioService from "../../api/socketio.service.js";
-import store from "../../store/index.js";
+import store from "../../store/index";
 import CustomButton from "../UI/Buttons/CustomButton.vue";
 import CloseButton from "../UI/Buttons/CloseButton.vue";
 import PasswordModal from "./PasswordModal.vue";
@@ -67,13 +67,13 @@ socketioService.showRooms(function (rooms) {
               ></icon>
             </td>
             <td class="pr-2 py-2">
-              {{ item.clients.length }}/{{ item.maxPlayers }}
+              {{ `${item.clients.length}/${item.maxPlayers}` }}
             </td>
             <td class="pr-2 py-2">
               {{
-                Object.entries(item.options)
-                  .map((x) => x.join(": "))
-                  .join("\r\n")
+                Object.values(item.options)
+                  .map((x) => Object.values(x).join(': '))
+                  .join('\r\n')
               }}
             </td>
             <td class="py-2">

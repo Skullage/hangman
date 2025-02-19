@@ -9,5 +9,5 @@
   </div>
 </template>
 <script setup>
-import store from "../../store/index.js";
+import store from "../../store/index";
 </script>

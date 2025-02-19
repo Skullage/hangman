@@ -1,7 +1,7 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
-import useClickOutside from "../../composables/useClickOutside.js";
+import { vOnClickOutside } from '@vueuse/components'
 
 const emits = defineEmits(["update:modelValue", "change"]);
 
@@ -31,14 +31,12 @@ const changeValue = (index) => {
   isShown.value = false;
 };
 
-useClickOutside(
-  select,
-  () => {
-    isShown.value = false;
+const onClickOutsideHandler = [
+  (ev) => {
+    isShown.value = false
   },
-  optionsList,
-);
-
+  { ignore: [select] },
+]
 onMounted(() => {
   changeValue(0);
 });
@@ -69,13 +67,11 @@ onMounted(() => {
         {{ props.label }}
       </label>
     </div>
-    <div
-      class="grid grid-rows-[0fr] duration-300"
-      :class="{ 'grid-rows-[1fr]': isShown }"
-    >
       <ul
-        class="bg-white overflow-y-auto max-h-[120px] rounded-b"
+        class="bg-white overflow-y-auto max-h-0 rounded-b absolute w-full opacity-0 duration-300 pointer-events-none z-20"
+        :class="{ '!opacity-100 pointer-events-auto !max-h-[80px]': isShown }"
         ref="optionsList"
+        v-on-click-outside="onClickOutsideHandler"
       >
         <li
           v-for="(item, index) in props.options"
@@ -89,6 +85,5 @@ onMounted(() => {
           {{ item }}
         </li>
       </ul>
-    </div>
   </div>
 </template>

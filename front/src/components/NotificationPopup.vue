@@ -1,6 +1,6 @@
 <script setup>
 import { Icon } from "@iconify/vue";
-import store from "../store/index.js";
+import store from "../store/index";
 
 const closeError = () => {
   store.commit("notification/closeNotification");
