@@ -77,6 +77,12 @@ const leave = async () => {
   }
 };
 
+const getChatMaxHeight = computed(() => {
+  const chatHeight = window.innerHeight - 100;
+  const chatMaxHeight = chatHeight - 100;
+  return `max-height: ${chatMaxHeight} px`;
+})
+
 watch(
   () => store.getters["room/isGamePaused"],
   (newValue) => {
@@ -96,12 +102,12 @@ watch(
     :class="{ 'lg:grid-cols-[1fr_25%]': store.state.chat.isChatShown }"
   >
     <div
-      class="dark:bg-secondaryDark bg-thirdLight p-4 px-8 rounded-t-2xl lg:rounded-2xl relative lg:flex-1 duration-300"
+      class="dark:bg-secondaryDark bg-thirdLight p-4 px-8 rounded-t-2xl lg:rounded-2xl relative lg:flex-1 duration-300 max-h-[90vh]"
       :class="{
         'lg:rounded-tr-none lg:rounded-br-none': store.state.chat.isChatShown,
       }"
     >
-      <div class="grid room-header justify-between items-start mb-12 gap-4 mt-16">
+      <div class="grid room-header justify-between items-start mt-4 mb-8 gap-4">
         <button
           class="basis-8 flex-0 border p-2 rounded-2xl hover:bg-white hover:text-black duration-300 exit-btn"
           @click="leave"
@@ -130,7 +136,7 @@ watch(
           </span>
         </button>
       </div>
-      <div class="flex md:justify-between mb-10 flex-wrap justify-center gap-4">
+      <div class="flex md:justify-between mb-8 flex-wrap justify-center gap-4">
         <div class="grid grid-rows-auto gap-2 mb-10 md:mb-0 w-56">
           <player-slot
             v-for="(client, index) in users"
@@ -158,10 +164,11 @@ watch(
       <component :is="currentGame"></component>
     </div>
     <div
-      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0 h-screen"
+      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0"
       :class="{
         '!translate-x-0': store.state.chat.isChatShown,
       }"
+      :style="getChatMaxHeight"
     >
       <chat-window class="break-all" />
     </div>

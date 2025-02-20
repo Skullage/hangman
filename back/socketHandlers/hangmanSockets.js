@@ -7,7 +7,7 @@ export function hangmanSocket(io, clients, rooms) {
     socket.on("restartGame", function () {
       let room = findRoomByID(socket.id, rooms);
       room.generateWord();
-      room.gameStatus.leftLives = 7;
+      room.gameStatus.leftLives = 6;
       room.gameStatus.openedChars = [];
       room.gameStatus.status = "";
       io.sockets.in(room.id).emit("UPDATE_ROOMS", rooms);

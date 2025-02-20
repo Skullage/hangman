@@ -52,7 +52,7 @@ const onClickOutsideHandler = [
 
 <template>
   <div
-    class="relative text-left p-2 grid grid-rows-[1fr_auto] grid-cols-1 gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l h-full"
+    class="relative text-left p-2 flex flex-col gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l h-full lg:max-h-[90vh]"
   >
     <div class="overflow-y-auto mt-10 flex-1" ref="chatLog">
       <p
