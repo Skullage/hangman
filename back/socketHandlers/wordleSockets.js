@@ -6,7 +6,7 @@ export function wordleSocket(io, clients, rooms) {
     socket.on("restartGame", function () {
       let room = findRoomByID(socket.id, rooms);
       room.gameStatus.word = "";
-      room.gameStatus.leftLives = 7;
+      room.gameStatus.leftLives = 6;
       room.gameStatus.status = "";
       room.generateWord();
       io.sockets.in(room.id).emit("UPDATE_ROOMS", rooms);

@@ -32,6 +32,7 @@ const chat: Module<ChatState, any> = {
     },
     toggleChat(state) {
       state.isChatShown = !state.isChatShown;
+      document.body.classList.toggle('overflow-y-hidden');
     },
   },
 };

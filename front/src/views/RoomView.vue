@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import PlayerSlot from "../components/PlayerSlot.vue";
 import { Icon } from "@iconify/vue";
 import { useRouter } from "vue-router";
@@ -7,13 +7,20 @@ import socketioService from "../api/socketio.service.js";
 import ChatWindow from "../components/ChatWindow.vue";
 import Hangman from "../components/Games/Hangman/Hangman.vue";
 import Simon from "../components/Games/Simon/Simon.vue";
-import { shallowRef, watch, computed } from "vue";
+import { shallowRef, watch, computed, ref, onMounted } from "vue";
 import ConfirmModal from "../components/Modals/ConfirmModal.vue";
 import OverlayModal from "../components/Modals/OverlayModal.vue";
 import Wordle from "../components/Games/Wordle/Wordle.vue";
 
 const router = useRouter();
 const currentGame = shallowRef({});
+
+// Реактивная переменная для хранения высоты
+const targetHeight = ref<number>(0);
+
+// Получаем ссылку на элемент
+const sourceElement = ref<HTMLElement | null>(null);
+
 
 const unreadMessagesCount = computed(() => store.getters['chat/getUnreadMessagesCount']);
 const users = computed(() => store.getters['room/getUsers']);
@@ -88,6 +95,16 @@ watch(
     }
   },
 );
+
+onMounted(() => {
+  if (sourceElement.value) {
+    // Получаем высоту элемента
+    const height = sourceElement.value.clientHeight;
+
+    // Устанавливаем высоту другому элементу
+    targetHeight.value = height;
+  }
+});
 </script>
 
 <template>
@@ -100,6 +117,7 @@ watch(
       :class="{
         'lg:rounded-tr-none lg:rounded-br-none': store.state.chat.isChatShown,
       }"
+      ref="sourceElement"
     >
       <div class="grid room-header justify-between items-start mb-12 gap-4 mt-16">
         <button
@@ -158,12 +176,12 @@ watch(
       <component :is="currentGame"></component>
     </div>
     <div
-      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0 h-screen"
+      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0 h-full"
       :class="{
         '!translate-x-0': store.state.chat.isChatShown,
       }"
     >
-      <chat-window class="break-all" />
+      <chat-window class="break-all" :chatHeight="targetHeight" />
     </div>
   </div>
 </template>

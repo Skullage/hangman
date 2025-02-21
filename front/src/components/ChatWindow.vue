@@ -7,16 +7,22 @@ import ChatInput from "./UI/Inputs/ChatInput.vue";
 import EmojiListComponent from "./EmojiList.vue";
 import { vOnClickOutside } from '@vueuse/components'
 
-const message = ref("");
+const message = ref<string | null>("");
 const chatLog = ref<HTMLElement | null>(null);
 const emojiBtn = ref<HTMLElement | null>(null);
 const emojiList = ref<HTMLElement | null>(null);
 
-const isChatShown = computed(() => store.getters['chat/getIsChatShown']);
+const props = defineProps({
+  chatHeight: {
+    type: Number,
+    default: 0,
+  },
+})
+const isChatShown = computed((): boolean => store.getters['chat/getIsChatShown']);
 
-const showSmiles = ref(false);
+const showSmiles = ref<boolean>(false);
 
-const isMessageEmpty = computed(() => message.value.length === 0);
+const isMessageEmpty = computed((): boolean => message.value.length === 0);
 
 const sendMessage = () => {
   if (isMessageEmpty.value) return;
@@ -52,7 +58,8 @@ const onClickOutsideHandler = [
 
 <template>
   <div
-    class="relative text-left p-2 grid grid-rows-[1fr_auto] grid-cols-1 gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l h-full"
+    class="relative text-left p-2 flex flex-col gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l h-full"
+    :style="{ height: $props.ch + 'px' }"
   >
     <div class="overflow-y-auto mt-10 flex-1" ref="chatLog">
       <p
