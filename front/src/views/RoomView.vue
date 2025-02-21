@@ -7,20 +7,17 @@ import socketioService from "../api/socketio.service.js";
 import ChatWindow from "../components/ChatWindow.vue";
 import Hangman from "../components/Games/Hangman/Hangman.vue";
 import Simon from "../components/Games/Simon/Simon.vue";
-import { shallowRef, watch, computed, ref, onMounted } from "vue";
+import { shallowRef, watch, computed, ref, useTemplateRef } from "vue";
 import ConfirmModal from "../components/Modals/ConfirmModal.vue";
 import OverlayModal from "../components/Modals/OverlayModal.vue";
 import Wordle from "../components/Games/Wordle/Wordle.vue";
+import { useElementSize } from '@vueuse/core'
 
 const router = useRouter();
 const currentGame = shallowRef({});
 
-// Реактивная переменная для хранения высоты
-const targetHeight = ref<number>(0);
-
-// Получаем ссылку на элемент
-const sourceElement = ref<HTMLElement | null>(null);
-
+const sourceElement = useTemplateRef<HTMLElement | null>('sourceElement');
+const { width, height } = useElementSize(sourceElement);
 
 const unreadMessagesCount = computed(() => store.getters['chat/getUnreadMessagesCount']);
 const users = computed(() => store.getters['room/getUsers']);
@@ -95,16 +92,6 @@ watch(
     }
   },
 );
-
-onMounted(() => {
-  if (sourceElement.value) {
-    // Получаем высоту элемента
-    const height = sourceElement.value.clientHeight;
-
-    // Устанавливаем высоту другому элементу
-    targetHeight.value = height;
-  }
-});
 </script>
 
 <template>
@@ -176,12 +163,12 @@ onMounted(() => {
       <component :is="currentGame"></component>
     </div>
     <div
-      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0 h-full"
+      class="w-full duration-300 overflow-x-hidden fixed lg:relative top-0 left-0 -translate-x-[1000px] lg:translate-x-0 h-0"
       :class="{
-        '!translate-x-0': store.state.chat.isChatShown,
+        '!translate-x-0 !h-full': store.state.chat.isChatShown,
       }"
     >
-      <chat-window class="break-all" :chatHeight="targetHeight" />
+      <chat-window class="break-all" :chatHeight="height" />
     </div>
   </div>
 </template>

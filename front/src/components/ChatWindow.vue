@@ -59,7 +59,7 @@ const onClickOutsideHandler = [
 <template>
   <div
     class="relative text-left p-2 flex flex-col gap-2 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none bg-fourthLight dark:bg-inherit chat dark:bg-secondaryDark lg:border-l h-full"
-    :style="{ height: $props.ch + 'px' }"
+    :style="'height:' + (props.chatHeight + 32) + 'px'"
   >
     <div class="overflow-y-auto mt-10 flex-1" ref="chatLog">
       <p
